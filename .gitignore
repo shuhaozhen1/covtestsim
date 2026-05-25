@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+
+# Generated empirical outputs and downloaded real-data cache.
+results/
+data_cache/
+
+# Local logs and editor files.
+*.log
+.DS_Store
+Thumbs.db
