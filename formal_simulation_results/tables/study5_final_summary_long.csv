@@ -1,0 +1,3 @@
+study,scenario_id,p,n1,n2,n1_over_n2,family,rho0,rho_alt,design,alternative,innovation,method,alpha,B,R,rejection_rate,mean_p_value,mean_statistic,median_statistic,mean_elapsed_sec,MCSE
+study5,unbalanced_toep_p50_n5000_100_rho0p8,50,5000,100,50.0,toeplitz,0.8,0.8,unbalanced_size_large_reference,null,gaussian,Ours-I,0.05,2000,1000,0.049,0.38401100000000005,1.077460271326783,1.053931990866099,0.48618039950024106,0.006826346021115542
+study5,unbalanced_toep_p50_n5000_100_rho0p8,50,5000,100,50.0,toeplitz,0.8,0.8,unbalanced_size_large_reference,null,gaussian,Ours-I-simplified,0.05,2000,1000,0.056,0.354331,1.1040551566805816,1.0793423732009042,0.03414596899971366,0.007270763371201128

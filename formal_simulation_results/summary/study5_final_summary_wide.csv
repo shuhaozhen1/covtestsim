@@ -1,0 +1,2 @@
+study,scenario_id,p,n1,n2,family,rho0,rho_alt,design,alternative,Ours-I,Ours-I-simplified
+study5,unbalanced_toep_p50_n5000_100_rho0p8,50,5000,100,toeplitz,0.8,0.8,unbalanced_size_large_reference,null,0.049,0.056

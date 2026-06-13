@@ -1,0 +1,10 @@
+study,scenario_id,p,n1,n2,family,rho0,rho_alt,design,alternative,innovation,Li-Chen,Max-bootstrap,Ours-C(0.3),Ours-C(0.5),Ours-C(0.7),Ours-I,Wang-NR
+study_power_target_eq05,eq05_power_target_200_120_150_0p1,200,120,150,equicorrelation,0.5,0.1,equicorrelation_target_power_rho0p5,alternative,gaussian,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+study_power_target_eq05,eq05_power_target_200_120_150_0p2,200,120,150,equicorrelation,0.5,0.2,equicorrelation_target_power_rho0p5,alternative,gaussian,1.0,0.986,1.0,1.0,1.0,1.0,1.0
+study_power_target_eq05,eq05_power_target_200_120_150_0p3,200,120,150,equicorrelation,0.5,0.3,equicorrelation_target_power_rho0p5,alternative,gaussian,0.91,0.712,0.852,0.856,0.86,0.82,0.806
+study_power_target_eq05,eq05_power_target_200_120_150_0p4,200,120,150,equicorrelation,0.5,0.4,equicorrelation_target_power_rho0p5,alternative,gaussian,0.326,0.166,0.222,0.224,0.232,0.214,0.202
+study_power_target_eq05,eq05_power_target_200_120_150_0p5,200,120,150,equicorrelation,0.5,0.5,equicorrelation_target_power_rho0p5,null,gaussian,0.106,0.072,0.056,0.054,0.06,0.06,0.052
+study_power_target_eq05,eq05_power_target_200_120_150_0p6,200,120,150,equicorrelation,0.5,0.6,equicorrelation_target_power_rho0p5,alternative,gaussian,0.286,0.264,0.242,0.242,0.232,0.212,0.206
+study_power_target_eq05,eq05_power_target_200_120_150_0p7,200,120,150,equicorrelation,0.5,0.7,equicorrelation_target_power_rho0p5,alternative,gaussian,0.614,0.618,0.604,0.606,0.592,0.532,0.498
+study_power_target_eq05,eq05_power_target_200_120_150_0p8,200,120,150,equicorrelation,0.5,0.8,equicorrelation_target_power_rho0p5,alternative,gaussian,0.84,0.868,0.864,0.848,0.84,0.776,0.764
+study_power_target_eq05,eq05_power_target_200_120_150_0p9,200,120,150,equicorrelation,0.5,0.9,equicorrelation_target_power_rho0p5,alternative,gaussian,0.942,0.964,0.97,0.958,0.964,0.922,0.918

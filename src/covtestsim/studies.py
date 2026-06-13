@@ -56,6 +56,17 @@ PROFILE_DEFAULTS = {
 
 MAIN_METHODS = ("Ours-I", "Ours-C", "Max-bootstrap", "Wang-NR", "Li-Chen")
 SIZE_INNOVATIONS = ("gaussian", "chisq1", "t5")
+TARGET_SIZE_INNOVATIONS = ("gaussian", "chisq1", "laplace")
+TARGET_RHO_GRID = (0.3, 0.5, 0.7)
+TARGET_GRID_METHODS = (
+    "Ours-I",
+    "Ours-C-rho0p3",
+    "Ours-C-rho0p5",
+    "Ours-C-rho0p7",
+    "Max-bootstrap",
+    "Wang-NR",
+    "Li-Chen",
+)
 
 
 def _scenario_id(*parts: object) -> str:
@@ -166,6 +177,151 @@ def _study1_hd_scenarios(p: int = 200) -> list[Scenario]:
     return scenarios
 
 
+def _study_size_target_scenarios() -> list[Scenario]:
+    scenarios: list[Scenario] = []
+    for p in (100, 200):
+        for family in ("equicorrelation", "toeplitz"):
+            for rho in (0.1, 0.5, 0.9):
+                sigma = covariance_from_family(family, p, rho)
+                for n1, n2 in ((80, 100), (120, 150)):
+                    for innovation in TARGET_SIZE_INNOVATIONS:
+                        scenarios.append(
+                            Scenario(
+                                study="study_size_target",
+                                scenario_id=_scenario_id(
+                                    "size_target",
+                                    innovation,
+                                    family,
+                                    p,
+                                    n1,
+                                    n2,
+                                    f"rho{rho}",
+                                ),
+                                p=p,
+                                n1=n1,
+                                n2=n2,
+                                sigma1=sigma,
+                                sigma2=sigma,
+                                family=family,
+                                rho0=rho,
+                                rho_alt=rho,
+                                methods=TARGET_GRID_METHODS,
+                                innovation=innovation,
+                                design="target_rho_grid_null_size",
+                                alternative="null",
+                            )
+                        )
+    return scenarios
+
+
+def _study_size_target_toeplitz_scenarios() -> list[Scenario]:
+    scenarios: list[Scenario] = []
+    for p in (100, 200):
+        sigma = covariance_from_family("toeplitz", p, 0.5)
+        for n1, n2 in ((80, 100), (120, 150)):
+            for innovation in TARGET_SIZE_INNOVATIONS:
+                scenarios.append(
+                    Scenario(
+                        study="study_size_target_toeplitz",
+                        scenario_id=_scenario_id(
+                            "size_target",
+                            innovation,
+                            "toeplitz",
+                            p,
+                            n1,
+                            n2,
+                            "rho0p5",
+                        ),
+                        p=p,
+                        n1=n1,
+                        n2=n2,
+                        sigma1=sigma,
+                        sigma2=sigma,
+                        family="toeplitz",
+                        rho0=0.5,
+                        rho_alt=0.5,
+                        methods=TARGET_GRID_METHODS,
+                        innovation=innovation,
+                        design="target_rho_grid_null_size",
+                        alternative="null",
+                    )
+                )
+    return scenarios
+
+
+def _study_size_smalln_scenarios() -> list[Scenario]:
+    scenarios: list[Scenario] = []
+    for p in (100, 200):
+        for family in ("equicorrelation", "toeplitz"):
+            for rho in (0.1, 0.5, 0.9):
+                sigma = covariance_from_family(family, p, rho)
+                for innovation in TARGET_SIZE_INNOVATIONS:
+                    scenarios.append(
+                        Scenario(
+                            study="study_size_smalln",
+                            scenario_id=_scenario_id(
+                                "size_smalln",
+                                innovation,
+                                family,
+                                p,
+                                60,
+                                60,
+                                f"rho{rho}",
+                            ),
+                            p=p,
+                            n1=60,
+                            n2=60,
+                            sigma1=sigma,
+                            sigma2=sigma,
+                            family=family,
+                            rho0=rho,
+                            rho_alt=rho,
+                            methods=TARGET_GRID_METHODS,
+                            innovation=innovation,
+                            design="small_equal_sample_null_size",
+                            alternative="null",
+                        )
+                    )
+    return scenarios
+
+
+def _study_size_unbalanced_ratio_scenarios() -> list[Scenario]:
+    scenarios: list[Scenario] = []
+    rho = 0.5
+    for p in (100, 200):
+        for family in ("equicorrelation", "toeplitz"):
+            sigma = covariance_from_family(family, p, rho)
+            for n1, n2 in ((300, 60), (180, 60), (120, 60), (90, 60)):
+                for innovation in TARGET_SIZE_INNOVATIONS:
+                    scenarios.append(
+                        Scenario(
+                            study="study_size_unbalanced_ratio",
+                            scenario_id=_scenario_id(
+                                "size_unbalanced",
+                                innovation,
+                                family,
+                                p,
+                                n1,
+                                n2,
+                                "rho0p5",
+                            ),
+                            p=p,
+                            n1=n1,
+                            n2=n2,
+                            sigma1=sigma,
+                            sigma2=sigma,
+                            family=family,
+                            rho0=rho,
+                            rho_alt=rho,
+                            methods=TARGET_GRID_METHODS,
+                            innovation=innovation,
+                            design="unbalanced_ratio_null_size",
+                            alternative="null",
+                        )
+                    )
+    return scenarios
+
+
 def _study2_scenarios(p: int = 100, include_diagnostic: bool = False) -> list[Scenario]:
     scenarios: list[Scenario] = []
     grids = [
@@ -218,6 +374,184 @@ def _study3_scenarios(p: int = 100) -> list[Scenario]:
                 methods=MAIN_METHODS,
                 design="dense_identity_alt",
                 alternative="null" if rho == 0 else "alternative",
+            )
+        )
+    return scenarios
+
+
+def _study_power_target_eq0_scenarios() -> list[Scenario]:
+    p = 200
+    n1 = 120
+    n2 = 150
+    rho0 = 0.0
+    sigma1 = equicorrelation(p, rho0)
+    rho_grid = (
+        0.0,
+        0.0005,
+        0.001,
+        0.002,
+        0.003,
+        0.004,
+        0.005,
+        0.0075,
+        0.01,
+        0.015,
+        0.02,
+        0.03,
+        0.05,
+        0.075,
+        0.1,
+    )
+    scenarios: list[Scenario] = []
+    for rho_alt in rho_grid:
+        sigma2 = equicorrelation(p, rho_alt)
+        scenarios.append(
+            Scenario(
+                study="study_power_target_eq0",
+                scenario_id=_scenario_id("eq0_power_target", p, n1, n2, rho_alt),
+                p=p,
+                n1=n1,
+                n2=n2,
+                sigma1=sigma1,
+                sigma2=sigma2,
+                family="equicorrelation",
+                rho0=rho0,
+                rho_alt=rho_alt,
+                methods=TARGET_GRID_METHODS,
+                innovation="gaussian",
+                design="identity_to_equicorrelation_target_power",
+                alternative="null" if rho_alt == rho0 else "alternative",
+            )
+        )
+    return scenarios
+
+
+def _study_power_target_eq05_scenarios() -> list[Scenario]:
+    p = 200
+    n1 = 120
+    n2 = 150
+    rho0 = 0.5
+    sigma1 = equicorrelation(p, rho0)
+    rho_grid = (0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9)
+    scenarios: list[Scenario] = []
+    for rho_alt in rho_grid:
+        sigma2 = equicorrelation(p, rho_alt)
+        scenarios.append(
+            Scenario(
+                study="study_power_target_eq05",
+                scenario_id=_scenario_id("eq05_power_target", p, n1, n2, rho_alt),
+                p=p,
+                n1=n1,
+                n2=n2,
+                sigma1=sigma1,
+                sigma2=sigma2,
+                family="equicorrelation",
+                rho0=rho0,
+                rho_alt=rho_alt,
+                methods=TARGET_GRID_METHODS,
+                innovation="gaussian",
+                design="equicorrelation_target_power_rho0p5",
+                alternative="null" if rho_alt == rho0 else "alternative",
+            )
+        )
+    return scenarios
+
+
+def _heterogeneous_equicorrelation(p: int, rho: float, scale_c: float = 1.0) -> np.ndarray:
+    variances = scale_c * np.linspace(1.0, np.sqrt(float(p)), p)
+    std = np.sqrt(variances)
+    corr = equicorrelation(p, rho)
+    return (std[:, None] * corr) * std[None, :]
+
+
+def _heterogeneous_low_variance_block(
+    p: int,
+    rho0: float,
+    rho_block: float,
+    block_size: int,
+) -> np.ndarray:
+    variances = np.linspace(1.0, np.sqrt(float(p)), p)
+    std = np.sqrt(variances)
+    corr = equicorrelation(p, rho0)
+    block = np.arange(block_size)
+    sub = corr[np.ix_(block, block)].copy()
+    offdiag = ~np.eye(block_size, dtype=bool)
+    sub[offdiag] = rho_block
+    corr[np.ix_(block, block)] = sub
+    return make_positive_definite((std[:, None] * corr) * std[None, :])
+
+
+def _study_power_variance_profile_scenarios() -> list[Scenario]:
+    p = 200
+    n1 = 120
+    n2 = 150
+    scale_grid = (1.0, 1.02, 1.05, 1.1, 1.2, 1.4, 1.7, 2.0)
+    scenarios: list[Scenario] = []
+    for rho0 in (0.5,):
+        sigma1 = _heterogeneous_equicorrelation(p, rho0, scale_c=1.0)
+        for scale_c in scale_grid:
+            sigma2 = _heterogeneous_equicorrelation(p, rho0, scale_c=scale_c)
+            scenarios.append(
+                Scenario(
+                    study="study_power_variance_profile",
+                    scenario_id=_scenario_id("var_profile_power", p, n1, n2, rho0, scale_c),
+                    p=p,
+                    n1=n1,
+                    n2=n2,
+                    sigma1=sigma1,
+                    sigma2=sigma2,
+                    family="heterogeneous_equicorrelation",
+                    rho0=rho0,
+                    rho_alt=scale_c,
+                    methods=TARGET_GRID_METHODS,
+                    innovation="gaussian",
+                    design="heterogeneous_variance_scale_power",
+                    alternative="null" if scale_c == 1.0 else "alternative",
+                    extra={
+                        "scale_c": scale_c,
+                        "variance_min_group1": 1.0,
+                        "variance_max_group1": float(np.sqrt(float(p))),
+                        "variance_min_group2": scale_c,
+                        "variance_max_group2": float(scale_c * np.sqrt(float(p))),
+                    },
+                )
+            )
+    return scenarios
+
+
+def _study_power_lowvar_block_scenarios() -> list[Scenario]:
+    p = 200
+    n1 = 120
+    n2 = 150
+    rho0 = 0.5
+    block_size = 180
+    rho_block_grid = (0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9)
+    sigma1 = _heterogeneous_low_variance_block(p, rho0, rho0, block_size)
+    scenarios: list[Scenario] = []
+    for rho_block in rho_block_grid:
+        sigma2 = _heterogeneous_low_variance_block(p, rho0, rho_block, block_size)
+        scenarios.append(
+            Scenario(
+                study="study_power_lowvar_block",
+                scenario_id=_scenario_id("lowvar_block_power", p, n1, n2, rho0, block_size, rho_block),
+                p=p,
+                n1=n1,
+                n2=n2,
+                sigma1=sigma1,
+                sigma2=sigma2,
+                family="heterogeneous_low_variance_block",
+                rho0=rho0,
+                rho_alt=rho_block,
+                methods=TARGET_GRID_METHODS,
+                innovation="gaussian",
+                design="low_variance_block_correlation_power",
+                alternative="null" if rho_block == rho0 else "alternative",
+                extra={
+                    "block_size": block_size,
+                    "variance_min": 1.0,
+                    "variance_max": float(np.sqrt(float(p))),
+                    "rho_block": rho_block,
+                },
             )
         )
     return scenarios
@@ -406,6 +740,14 @@ def build_scenarios(
         return scenarios
     if study == "study1_hd":
         return _study1_hd_scenarios(200)
+    if study == "study_size_target":
+        return _study_size_target_scenarios()
+    if study == "study_size_target_toeplitz":
+        return _study_size_target_toeplitz_scenarios()
+    if study == "study_size_smalln":
+        return _study_size_smalln_scenarios()
+    if study == "study_size_unbalanced_ratio":
+        return _study_size_unbalanced_ratio_scenarios()
     if study == "study2":
         scenarios = _study2_scenarios(100, include_diagnostic=include_supplement)
         if include_supplement:
@@ -413,6 +755,14 @@ def build_scenarios(
         return scenarios
     if study == "study3":
         return _study3_scenarios(100)
+    if study == "study_power_target_eq0":
+        return _study_power_target_eq0_scenarios()
+    if study == "study_power_target_eq05":
+        return _study_power_target_eq05_scenarios()
+    if study == "study_power_variance_profile":
+        return _study_power_variance_profile_scenarios()
+    if study == "study_power_lowvar_block":
+        return _study_power_lowvar_block_scenarios()
     if study == "study4":
         return _study4_scenarios()
     if study == "study5":
@@ -435,6 +785,21 @@ def final_repetitions(study: str) -> int:
         return 1000
     if study == "realdata_sim":
         return 500
+    if study in {
+        "study_size_target",
+        "study_size_target_toeplitz",
+        "study_size_smalln",
+        "study_size_unbalanced_ratio",
+    }:
+        return 1000
+    if study == "study_power_target_eq0":
+        return 100
+    if study == "study_power_target_eq05":
+        return 100
+    if study == "study_power_variance_profile":
+        return 200
+    if study == "study_power_lowvar_block":
+        return 200
     raise ValueError(f"Unknown study: {study}")
 
 
@@ -452,6 +817,22 @@ def _run_method(
         return ours_l2_bootstrap(x, y, B=B, alpha=alpha, rng=rng, batch_size=batch_size), B
     if method == "Ours-C":
         return ours_c_bootstrap(x, y, B=B, alpha=alpha, rng=rng, batch_size=batch_size), B
+    if method.startswith("Ours-C-rho"):
+        rho_text = method.removeprefix("Ours-C-rho").replace("p", ".")
+        rho_tar = float(rho_text)
+        return (
+            ours_c_bootstrap(
+                x,
+                y,
+                B=B,
+                alpha=alpha,
+                rho_tar=rho_tar,
+                rng=rng,
+                batch_size=batch_size,
+                method_name=f"Ours-C({rho_tar:.1f})",
+            ),
+            B,
+        )
     if method == "Max-bootstrap":
         return max_bootstrap(x, y, B=B, alpha=alpha, rng=rng, batch_size=batch_size), B
     if method == "Wang-NR":
@@ -669,6 +1050,9 @@ def study5_closeness_summary(raw: pd.DataFrame) -> pd.DataFrame:
 
 
 def write_outputs(raw: pd.DataFrame, study: str, profile: str, out_dir: str | Path) -> None:
+    raw = raw.copy()
+    if "alternative" in raw.columns:
+        raw["alternative"] = raw["alternative"].replace("", np.nan).fillna("null")
     out = Path(out_dir)
     raw_dir = out / "raw"
     summary_dir = out / "summary"
@@ -685,7 +1069,19 @@ def write_outputs(raw: pd.DataFrame, study: str, profile: str, out_dir: str | Pa
     wide = summary.pivot_table(
         index=[
             col
-            for col in ["study", "scenario_id", "p", "n1", "n2", "family", "rho0", "rho_alt", "design", "alternative"]
+            for col in [
+                "study",
+                "scenario_id",
+                "p",
+                "n1",
+                "n2",
+                "family",
+                "rho0",
+                "rho_alt",
+                "design",
+                "alternative",
+                "innovation",
+            ]
             if col in summary.columns
         ],
         columns="method",
@@ -740,7 +1136,15 @@ def write_paper_tables(
     tables_dir: Path,
 ) -> None:
     suffix = f"{study}_{profile}"
-    if study in {"study1", "study1_dist", "study1_hd"}:
+    if study in {
+        "study1",
+        "study1_dist",
+        "study1_hd",
+        "study_size_target",
+        "study_size_target_toeplitz",
+        "study_size_smalln",
+        "study_size_unbalanced_ratio",
+    }:
         table = _paper_table(
             summary,
             [
@@ -767,7 +1171,14 @@ def write_paper_tables(
         ).reset_index()
         wide.to_csv(summary_dir / f"{suffix}_paper_size_wide.csv", index=False)
         wide.to_latex(tables_dir / f"{suffix}_paper_size_wide.tex", index=False, float_format="%.3f", escape=True)
-    elif study in {"study2", "study3"}:
+    elif study in {
+        "study2",
+        "study3",
+        "study_power_target_eq0",
+        "study_power_target_eq05",
+        "study_power_variance_profile",
+        "study_power_lowvar_block",
+    }:
         table = _paper_table(
             summary,
             ["family", "rho0", "rho_alt", "method", "R", "rejection_rate", "MCSE"],
@@ -845,16 +1256,57 @@ def write_paper_tables(
 
 
 def write_plots(summary: pd.DataFrame, study: str, profile: str, figures_dir: Path) -> None:
-    if study not in {"study2", "study3"} or summary.empty:
+    if (
+        study
+        not in {
+            "study2",
+            "study3",
+            "study_power_target_eq0",
+            "study_power_target_eq05",
+            "study_power_variance_profile",
+            "study_power_lowvar_block",
+        }
+        or summary.empty
+    ):
         return
     import matplotlib.pyplot as plt
+
+    style_map = {
+        "Ours-C(0.3)": {"linestyle": "-", "marker": "o", "linewidth": 2.0},
+        "Ours-C(0.5)": {"linestyle": "-", "marker": "s", "linewidth": 2.0},
+        "Ours-C(0.7)": {"linestyle": "-", "marker": "^", "linewidth": 2.0},
+        "Ours-I": {"linestyle": (0, (5, 2)), "marker": "D", "linewidth": 1.8},
+        "Max-bootstrap": {"linestyle": "--", "marker": "v", "linewidth": 1.8},
+        "Wang-NR": {"linestyle": "-.", "marker": "P", "linewidth": 1.8},
+        "Li-Chen": {"linestyle": ":", "marker": "X", "linewidth": 2.0},
+    }
+    method_order = [
+        "Ours-C(0.3)",
+        "Ours-C(0.5)",
+        "Ours-C(0.7)",
+        "Ours-I",
+        "Max-bootstrap",
+        "Wang-NR",
+        "Li-Chen",
+    ]
+
+    def plot_method_curves(block: pd.DataFrame, x_col: str) -> None:
+        for method in method_order:
+            method_block = block[block["method"].eq(method)]
+            if method_block.empty:
+                continue
+            method_block = method_block.sort_values(x_col)
+            plt.plot(
+                method_block[x_col],
+                method_block["rejection_rate"],
+                label=method,
+                **style_map.get(method, {"linestyle": "-", "marker": "o", "linewidth": 1.8}),
+            )
 
     if study == "study2":
         for rho0, block in summary.groupby("rho0", dropna=False):
             plt.figure(figsize=(6.5, 4.2))
-            for method, method_block in block.groupby("method"):
-                method_block = method_block.sort_values("rho_alt")
-                plt.plot(method_block["rho_alt"], method_block["rejection_rate"], marker="o", label=method)
+            plot_method_curves(block, "rho_alt")
             plt.axhline(0.05, color="black", linewidth=0.8, linestyle="--")
             plt.xlabel(r"$\rho_{\mathrm{alt}}$")
             plt.ylabel("Rejection rate")
@@ -867,15 +1319,66 @@ def write_plots(summary: pd.DataFrame, study: str, profile: str, figures_dir: Pa
             plt.close()
     elif study == "study3":
         plt.figure(figsize=(6.5, 4.2))
-        for method, method_block in summary.groupby("method"):
-            method_block = method_block.sort_values("rho_alt")
-            plt.plot(method_block["rho_alt"], method_block["rejection_rate"], marker="o", label=method)
+        plot_method_curves(summary, "rho_alt")
         plt.axhline(0.05, color="black", linewidth=0.8, linestyle="--")
         plt.xlabel(r"$\rho$")
         plt.ylabel("Rejection rate")
         plt.title("Study 3: identity to equicorrelation")
         plt.ylim(-0.02, 1.02)
-        plt.legend(fontsize=8)
+        plt.legend(fontsize=8, loc="lower right")
+        plt.tight_layout()
+        plt.savefig(figures_dir / f"{study}_{profile}_power.png", dpi=200)
+        plt.close()
+    elif study == "study_power_target_eq0":
+        plt.figure(figsize=(6.5, 4.2))
+        plot_method_curves(summary, "rho_alt")
+        plt.axhline(0.05, color="black", linewidth=0.8, linestyle="--")
+        plt.xlabel(r"$\rho_1$")
+        plt.ylabel("Rejection rate")
+        plt.title(r"Power: $\rho_0=0$ to equicorrelation alternatives")
+        plt.ylim(-0.02, 1.02)
+        plt.legend(fontsize=8, loc="lower right")
+        plt.tight_layout()
+        plt.savefig(figures_dir / f"{study}_{profile}_power.png", dpi=200)
+        plt.close()
+    elif study == "study_power_target_eq05":
+        plt.figure(figsize=(6.5, 4.2))
+        plot_method_curves(summary, "rho_alt")
+        plt.axhline(0.05, color="black", linewidth=0.8, linestyle="--")
+        plt.axvline(0.5, color="gray", linewidth=0.8, linestyle=":")
+        plt.xlabel(r"$\rho_1$")
+        plt.ylabel("Rejection rate")
+        plt.title(r"Power: equicorrelation alternatives around $\rho_0=0.5$")
+        plt.ylim(-0.02, 1.02)
+        plt.legend(fontsize=8, loc="lower left")
+        plt.tight_layout()
+        plt.savefig(figures_dir / f"{study}_{profile}_power.png", dpi=200)
+        plt.close()
+    elif study == "study_power_variance_profile":
+        for rho0, block in summary.groupby("rho0", dropna=False):
+            plt.figure(figsize=(6.5, 4.2))
+            plot_method_curves(block, "rho_alt")
+            plt.axhline(0.05, color="black", linewidth=0.8, linestyle="--")
+            plt.axvline(1.0, color="gray", linewidth=0.8, linestyle=":")
+            plt.xlabel(r"Scale multiplier $c$")
+            plt.ylabel("Rejection rate")
+            plt.title(rf"Heterogeneous variances: $\rho_0={rho0}$")
+            plt.ylim(-0.02, 1.02)
+            plt.legend(fontsize=8, loc="lower right")
+            plt.tight_layout()
+            safe_rho = str(rho0).replace(".", "p")
+            plt.savefig(figures_dir / f"{study}_{profile}_rho0_{safe_rho}_power.png", dpi=200)
+            plt.close()
+    elif study == "study_power_lowvar_block":
+        plt.figure(figsize=(6.5, 4.2))
+        plot_method_curves(summary, "rho_alt")
+        plt.axhline(0.05, color="black", linewidth=0.8, linestyle="--")
+        plt.axvline(0.5, color="gray", linewidth=0.8, linestyle=":")
+        plt.xlabel(r"Within-block correlation $\rho_{\mathrm{block}}$")
+        plt.ylabel("Rejection rate")
+        plt.title(r"Low-variance dense block: $\rho_0=0.5$")
+        plt.ylim(-0.02, 1.02)
+        plt.legend(fontsize=8, loc="lower right")
         plt.tight_layout()
         plt.savefig(figures_dir / f"{study}_{profile}_power.png", dpi=200)
         plt.close()
