@@ -12,6 +12,9 @@ import pandas as pd
 
 METHOD_LABELS = {
     "Ours-C": r"$A=G$",
+    "Ours-C(0.3)": r"$G(0.3)$",
+    "Ours-C(0.5)": r"$G(0.5)$",
+    "Ours-C(0.7)": r"$G(0.7)$",
     "Ours-I": r"$A=I_p$",
     "Max-bootstrap": "Max",
     "Wang-NR": "Wang-NR",
@@ -19,8 +22,14 @@ METHOD_LABELS = {
     "Raw-L2": r"raw $\ell_2$",
 }
 METHOD_ORDER = ["Ours-C", "Ours-I", "Max-bootstrap", "Wang-NR", "Li-Chen"]
+TARGET_SIZE_METHODS = ["Ours-C(0.3)", "Ours-C(0.5)", "Ours-C(0.7)", "Ours-I"]
+TARGET_POWER_METHODS = ["Ours-C(0.5)", "Max-bootstrap", "Wang-NR", "Li-Chen"]
+STUDENTIZED_POWER_METHODS = ["Ours-C(0.5)", "Raw-L2", "Max-bootstrap", "Wang-NR", "Li-Chen"]
 PLOT_COLORS = {
     "Ours-C": "#0072B2",
+    "Ours-C(0.3)": "#56B4E9",
+    "Ours-C(0.5)": "#0072B2",
+    "Ours-C(0.7)": "#000000",
     "Ours-I": "#D55E00",
     "Max-bootstrap": "#009E73",
     "Wang-NR": "#CC79A7",
@@ -29,11 +38,21 @@ PLOT_COLORS = {
 }
 PLOT_MARKERS = {
     "Ours-C": "o",
+    "Ours-C(0.3)": "o",
+    "Ours-C(0.5)": "o",
+    "Ours-C(0.7)": "o",
     "Ours-I": "s",
     "Max-bootstrap": "^",
     "Wang-NR": "D",
     "Li-Chen": "v",
     "Raw-L2": "o",
+}
+PLOT_LINESTYLES = {
+    "Ours-C(0.5)": "-",
+    "Raw-L2": (0, (2, 2)),
+    "Max-bootstrap": "--",
+    "Wang-NR": "-.",
+    "Li-Chen": ":",
 }
 
 
@@ -83,13 +102,352 @@ def _family_label(value: object) -> str:
     return mapping.get(str(value), str(value))
 
 
+def _family_label_short(value: object) -> str:
+    mapping = {
+        "equicorrelation": "Eq",
+        "toeplitz": "Toe",
+    }
+    return mapping.get(str(value), str(value))
+
+
 def _innovation_label(value: object) -> str:
     mapping = {
         "gaussian": "Gaussian",
         "chisq1": r"Centered $\chi^2_1$",
         "t5": r"$t_5$",
+        "laplace": "Laplace",
     }
     return mapping.get(str(value), str(value))
+
+
+def _innovation_label_short(value: object) -> str:
+    mapping = {
+        "gaussian": "Gau",
+        "chisq1": "Chi",
+        "t5": r"$t_5$",
+        "laplace": "Lap",
+    }
+    return mapping.get(str(value), str(value))
+
+
+def _size_source(summary_dir: Path) -> pd.DataFrame:
+    full = summary_dir / "study_size_target_final_summary_long.csv"
+    if full.exists():
+        return pd.read_csv(full)
+    pieces = []
+    for name in ("study_size_target_p100_final_summary_long.csv", "study_size_target_p200_final_summary_long.csv"):
+        path = summary_dir / name
+        if path.exists():
+            pieces.append(pd.read_csv(path))
+    if pieces:
+        return pd.concat(pieces, ignore_index=True)
+    return pd.DataFrame()
+
+
+def _smalln_inclusion(summary: pd.DataFrame, summary_dir: Path) -> bool:
+    if summary.empty:
+        return False
+    target = summary[summary["method"].isin(TARGET_SIZE_METHODS[:-1])].copy()
+    if target.empty:
+        return False
+    diagnostics = (
+        target.groupby("method", dropna=False)
+        .agg(
+            mean_size=("rejection_rate", "mean"),
+            max_size=("rejection_rate", "max"),
+            min_size=("rejection_rate", "min"),
+            rows=("rejection_rate", "size"),
+        )
+        .reset_index()
+    )
+    share_in_band = float(target["rejection_rate"].between(0.03, 0.08).mean())
+    include = bool(
+        diagnostics["mean_size"].between(0.04, 0.07).all()
+        and diagnostics["max_size"].le(0.09).all()
+        and share_in_band >= 0.9
+    )
+    diagnostics["share_target_rows_in_[0.03,0.08]"] = share_in_band
+    diagnostics["include_in_main_size_table"] = include
+    diagnostics.to_csv(summary_dir / "study_size_smalln_inclusion_diagnostic.csv", index=False)
+    return include
+
+
+def _format_size_triplet(group: pd.DataFrame, method: str, rho_grid: tuple[float, ...]) -> str:
+    values: list[str] = []
+    rho_values = group["rho0"].astype(float)
+    for rho in rho_grid:
+        match = group[np.isclose(rho_values, rho)]
+        values.append(_fmt_size(match.iloc[0][method]) if not match.empty else "--")
+    return "/".join(values)
+
+
+def _format_size_longtable_rows(
+    summary: pd.DataFrame,
+    *,
+    show_p: bool,
+    dense: bool = False,
+    include_rho: bool = True,
+    compact_labels: bool = False,
+) -> list[str]:
+    if summary.empty:
+        return []
+    table = summary[summary["method"].isin(TARGET_SIZE_METHODS)].copy()
+    if table.empty:
+        return []
+    wide = table.pivot_table(
+        index=["p", "n1", "n2", "innovation", "family", "rho0"],
+        columns="method",
+        values="rejection_rate",
+        aggfunc="first",
+    ).reset_index()
+    for method in TARGET_SIZE_METHODS:
+        if method not in wide.columns:
+            wide[method] = np.nan
+    innov_order = {"gaussian": 0, "chisq1": 1, "laplace": 2}
+    family_order = {"equicorrelation": 0, "toeplitz": 1}
+    wide["_innov_order"] = wide["innovation"].map(innov_order).fillna(99)
+    wide["_family_order"] = wide["family"].map(family_order).fillna(99)
+    wide = wide.sort_values(["p", "n1", "n2", "_innov_order", "_family_order", "rho0"]).reset_index(drop=True)
+    row_keys = wide[
+        ["p", "n1", "n2", "innovation", "family", "_innov_order", "_family_order"]
+    ].drop_duplicates()
+    row_keys = row_keys.sort_values(["p", "n1", "n2", "_innov_order", "_family_order"]).reset_index(drop=True)
+
+    lines: list[str] = []
+    prev_p = prev_n = prev_innov = prev_family = None
+    rho_grid = (0.1, 0.5, 0.9)
+    rho_cell = "$0.1/0.5/0.9$"
+    for _, row in row_keys.iterrows():
+        p = int(row["p"])
+        n1 = int(row["n1"])
+        n2 = int(row["n2"])
+        n_pair = f"$({n1},{n2})$"
+        innov = str(row["innovation"])
+        family = str(row["family"])
+        if prev_p is not None and p != prev_p:
+            lines.append(r"\midrule")
+        elif prev_n is not None and n_pair != prev_n:
+            lines.append(r"\addlinespace[0.5pt]" if dense else r"\addlinespace[2pt]")
+        elif not dense and prev_innov is not None and innov != prev_innov:
+            lines.append(r"\cmidrule(lr){3-9}" if show_p else r"\cmidrule(lr){2-8}")
+        elif not dense and prev_family is not None and family != prev_family:
+            lines.append(r"\cmidrule(lr){4-9}" if show_p else r"\cmidrule(lr){3-8}")
+
+        p_cell = rf"$p={p}$" if show_p and p != prev_p else ""
+        n_cell = n_pair if n_pair != prev_n or p_cell else ""
+        innov_label = _innovation_label_short(innov) if compact_labels else _innovation_label(innov)
+        family_label = _family_label_short(family) if compact_labels else _family_label(family)
+        innov_cell = innov_label if innov != prev_innov or n_cell else ""
+        family_cell = family_label if family != prev_family or innov_cell else ""
+        group = wide[
+            (wide["p"].astype(int) == p)
+            & (wide["n1"].astype(int) == n1)
+            & (wide["n2"].astype(int) == n2)
+            & (wide["innovation"].astype(str) == innov)
+            & (wide["family"].astype(str) == family)
+        ]
+        values = " & ".join(_format_size_triplet(group, method, rho_grid) for method in TARGET_SIZE_METHODS)
+        row_cells = [n_cell, innov_cell, family_cell]
+        if include_rho:
+            row_cells.append(rho_cell)
+        row_cells.extend(values.split(" & "))
+        if show_p:
+            row_cells.insert(0, p_cell)
+        lines.append(" & ".join(row_cells) + r" \\")
+        prev_p, prev_n, prev_innov, prev_family = p, n_pair, innov, family
+    return lines
+
+
+def _size_table_lines(summary: pd.DataFrame, *, p: int | None = None) -> list[str]:
+    show_p = p is None
+    if p is not None:
+        summary = summary[summary["p"].astype(int) == int(p)].copy()
+    colspec = r"@{}lllllcccc@{}" if show_p else r"@{}lllcccc@{}"
+    label = "tab:size_main_combined" if p is None else f"tab:size_main_p{p}"
+    p_text = "" if p is None else rf" for $p={p}$"
+    caption = (
+        r"\caption{Empirical size of the proposed target-transformed and identity tests"
+        + p_text
+        + r". Each triplet is ordered as $\rho_0=0.1/0.5/0.9$.}\label{"
+        + label
+        + r"}\\"
+    )
+    if show_p:
+        header_cells = [
+            r"$p$",
+            r"$(n_1,n_2)$",
+            "Innovation",
+            "Cov.",
+            r"$\rho_0$",
+            r"$G(0.3)$",
+            r"$G(0.5)$",
+            r"$G(0.7)$",
+            r"$I_p$",
+        ]
+    else:
+        header_cells = [
+            r"$(n_1,n_2)$",
+            "Dist.",
+            "Cov.",
+            r"$G(.3)$",
+            r"$G(.5)$",
+            r"$G(.7)$",
+            r"$I_p$",
+        ]
+    header = " & ".join(header_cells) + r" \\"
+    if p is not None:
+        table_caption = (
+            r"\caption{Empirical size of the proposed target-transformed and identity tests"
+            + p_text
+            + r". Each entry reports the $\rho_0=0.1/0.5/0.9$ triplet; "
+            + r"abbreviations are defined in the text.}\label{"
+            + label
+            + r"}"
+        )
+        return [
+            r"\begin{table}[!htbp]",
+            r"\centering",
+            r"\begingroup",
+            r"\spacingset{1}",
+            r"\scriptsize",
+            r"\captionsetup{font=footnotesize,skip=2pt}",
+            r"\renewcommand{\arraystretch}{0.78}",
+            r"\setlength{\tabcolsep}{1.8pt}",
+            r"\setlength{\aboverulesep}{0.15ex}",
+            r"\setlength{\belowrulesep}{0.15ex}",
+            table_caption,
+            r"\resizebox{\textwidth}{!}{%",
+            rf"\begin{{tabular}}{{{colspec}}}",
+            r"\toprule",
+            header,
+            r"\midrule",
+            *_format_size_longtable_rows(
+                summary,
+                show_p=show_p,
+                dense=True,
+                include_rho=False,
+                compact_labels=True,
+            ),
+            r"\bottomrule",
+            r"\end{tabular}%",
+            r"}",
+            r"\endgroup",
+            r"\end{table}",
+        ]
+    return [
+        r"\begin{landscape}",
+        r"\begingroup",
+        r"\small",
+        r"\setlength{\tabcolsep}{3pt}",
+        rf"\begin{{longtable}}{{{colspec}}}",
+        caption,
+        r"\toprule",
+        header,
+        r"\midrule",
+        r"\endfirsthead",
+        r"\toprule",
+        header,
+        r"\midrule",
+        r"\endhead",
+        *_format_size_longtable_rows(summary, show_p=show_p),
+        r"\bottomrule",
+        r"\end{longtable}",
+        r"\endgroup",
+        r"\end{landscape}",
+    ]
+
+
+def _write_main_size_table(summary_dir: Path, table_dir: Path) -> None:
+    main = _size_source(summary_dir)
+    if main.empty:
+        return
+    small_path = summary_dir / "study_size_smalln_final_summary_long.csv"
+    include_small = False
+    if small_path.exists():
+        small = pd.read_csv(small_path)
+        include_small = _smalln_inclusion(small, summary_dir)
+        if include_small:
+            main = pd.concat([small, main], ignore_index=True)
+
+    table_dir.mkdir(parents=True, exist_ok=True)
+    # Keep the combined file for archival reproducibility; the manuscript inputs
+    # the two p-specific tables below.
+    (table_dir / "size_main_combined.tex").write_text(
+        "\n".join(_size_table_lines(main, p=None)) + "\n", encoding="utf-8"
+    )
+    main_tables: list[str] = []
+    for p_value in (100, 200):
+        if (main["p"].astype(int) == p_value).any():
+            name = f"size_main_p{p_value}.tex"
+            (table_dir / name).write_text(
+                "\n".join(_size_table_lines(main, p=p_value)) + "\n", encoding="utf-8"
+            )
+            main_tables.append(name)
+
+    status = pd.DataFrame(
+        [
+            {
+                "smalln_file_present": small_path.exists(),
+                "smalln_included_in_main_table": include_small,
+                "main_table": ";".join(main_tables),
+                "archive_combined_table": "size_main_combined.tex",
+            }
+        ]
+    )
+    status.to_csv(summary_dir / "size_main_combined_status.csv", index=False)
+
+
+def _write_unbalanced_ratio_table(summary_dir: Path, table_dir: Path) -> None:
+    path = summary_dir / "study_size_unbalanced_ratio_final_summary_long.csv"
+    if not path.exists():
+        return
+    raw = pd.read_csv(path)
+    small_path = summary_dir / "study_size_smalln_final_summary_long.csv"
+    if small_path.exists():
+        small = pd.read_csv(small_path)
+        small = small[np.isclose(small["rho0"].astype(float), 0.5)].copy()
+        small["design"] = "unbalanced_ratio_null_size"
+        raw = pd.concat([raw, small], ignore_index=True)
+    raw = raw[raw["method"].isin(TARGET_SIZE_METHODS)].copy()
+    if raw.empty:
+        return
+    summary = (
+        raw.groupby(["p", "n1", "n2", "n1_over_n2", "method"], dropna=False)["rejection_rate"]
+        .mean()
+        .reset_index()
+    )
+    wide = summary.pivot_table(
+        index=["p", "n1", "n2", "n1_over_n2"],
+        columns="method",
+        values="rejection_rate",
+        aggfunc="first",
+    ).reset_index()
+    for method in TARGET_SIZE_METHODS:
+        if method not in wide.columns:
+            wide[method] = np.nan
+    wide = wide.sort_values(["p", "n1_over_n2"], ascending=[True, False]).reset_index(drop=True)
+
+    lines = [
+        r"\begin{tabular}{@{}rrrrrrrr@{}}",
+        r"\toprule",
+        r"$p$ & $n_1$ & $n_2$ & $n_1/n_2$ & $G(0.3)$ & $G(0.5)$ & $G(0.7)$ & $I_p$ \\",
+        r"\midrule",
+    ]
+    previous_p = None
+    for _, row in wide.iterrows():
+        p = int(row["p"])
+        if previous_p is not None and p != previous_p:
+            lines.append(r"\midrule")
+        values = " & ".join(_fmt_size(row[method]) for method in TARGET_SIZE_METHODS)
+        lines.append(
+            f"{p} & {int(row['n1'])} & {int(row['n2'])} & {float(row['n1_over_n2']):.1f} & "
+            + values
+            + r" \\"
+        )
+        previous_p = p
+    lines.extend([r"\bottomrule", r"\end{tabular}"])
+    table_dir.mkdir(parents=True, exist_ok=True)
+    (table_dir / "size_unbalanced_ratio_supp.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def _write_combined_size_table(summary_dir: Path, table_dir: Path) -> None:
@@ -349,10 +707,90 @@ def _write_study3_figure(summary_dir: Path, figure_dir: Path) -> None:
     plt.close(fig)
 
 
+def _write_target_power_figure(summary_dir: Path, figure_dir: Path, study: str, *, legend_loc: str) -> None:
+    path = summary_dir / f"{study}_final_summary_long.csv"
+    if not path.exists():
+        return
+    raw = pd.read_csv(path)
+    methods = [method for method in TARGET_POWER_METHODS if method in set(raw["method"])]
+    if not methods:
+        return
+    fig, ax = plt.subplots(figsize=(5.7, 3.4))
+    for method in methods:
+        block = raw[raw["method"].eq(method)].sort_values("rho_alt")
+        ax.plot(
+            block["rho_alt"],
+            block["rejection_rate"],
+            marker=PLOT_MARKERS[method],
+            color=PLOT_COLORS[method],
+            linestyle=PLOT_LINESTYLES.get(method, "-"),
+            linewidth=2.0 if method == "Ours-C(0.5)" else 1.8,
+            markersize=4.5,
+            label=METHOD_LABELS[method],
+        )
+    ax.axhline(0.05, color="black", linewidth=0.8, linestyle="--")
+    if study == "study_power_target_eq05":
+        ax.axvline(0.5, color="gray", linewidth=0.8, linestyle=":")
+    ax.set_xlabel(r"$\rho_1$")
+    ax.set_ylabel("Rejection rate")
+    ax.set_ylim(-0.02, 1.02)
+    ax.grid(axis="y", color="#D9D9D9", linewidth=0.6)
+    ax.legend(frameon=False, fontsize=8, loc=legend_loc)
+    fig.tight_layout()
+    figure_dir.mkdir(parents=True, exist_ok=True)
+    fig.savefig(figure_dir / f"{study}_final_power.png", dpi=300, bbox_inches="tight")
+    plt.close(fig)
+
+
+def _write_studentized_target_figure(summary_dir: Path, figure_dir: Path) -> None:
+    candidates = [
+        summary_dir / "study_power_studentized_search_final_summary_long.csv",
+        summary_dir / "study_power_studentized_search_confirmatory_summary_long.csv",
+    ]
+    path = next((candidate for candidate in candidates if candidate.exists()), None)
+    if path is None:
+        return
+    raw = pd.read_csv(path)
+    if "rho_block" not in raw.columns and "rho_alt" in raw.columns:
+        raw["rho_block"] = raw["rho_alt"]
+    if "high_variance" in raw.columns:
+        raw = raw[np.isclose(raw["high_variance"].astype(float), 25.0)]
+    if "block_size" in raw.columns:
+        raw = raw[raw["block_size"].astype(float).eq(80.0)]
+    methods = [method for method in STUDENTIZED_POWER_METHODS if method in set(raw["method"])]
+    if not methods:
+        return
+    fig, ax = plt.subplots(figsize=(5.7, 3.4))
+    for method in methods:
+        block = raw[raw["method"].eq(method)].sort_values("rho_block")
+        ax.plot(
+            block["rho_block"],
+            block["rejection_rate"],
+            marker=PLOT_MARKERS[method],
+            color=PLOT_COLORS[method],
+            linestyle=PLOT_LINESTYLES.get(method, "-"),
+            linewidth=2.0 if method == "Ours-C(0.5)" else 1.8,
+            markersize=4.5,
+            label=METHOD_LABELS[method],
+        )
+    ax.axhline(0.05, color="black", linewidth=0.8, linestyle="--")
+    ax.set_xlabel(r"Within-block correlation $\rho_{\mathrm{block}}$")
+    ax.set_ylabel("Rejection rate")
+    ax.set_ylim(-0.02, 1.02)
+    ax.grid(axis="y", color="#D9D9D9", linewidth=0.6)
+    ax.legend(frameon=False, fontsize=8, loc="lower right")
+    fig.tight_layout()
+    figure_dir.mkdir(parents=True, exist_ok=True)
+    fig.savefig(figure_dir / "study_power_studentized_targets_final_power.png", dpi=300, bbox_inches="tight")
+    plt.close(fig)
+
+
 def _write_manuscript_displays(results_dir: Path) -> None:
     summary_dir = results_dir / "summary"
     table_dir = results_dir / "tables"
     figure_dir = results_dir / "figures"
+    _write_main_size_table(summary_dir, table_dir)
+    _write_unbalanced_ratio_table(summary_dir, table_dir)
     _write_gaussian_size_table(summary_dir, table_dir)
     _write_combined_size_table(summary_dir, table_dir)
     _write_study4_table(summary_dir, table_dir)
@@ -361,6 +799,9 @@ def _write_manuscript_displays(results_dir: Path) -> None:
     _write_size_heatmap(summary_dir, figure_dir)
     _write_study2_combined_figure(summary_dir, figure_dir)
     _write_study3_figure(summary_dir, figure_dir)
+    _write_target_power_figure(summary_dir, figure_dir, "study_power_target_eq0", legend_loc="lower right")
+    _write_target_power_figure(summary_dir, figure_dir, "study_power_target_eq05", legend_loc="lower left")
+    _write_studentized_target_figure(summary_dir, figure_dir)
 
 
 def _table_block(caption: str, label: str, path: str, *, size: str = r"\small") -> str:

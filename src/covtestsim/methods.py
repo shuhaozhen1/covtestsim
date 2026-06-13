@@ -82,12 +82,14 @@ def ours_c_bootstrap(
     y: np.ndarray,
     B: int,
     alpha: float = 0.05,
+    rho_tar: float = 0.5,
     rng: np.random.Generator | None = None,
     batch_size: int = 250,
+    method_name: str = "Ours-C",
 ) -> MethodResult:
     """Adaptive target-transformed studentized L2 bootstrap."""
 
-    transform, target_diag = adaptive_target_transform(x, y)
+    transform, target_diag = adaptive_target_transform(x, y, rho_tar=rho_tar)
     result = ours_l2_bootstrap(
         x,
         y,
@@ -96,7 +98,7 @@ def ours_c_bootstrap(
         transform=transform,
         studentized=True,
         rng=rng,
-        method_name="Ours-C",
+        method_name=method_name,
         batch_size=batch_size,
     )
     result.diagnostics.update(target_diag)

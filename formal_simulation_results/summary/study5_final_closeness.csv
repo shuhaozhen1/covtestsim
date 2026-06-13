@@ -1,0 +1,2 @@
+scenario_id,n1,n2,n1_over_n2,covariance,R,size_full,MCSE_full,size_simp,MCSE_simp,median_abs_T_full_minus_simp,median_abs_p_full_minus_simp
+unbalanced_toep_p50_n5000_100_rho0p8,5000,100,50.0,toeplitz(0.8),1000,0.049,0.006826346021115542,0.056,0.007270763371201128,0.025173630525171187,0.0295

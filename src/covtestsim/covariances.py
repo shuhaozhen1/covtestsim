@@ -93,6 +93,8 @@ def draw_samples(
         z = (rng.chisquare(df=1, size=(n, p)) - 1.0) / np.sqrt(2.0)
     elif innovation == "t5":
         z = rng.standard_t(df=5, size=(n, p)) / np.sqrt(5.0 / 3.0)
+    elif innovation == "laplace":
+        z = rng.laplace(loc=0.0, scale=1.0 / np.sqrt(2.0), size=(n, p))
     else:
         raise ValueError(f"Unknown innovation: {innovation}")
     return z @ chol.T
