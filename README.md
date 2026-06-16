@@ -11,6 +11,9 @@ separate from the JASA template files.
 - `formal_simulation_results/`: lightweight formal simulation summaries,
   manuscript tables, and figures. Replicate-level raw simulation outputs are
   omitted from GitHub because of their size.
+- `manuscript/03_full_with_supplement/`: current full manuscript, compiled PDF,
+  figure/table assets, and lightweight R=1000 power summaries used by the
+  manuscript.
 - `results/`: generated simulation and real-data outputs. This directory is
   created by the runners and is not tracked in the code repository.
 - `data_cache/`: downloaded TCGA-BRCA and MSigDB files used by the real-data
@@ -71,9 +74,9 @@ python run_simulations.py --study study1_hd --profile final --R 1000 --B 2000 --
 python run_simulations.py --study study_size_target --profile final --R 1000 --B 500 --n-jobs 6
 python run_simulations.py --study study_size_smalln --profile final --R 1000 --B 500 --n-jobs 6
 python run_simulations.py --study study_size_unbalanced_ratio --profile final --R 1000 --B 500 --n-jobs 6
-python run_simulations.py --study study_power_target_eq0 --profile final --R 500 --B 500 --n-jobs 6
-python run_simulations.py --study study_power_target_eq05 --profile final --R 500 --B 500 --n-jobs 6
-python scripts/explore_studentization_power.py --profile final --R 500 --B 500 --n-jobs 6 --include-target --target-rhos 0.3,0.5,0.7 --block-sizes 80 --high-variances 25 --rho-grid 0,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.50
+python run_simulations.py --study study_power_target_eq0 --profile final --R 1000 --B 500 --n-jobs 6
+python run_simulations.py --study study_power_target_eq05 --profile final --R 1000 --B 500 --n-jobs 6
+python scripts/explore_studentization_power.py --profile final --R 1000 --B 500 --n-jobs 6 --include-target --target-rhos 0.3,0.5,0.7 --block-sizes 80 --high-variances 25 --rho-grid 0,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.50
 python run_simulations.py --study study2 --profile debug --include-supplement
 python run_simulations.py --study study3 --profile smoke --R 5 --B 20
 python write_manuscript_section.py --results-dir results
@@ -229,7 +232,8 @@ separate optional backend and numerical-equivalence checks.
 ## Computational Notes
 
 The current main-text runs use `R=1000` and `B=500` for the size tables. The
-two equicorrelation power studies use `R=500` and `B=500`. The heaviest pieces are repeated
+two equicorrelation power studies and the retained studentization-power
+diagnostic also use `R=1000` and `B=500`. The heaviest pieces are repeated
 matrix square roots for `Ours-C`, bootstrap matrix multiplications for `p=100`
 or `p=200`, and exact Li-Chen U-statistic components. Use `--n-jobs` to
 parallelize repetitions across CPU cores when running final tables.

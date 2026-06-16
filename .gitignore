@@ -12,9 +12,23 @@ dist/
 
 # Generated empirical outputs and downloaded real-data cache.
 results/
+results_*/
+results-*/
 data_cache/
+raw/
+**/raw/
+
+# Large generated simulation archives should stay outside git. Keep summaries,
+# tables, figures, and manuscript sources instead.
+04_formal_simulation_results/
 
 # Local logs and editor files.
 *.log
+*.aux
+*.bbl
+*.blg
+*.out
+*.toc
+*.synctex.gz
 .DS_Store
 Thumbs.db

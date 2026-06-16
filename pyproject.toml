@@ -8,6 +8,7 @@ version = "0.1.0"
 description = "Clean simulation restart for high-dimensional covariance tests."
 requires-python = ">=3.10"
 dependencies = [
+  "jinja2",
   "joblib",
   "matplotlib",
   "numpy",

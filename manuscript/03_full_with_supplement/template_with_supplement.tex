@@ -1,0 +1,6431 @@
+﻿% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  12pt]{article}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{5}
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{pdflscape}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\addtolength{\oddsidemargin}{-.5in}%
+\addtolength{\evensidemargin}{-.1in}%
+\addtolength{\textwidth}{1in}%
+\addtolength{\textheight}{1.7in}%
+\addtolength{\topmargin}{-1in}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+
+
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+% Additional packages and theorem environments transferred from the original imsart draft.
+\usepackage{multirow}
+\usepackage{mathtools}
+
+\theoremstyle{plain}
+\newtheorem{axiom}{Axiom}
+\newtheorem{claim}[axiom]{Claim}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{assumption}{Assumption}[section]
+\newtheorem{condition}[assumption]{Condition}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem*{example}{Example}
+\newtheorem*{fact}{Fact}
+
+\theoremstyle{remark}
+\newtheorem{case}{Case}
+\newtheorem{remark}[theorem]{Remark}
+
+\usepackage[authoryear,round]{natbib}
+\usepackage{bookmark}
+
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Simple Studentized l2 Statistics and Gaussian Bootstrap for Two-Sample Covariance Testing},
+  pdfauthor={Haozhen Shu; Tianming Zhu},
+  pdfkeywords={high-dimensional inference; Gaussian approximation; Gaussian bootstrap; studentization; transformed covariance statistics},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+
+
+\newcommand{\anon}{1}
+
+%set the key \texttt{anon} to ``0'' to hide the authors and acknowledgements,
+%  producing the required anonymized version. 
+%Set the key \texttt{anon} to ``1'' to produce the manuscript with author details and
+% acknowledgments. 
+
+
+\begin{document}
+
+\def\spacingset#1{\renewcommand{\baselinestretch}%
+{#1}\small\normalsize} \spacingset{1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\if1\anon
+{
+  \title{\bf Simple Studentized \texorpdfstring{$\ell_2$}{l2} Statistics and Gaussian Bootstrap for Two-Sample Covariance Testing}
+  \author{Haozhen Shu\thanks{Email: haozhen.shu@nie.edu.sg.}\hspace{.2cm}\\
+Department, University or Company Name\\
+and \\
+Tianming Zhu\thanks{Email: tianming.zhu@nie.edu.sg.}\\
+Department, University or Company Name}
+  \maketitle
+} \fi
+
+\if0\anon
+{
+  \bigskip
+  \bigskip
+  \bigskip
+  \begin{center}
+    {\LARGE\bf Simple Studentized \texorpdfstring{$\ell_2$}{l2} Statistics and Gaussian Bootstrap for Two-Sample Covariance Testing}
+\end{center}
+  \medskip
+} \fi
+
+\bigskip
+\begin{abstract}
+We propose a simple studentized \(\ell_2\)-type statistic for high-dimensional
+two-sample covariance testing.  The statistic vectorizes the difference between
+the two sample covariance matrices, standardizes each covariance coordinate by
+its marginal scale, and aggregates the squared standardized discrepancies. The theoretical analysis is based on a Gaussian approximation over centered
+Euclidean balls, which matches the geometry of the proposed statistic and leads
+to a direct Gaussian multiplier-bootstrap implementation.  We establish validity of the
+feasible bootstrap test and power consistency under growing standardized
+quadratic signal strength.  The method is easy to implement, avoids estimating
+the full covariance matrix of covariance entries, and can incorporate
+prespecified nonsingular transformations to improve finite-sample performance.
+\end{abstract}
+
+\noindent%
+{\it Keywords:} high-dimensional inference; Gaussian approximation; Gaussian bootstrap; multiplier bootstrap; transformed covariance statistics
+\vfill
+
+\newpage
+\spacingset{1.8} % DON'T change the spacing!
+
+\section{Introduction and Review}\label{sec:intro}
+
+Covariance comparison is a fundamental problem in multivariate statistics.  It
+arises when the scientific question concerns not only marginal variation, but
+also the dependence structure among variables.  Examples include
+gene-expression studies, where genes may act jointly through co-expression
+modules; neuroimaging studies, where functional connectivity is encoded by
+covariance or correlation patterns across brain regions; finance, where
+portfolio risk depends on the joint movement of asset returns; and network
+analysis, where second-order dependence captures interaction patterns among
+features.  In such settings, the covariance matrix is itself an object of
+scientific interest.
+
+Modern covariance testing is challenging because the dimension may be
+comparable to, or larger than, the sample size.  Classical likelihood-ratio
+procedures, including the likelihood criteria studied by
+\citet{box_general_1949} and related covariance-matrix test criteria of
+\citet{nagao_some_1973}, rely on fixed-dimensional approximations and may
+become unstable when sample covariance matrices are singular or
+ill-conditioned.  This difficulty motivated high-dimensional corrections for
+covariance structure testing, including the large-dimensional tests of
+\citet{ledoit_some_2002}, as well as the nonparametric identity and sphericity
+tests of \citet{chen_tests_2010}.  It has also led to
+a broad literature on tests that avoid direct likelihood inversion and compare
+covariance matrices through entrywise, spectral, or quadratic functionals.
+
+From the perspective of power against different alternatives, many procedures
+are often discussed along a sparse-versus-dense contrast.  Max-type tests are
+designed to detect alternatives where a small number of covariance entries
+differ sharply.  This direction is connected to
+the limiting behavior of sample correlations and coherence statistics
+\citep{cai_limiting_2011}, and to entrywise maximum tests for covariance
+comparison and support recovery
+\citep{cai_two-sample_2013,chang_comparing_2017}.  Its modern calibration is
+closely related to high-dimensional Gaussian approximation and multiplier
+bootstrap theory for maxima and hyperrectangles
+\citep{chernozhukov_gaussian_2013,chernozhukov_central_2017,
+chernozhukov_high-dimensional_2023}.  In contrast, \(\ell_2\)-type procedures
+aggregate discrepancies across many covariance coordinates and are therefore
+natural for dense or moderately dense alternatives.  Early and influential
+quadratic-form tests include those of \citet{schott_test_2007} and
+\citet{srivastava_testing_2010}, while \citet{li_two_2012} proposed an
+unbiased U-statistic estimator of the squared Frobenius-norm covariance
+difference.  More recent work has further developed normal-reference and
+quadratic-form approaches for high-dimensional covariance testing
+\citep{wang_two-sample_2024}.
+
+U-statistics play an important role in this literature because they provide
+unbiased estimators of quadratic functionals and remove the leading bias that
+appears in naive plug-in estimators such as
+\(\|\widehat\Sigma_1-\widehat\Sigma_2\|_F^2\).  The Li--Chen statistic is a
+canonical example in two-sample covariance testing \citep{li_two_2012}, and
+its debiasing idea is related to high-dimensional two-sample mean testing based
+on quadratic U-statistics \citep{chen_qin_2010}.  More generally,
+high-dimensional Gaussian and bootstrap approximations for non-degenerate
+U-statistics have been studied by \citet{chen_gaussian_2018}, with related
+exchangeable-pair bounds by \citet{cheng_gaussian_2022}.
+These results are highly relevant, but they do not directly yield the
+approximation needed in the present paper.  Standard U-statistic asymptotics
+often distinguishes non-degenerate kernels, where a leading Hájek projection
+drives the limit, from degenerate kernels, where higher-order components can
+become central.  Our statistic has a different geometric target.
+
+To see the distinction, consider the oracle version of our statistic under the
+null.  After diagonal standardization, it can be written as the squared
+Euclidean norm of a high-dimensional covariance-coordinate mean vector.  If one
+expands this squared norm, the off-diagonal part has a degenerate
+second-order-kernel form, while the diagonal part and the studentization remain
+essential to the statistic.  Thus a direct U-statistic normal approximation is
+not the right object: the null distribution is naturally described as a
+quadratic form of a Gaussian vector, or equivalently through probabilities of
+centered Euclidean balls.  This is the main reason we develop the theory through
+a centered-ball Gaussian approximation for the covariance-coordinate vector,
+rather than through a scalar U-statistic central limit theorem.
+
+We propose a simple studentized \(\ell_2\)-type statistic for two-sample
+covariance testing.  The statistic vectorizes the upper-triangular entries of
+the two sample covariance matrices, forms their two-sample difference,
+standardizes each covariance coordinate by its marginal scale, and aggregates
+the squared standardized discrepancies.  This produces a scale-invariant global
+measure of covariance difference.  The construction is particularly suited to
+dense alternatives, where many covariance entries change moderately rather than
+a few entries changing sharply.
+
+The key theoretical idea is to analyze the standardized covariance-coordinate
+vector before applying the squared-norm map.  Events of the form
+\[
+  \left\{ d^{-1}\|Z\|_2^2 \le t \right\}
+\]
+are exactly centered Euclidean balls; see the statistic in
+\eqref{eq:proposed-statistic} and its acceptance-region representation in
+\eqref{eq:acceptance-ball}.  Therefore a Gaussian approximation over centered
+balls matches the geometry of the proposed statistic.  This approach leads to a
+direct multiplier-bootstrap calibration: the bootstrap is applied to the same
+covariance-coordinate contributions used in the statistic, and only a diagonal
+studentizer is needed.  In particular, the procedure avoids estimating or
+inverting the full covariance matrix of covariance entries.
+
+Our contributions are as follows.  First, we introduce a simple and
+interpretable studentized \(\ell_2\) statistic for high-dimensional two-sample
+covariance testing.  Second, we establish a Gaussian approximation over
+centered Euclidean balls for the oracle statistic, with explicit dependence on
+dimension, moments, and covariance geometry.  Third, we prove that the feasible
+statistic, based on empirical centering and empirical diagonal studentization,
+is close to its oracle counterpart.  Fourth, we develop a multiplier-bootstrap
+calibration and prove asymptotic size validity under explicit sufficient
+conditions.  Fifth, we derive power consistency under alternatives with growing
+standardized quadratic signal strength.  The framework can also incorporate
+common nonsingular transformations, allowing external scientific information or
+algorithmic representations to make covariance differences more visible after
+studentization.  The formal theory treats such transformations as fixed and
+deterministic, while fully adaptive same-sample selection is left as a separate
+problem.
+
+The remainder of the paper is organized as follows.
+Section~\ref{sec:main_results} presents the problem setting, the proposed
+studentized statistic, the centered-ball Gaussian approximation, the
+sample-to-oracle comparison, bootstrap calibration, size control, and power
+analysis.  Section~\ref{sec:simulation} reports simulation studies comparing
+the proposed bootstrap test with max-type and quadratic-form benchmarks.
+Section~\ref{sec:realdata} presents an application to TCGA-BRCA gene-expression
+data.  Section~\ref{sec:discussion} concludes with discussion and open
+directions.
+
+\section{Main Results}
+\label{sec:main_results}
+
+This section develops the proposed studentized two-sample covariance test under
+a deterministic linear transformation.  We first introduce the testing problem
+\eqref{eq:hypothesis}, the null-preserving transformation
+\eqref{eq:transformed-null}, and the statistic \eqref{eq:proposed-statistic}.
+We then establish the oracle Gaussian approximation, the sample-to-oracle
+transfer, the multiplier-bootstrap calibration, size validity, and power
+consistency.  We close the section by highlighting how the simplicity of 
+the proposed quadratic form leads to a transparent 
+inferential interpretation. In highly unbalanced designs, 
+the statistic can be naturally viewed as a one-sample covariance 
+discrepancy, with the larger sample providing 
+a stable reference covariance for assessing the smaller sample.
+
+
+\subsection{Problem setting}
+\label{subsec:problem_setting}
+
+Let
+\[
+X_1,\ldots,X_{n_1}\in\mathbb R^p,
+\qquad
+Y_1,\ldots,Y_{n_2}\in\mathbb R^p
+\]
+be two independent samples, with observations independent and identically
+distributed within each sample.  Denote
+\[
+\mathbb E X_i=\mu_1,\qquad \operatorname{Cov}(X_i)=\Sigma_1,
+\]
+and
+\[
+\mathbb E Y_j=\mu_2,\qquad \operatorname{Cov}(Y_j)=\Sigma_2.
+\]
+We consider the two-sample covariance testing problem
+\begin{equation}
+\label{eq:hypothesis}
+H_0:\Sigma_1=\Sigma_2
+\qquad\text{against}\qquad
+H_1:\Sigma_1\neq\Sigma_2.
+\end{equation}
+
+Throughout the theoretical analysis, \(A\in\mathbb R^{p\times p}\) is treated
+as a deterministic nonsingular matrix.  Define the transformed observations
+\[
+X_i^{(A)}=AX_i,\qquad Y_j^{(A)}=AY_j,
+\]
+with transformed covariance matrices
+\[
+\Sigma_1^{(A)}=A\Sigma_1A^\top,
+\qquad
+\Sigma_2^{(A)}=A\Sigma_2A^\top.
+\]
+Since \(A\) is nonsingular,
+\begin{equation}
+\label{eq:transformed-null}
+\Sigma_1=\Sigma_2
+\quad\Longleftrightarrow\quad
+\Sigma_1^{(A)}=\Sigma_2^{(A)}.
+\end{equation}
+Thus the equivalence in \eqref{eq:transformed-null} shows that applying the
+same deterministic transformation to both samples preserves the null
+hypothesis.  The transformation changes the geometric representation of the
+covariance difference but not the null itself.
+
+The matrix \(A\) should therefore be viewed as an analysis-side representation
+choice rather than as a modification of the hypothesis.  The baseline choice
+\(A=I_p\) tests covariance equality in the original coordinates.  Other
+nonsingular choices can encode external scientific knowledge, pre-existing
+feature maps, or transformations suggested by machine-learning preprocessing.
+In this sense, \(A\) offers a representation-augmentation mechanism: the same
+null-preserving test can be applied after re-expressing the data in coordinates
+where the anticipated covariance discrepancy may be denser, better scaled, or
+more aligned with the \(\ell_2\) aggregation.  The validity results below are
+stated for fixed deterministic \(A\).  If \(A\) is estimated or selected from
+the same observations used for testing, additional sample-splitting,
+conditioning, or post-selection analysis would be required.
+
+After introducing the transformation, we suppress the superscript \((A)\) and
+work entirely in the transformed model.  Thus \(X_i,Y_j,\mu_1,\mu_2,\Sigma_1\),
+and \(\Sigma_2\) below denote their transformed counterparts.  Let
+\begin{equation}
+\label{eq:dimension-effective-n}
+d=\frac{p(p+1)}2,
+\qquad
+n_{\mathrm{eff}}=\frac{n_1n_2}{n_1+n_2}.
+\end{equation}
+Here \(d\) is the number of upper-triangular covariance coordinates, and
+\(\operatorname{vech}(\cdot)\) denotes the half-vectorization operator that
+stacks the upper-triangular entries of a symmetric matrix, including the
+diagonal.  The effective sample size \(n_{\mathrm{eff}}\) in
+\eqref{eq:dimension-effective-n} is the scale that appears in the covariance
+difference statistic below.
+
+We impose the following primitive regularity conditions in the transformed
+coordinate system.  Throughout the theoretical analysis, write
+\[
+U_i=X_i-\mu_1,
+\qquad
+V_j=Y_j-\mu_2.
+\]
+
+\begin{assumption}[Coordinate high-moment control]
+\label{ass:coordinate_high_moment}
+There exists a constant \(K_8<\infty\), independent of \(n_1,n_2\), and \(p\),
+such that
+\[
+\max_{1\le a\le p}\mathbb E|U_{ia}|^8
++
+\max_{1\le a\le p}\mathbb E|V_{ja}|^8
+\le K_8 .
+\]
+\end{assumption}
+
+\begin{assumption}[Covariance-coordinate nondegeneracy]
+\label{ass:coordinate_nondegeneracy}
+There exists a constant \(c_H>0\), independent of \(n_1,n_2\), and \(p\), such
+that for every \(1\le a\le b\le p\),
+\[
+\operatorname{Var}(U_{ia}U_{ib})\ge c_H,
+\qquad
+\operatorname{Var}(V_{ja}V_{jb})\ge c_H .
+\]
+\end{assumption}
+
+Assumption~\ref{ass:coordinate_high_moment} is a coordinatewise moment
+condition used to control covariance-coordinate estimators uniformly over the
+\(d=p(p+1)/2\) entries.  It also implies the Euclidean moment and sample-mean
+bounds needed for sample-centering arguments; the short derivation is given in
+the supplement.  Assumption~\ref{ass:coordinate_nondegeneracy} excludes
+degenerate covariance coordinates, so that the diagonal studentizer is well
+defined and stable.  These assumptions are primitive because they are stated
+directly in terms of transformed observations and covariance-coordinate
+variances, rather than in terms of the limiting statistic itself.
+
+\subsection{Statistic and Gaussian approximation}
+\label{subsec:statistic_gaussian}
+
+The sample means and sample covariance matrices are
+\[
+\bar X=\frac1{n_1}\sum_{i=1}^{n_1}X_i,
+\qquad
+\bar Y=\frac1{n_2}\sum_{j=1}^{n_2}Y_j,
+\]
+and
+\[
+\widehat\Sigma_1
+=
+\frac1{n_1}\sum_{i=1}^{n_1}(X_i-\bar X)(X_i-\bar X)^\top,
+\]
+\[
+\widehat\Sigma_2
+=
+\frac1{n_2}\sum_{j=1}^{n_2}(Y_j-\bar Y)(Y_j-\bar Y)^\top.
+\]
+Define the scaled covariance-difference vector
+\begin{equation}
+\label{eq:scaled-difference}
+\widehat W
+=
+\sqrt{n_{\mathrm{eff}}}\,
+\operatorname{vech}(\widehat\Sigma_1-\widehat\Sigma_2)
+\in\mathbb R^d.
+\end{equation}
+
+For \(k=k(a,b)\), \(1\le a\le b\le p\), define
+\[
+\widehat h_{i,k}^{(1)}
+=
+(X_{ia}-\bar X_a)(X_{ib}-\bar X_b)
+-
+\widehat\Sigma_{1,ab},
+\]
+and
+\[
+\widehat h_{j,k}^{(2)}
+=
+(Y_{ja}-\bar Y_a)(Y_{jb}-\bar Y_b)
+-
+\widehat\Sigma_{2,ab}.
+\]
+The diagonal variance estimator is
+\begin{equation}
+\label{eq:diagonal-studentizer}
+\widehat D_{kk}
+=
+n_{\mathrm{eff}}
+\left(
+\frac1{n_1^2}
+\sum_{i=1}^{n_1}
+\bigl(\widehat h_{i,k}^{(1)}\bigr)^2
++
+\frac1{n_2^2}
+\sum_{j=1}^{n_2}
+\bigl(\widehat h_{j,k}^{(2)}\bigr)^2
+\right),
+\qquad 1\le k\le d.
+\end{equation}
+Let
+\[
+\widehat D=\operatorname{diag}(\widehat D_{11},\ldots,\widehat D_{dd}).
+\]
+The proposed statistic is
+\begin{equation}
+\label{eq:proposed-statistic}
+\widehat T_n
+=
+\frac1d
+\widehat W^\top\widehat D^{-1}\widehat W
+=
+\frac1d
+\left\|
+\widehat D^{-1/2}\widehat W
+\right\|_2^2.
+\end{equation}
+Large values of \(\widehat T_n\) in \eqref{eq:proposed-statistic} provide
+evidence against \(H_0\).
+
+The statistic is an \(\ell_2\)-type aggregation of standardized covariance
+differences based on the scaled difference \eqref{eq:scaled-difference} and
+diagonal studentizer \eqref{eq:diagonal-studentizer}.  Its acceptance region
+satisfies
+\begin{equation}
+\label{eq:acceptance-ball}
+\{\widehat T_n\le t\}
+=
+\left\{
+\left\|
+\widehat D^{-1/2}\widehat W
+\right\|_2
+\le \sqrt{dt}
+\right\}.
+\end{equation}
+Thus, after diagonal standardization, the relevant geometry is Euclidean-ball
+geometry.
+
+For theoretical analysis, define the oracle covariance estimators
+\[
+\widetilde\Sigma_1
+=
+\frac1{n_1}\sum_{i=1}^{n_1}(X_i-\mu_1)(X_i-\mu_1)^\top,
+\]
+\[
+\widetilde\Sigma_2
+=
+\frac1{n_2}\sum_{j=1}^{n_2}(Y_j-\mu_2)(Y_j-\mu_2)^\top,
+\]
+and
+\[
+\widetilde W
+=
+\sqrt{n_{\mathrm{eff}}}\,
+\operatorname{vech}(\widetilde\Sigma_1-\widetilde\Sigma_2).
+\]
+
+It is useful to introduce the associated covariance-coordinate notation.  For
+\(g=1,2\), define
+\[
+H_i^{(1)}
+=
+\operatorname{vech}\{U_iU_i^\top-\Sigma_1\},
+\qquad
+H_j^{(2)}
+=
+\operatorname{vech}\{V_jV_j^\top-\Sigma_2\},
+\]
+and write
+\[
+\Gamma_g=\operatorname{Cov}(H^{(g)}),
+\qquad
+D_g=\operatorname{diag}(\Gamma_g),
+\]
+where \(H^{(1)}\) and \(H^{(2)}\) denote generic copies of \(H_i^{(1)}\) and
+\(H_j^{(2)}\), respectively.  Also set
+\[
+\bar H_1=\frac1{n_1}\sum_{i=1}^{n_1}H_i^{(1)},
+\qquad
+\bar H_2=\frac1{n_2}\sum_{j=1}^{n_2}H_j^{(2)}.
+\]
+Under \(H_0\),
+\[
+\widetilde W
+=
+\sqrt{n_{\mathrm{eff}}}(\bar H_1-\bar H_2).
+\]
+
+Let
+\[
+\widetilde D
+=
+\operatorname{diag}
+\{
+\operatorname{Var}(\widetilde W_1),\ldots,
+\operatorname{Var}(\widetilde W_d)
+\}.
+\]
+The oracle statistic is
+\begin{equation}
+\label{eq:oracle-statistic}
+\widetilde T_n
+=
+\frac1d
+\left\|
+\widetilde D^{-1/2}\widetilde W
+\right\|_2^2.
+\end{equation}
+Under \(H_0\), the standardized vector
+\[
+\widetilde D^{-1/2}\widetilde W
+\]
+is a sum of independent centered random vectors.  We collect its covariance
+matrix and the associated oracle Gaussian reference statistic as
+\begin{equation}
+\label{eq:gaussian-reference}
+\begin{aligned}
+R
+&=
+\widetilde D^{-1/2}
+\operatorname{Cov}(\widetilde W)
+\widetilde D^{-1/2},\\
+T_Z
+&=
+\frac1d\|Z\|_2^2,
+\qquad
+Z\sim N(0,R).
+\end{aligned}
+\end{equation}
+Accordingly, \eqref{eq:gaussian-reference} defines the oracle Gaussian
+reference statistic associated with the oracle statistic
+\eqref{eq:oracle-statistic}.
+
+Let
+\[
+\lambda_1\ge\lambda_2\ge\cdots\ge\lambda_d\ge0
+\]
+be the eigenvalues of \(R\).  For \(s=1,2\), define
+\begin{equation}
+\label{eq:reference-eigen-geometry}
+\Lambda_s
+=
+\left(\sum_{\ell=s}^d\lambda_\ell^2\right)^{1/2},
+\qquad
+\kappa(R)=(\Lambda_1\Lambda_2)^{-1/2}
+\quad\text{whenever }\Lambda_2>0.
+\end{equation}
+
+\begin{assumption}[Gaussian reference geometry]
+\label{ass:gaussian_reference_geometry}
+The oracle Gaussian reference matrix \(R\) satisfies
+\[
+\Lambda_2>0 .
+\]
+\end{assumption}
+
+Assumption~\ref{ass:gaussian_reference_geometry} is a mild geometric condition
+on the Gaussian quadratic reference, expressed through
+\eqref{eq:reference-eigen-geometry}.  It rules out the degenerate case in which
+the reference variation is concentrated in a single direction, where
+anti-concentration for Euclidean balls becomes ill-posed.
+
+The first theorem establishes that the oracle statistic
+\eqref{eq:oracle-statistic} is approximated by the Gaussian quadratic reference
+\eqref{eq:gaussian-reference}.
+
+\begin{theorem}[Oracle Gaussian approximation]
+\label{thm:oracle_gaussian}
+Suppose \(H_0:\Sigma_1=\Sigma_2\) holds.  Suppose
+Assumptions~\ref{ass:coordinate_high_moment},
+\ref{ass:coordinate_nondegeneracy}, and
+\ref{ass:gaussian_reference_geometry} hold.  Then there exists a constant
+\(K>0\), depending only on the moment constants and the nondegeneracy constant
+in the assumptions, such that
+\[
+\sup_{r\ge0}
+\left|
+\mathbb P(\widetilde T_n\le r)
+-
+\mathbb P(T_Z\le r)
+\right|
+\le
+K
+\left\{
+\kappa(R)^{3/4}\delta_1^{1/4}
++
+\kappa(R)^{2/3}\delta_2^{1/3}
+\right\},
+\]
+where
+\[
+\delta_1
+=
+\|R\|_{\mathrm{HS}}
+d^2
+\left(n_1^{-1}+n_2^{-1}\right)
++
+\|R\|_{\mathrm{op}}^{3/2}
+d^{3/2}
+\left(n_1^{-1/2}+n_2^{-1/2}\right),
+\]
+and
+\[
+\delta_2
+=
+\|R\|_{\mathrm{op}}^{1/2}
+d^{3/2}
+\left(n_1^{-1/2}+n_2^{-1/2}\right)
++
+d^2
+\left(n_1^{-1}+n_2^{-1}\right).
+\]
+\end{theorem}
+
+The oracle approximation in Theorem~\ref{thm:oracle_gaussian} is stated for
+\(\widetilde T_n\), which depends on the unknown population means and the
+oracle diagonal variance matrix.  We next show that the feasible statistic
+\(\widehat T_n\), obtained by replacing the population means and the oracle
+studentizer by their empirical counterparts, remains close to \(\widetilde T_n\).
+The proof relies on two ingredients.  The first is the sample-centering identity
+\[
+\widehat\Sigma_m-\widetilde\Sigma_m
+=
+-(\bar X_m-\mu_m)(\bar X_m-\mu_m)^\top,
+\qquad m=1,2,
+\]
+where \((\bar X_1,\mu_1)=(\bar X,\mu_1)\) and
+\((\bar X_2,\mu_2)=(\bar Y,\mu_2)\).  The second is the uniform consistency of
+the diagonal studentizer:
+\[
+\max_{1\le k\le d}
+\left|
+\frac{\widehat D_{kk}}{\widetilde D_{kk}}-1
+\right|
+=
+O_{\mathbb P}
+\left(
+\sqrt{\frac d{n_0}}
+\right),
+\qquad
+n_0=n_1\wedge n_2.
+\]
+This studentizer consistency follows from the primitive moment and
+covariance-coordinate nondegeneracy assumptions; its technical verification is
+deferred to the appendix.
+
+For \(\eta\in(0,1)\), define
+\[
+B_T(\eta)=K_0\eta^{-1/4},
+\]
+\[
+B_W(\eta)
+=
+K_0
+\frac{\sqrt{n_{\mathrm{eff}}}}{\sqrt d}
+\eta^{-1/2}
+\left(
+\frac{p}{n_1}
++
+\frac{p}{n_2}
+\right),
+\]
+and
+\[
+B_D(\eta)
+=
+K_0
+\left(
+\frac{d}{n_0\eta}
+\right)^{1/2},
+\qquad
+n_0=n_1\wedge n_2,
+\]
+where \(K_0>0\) denotes a generic constant depending only on the constants in the
+assumptions.  Set
+\[
+\Delta(\eta)
+=
+2B_D(\eta)\{B_T(\eta)+B_W(\eta)\}^2
++
+2B_T(\eta)B_W(\eta)
++
+B_W^2(\eta).
+\]
+
+\begin{proposition}[Consistency of the feasible statistic]
+\label{prop:sample_oracle_transfer}
+Suppose \(H_0:\Sigma_1=\Sigma_2\) holds.  Suppose
+Assumptions~\ref{ass:coordinate_high_moment} and
+\ref{ass:coordinate_nondegeneracy} hold.  If \(B_D(\eta)<1/2\), then with probability at least
+\(1-\eta\),
+\[
+|\widehat T_n-\widetilde T_n|
+\le
+\Delta(\eta).
+\]
+In particular, taking
+\[
+\eta=n_0^{-1/8},
+\]
+we have, with probability at least \(1-n_0^{-1/8}\),
+\[
+|\widehat T_n-\widetilde T_n|
+\le
+K_0
+\left(\frac{d}{n_0^{3/4}}\right)^{1/2}.
+\]
+\end{proposition}
+
+Combining Theorem~\ref{thm:oracle_gaussian} with
+Proposition~\ref{prop:sample_oracle_transfer} gives a Gaussian approximation
+for the feasible statistic.  Let
+\[
+\varepsilon_{\mathrm{or}}
+=
+K
+\left\{
+\kappa(R)^{3/4}\delta_1^{1/4}
++
+\kappa(R)^{2/3}\delta_2^{1/3}
+\right\}.
+\]
+Define the feasible approximation error
+\begin{equation}
+\label{eq:feasible-gaussian-error}
+\varepsilon_{\mathrm{feas}}(\eta)
+=
+\varepsilon_{\mathrm{or}}
++
+\eta
++
+K\kappa(R)d\Delta(\eta).
+\end{equation}
+
+\begin{corollary}[Feasible Gaussian approximation]
+\label{cor:feasible_gaussian}
+Suppose \(H_0:\Sigma_1=\Sigma_2\) holds.  Suppose
+Assumptions~\ref{ass:coordinate_high_moment},
+\ref{ass:coordinate_nondegeneracy}, and
+\ref{ass:gaussian_reference_geometry} hold.  If
+\[
+B_D(\eta)\le \frac12,
+\]
+then
+\[
+\sup_{r\ge0}
+\left|
+\mathbb P(\widehat T_n\le r)
+-
+\mathbb P(T_Z\le r)
+\right|
+\le
+\varepsilon_{\mathrm{feas}}(\eta).
+\]
+\end{corollary}
+
+\subsection{Bootstrap calibration}
+\label{subsec:bootstrap_calibration}
+
+The oracle Gaussian reference depends on the unknown covariance matrix \(R\).
+We therefore calibrate the test by a Gaussian multiplier bootstrap.  Let
+\[
+e_1,\ldots,e_{n_1},
+\qquad
+e_1',\ldots,e_{n_2}'
+\]
+be i.i.d. \(N(0,1)\) variables independent of the data.  Define
+\[
+\widehat h_i^{(1)}
+=
+(\widehat h_{i,1}^{(1)},\ldots,\widehat h_{i,d}^{(1)})^\top,
+\qquad
+\widehat h_j^{(2)}
+=
+(\widehat h_{j,1}^{(2)},\ldots,\widehat h_{j,d}^{(2)})^\top.
+\]
+The multiplier bootstrap vector is
+\begin{equation}
+\label{eq:bootstrap-vector}
+\widehat W^{\mathrm{mb}}
+=
+\sqrt{n_{\mathrm{eff}}}
+\left\{
+\frac1{n_1}\sum_{i=1}^{n_1}e_i\widehat h_i^{(1)}
+-
+\frac1{n_2}\sum_{j=1}^{n_2}e_j'\widehat h_j^{(2)}
+\right\}.
+\end{equation}
+The bootstrap statistic is
+\begin{equation}
+\label{eq:bootstrap-statistic}
+\widehat T_n^{\mathrm{mb}}
+=
+\frac1d
+\left\|
+\widehat D^{-1/2}\widehat W^{\mathrm{mb}}
+\right\|_2^2.
+\end{equation}
+Conditionally on the data,
+\[
+\widehat D^{-1/2}\widehat W^{\mathrm{mb}}
+\sim
+N(0,\widehat R),
+\]
+where
+\[
+\widehat R
+=
+\widehat D^{-1/2}\widehat\Gamma\widehat D^{-1/2},
+\]
+and
+\[
+\widehat\Gamma
+=
+n_{\mathrm{eff}}
+\left\{
+\frac1{n_1^2}\sum_{i=1}^{n_1}
+\widehat h_i^{(1)}(\widehat h_i^{(1)})^\top
++
+\frac1{n_2^2}\sum_{j=1}^{n_2}
+\widehat h_j^{(2)}(\widehat h_j^{(2)})^\top
+\right\}.
+\]
+
+The bootstrap critical value is
+\begin{equation}
+\label{eq:bootstrap-critical-value}
+\widehat c_{1-\alpha}^{\mathrm{mb}}
+=
+\inf
+\left\{
+t\ge0:
+\mathbb P_\xi
+\left(
+\widehat T_n^{\mathrm{mb}}\le t\mid\mathcal X
+\right)
+\ge 1-\alpha
+\right\}.
+\end{equation}
+The level-\(\alpha\) test rejects \(H_0\) when
+\begin{equation}
+\label{eq:bootstrap-test}
+\widehat T_n>\widehat c_{1-\alpha}^{\mathrm{mb}}.
+\end{equation}
+In implementation, the conditional quantile is approximated by Monte Carlo
+simulation.  For \(b=1,\ldots,B\), generate independent Gaussian multipliers,
+compute the bootstrap statistic in \eqref{eq:bootstrap-statistic}, and take the
+empirical \((1-\alpha)\)-quantile of
+\[
+\widehat T_{n,1}^{\mathrm{mb}},\ldots,\widehat T_{n,B}^{\mathrm{mb}}.
+\]
+
+The bootstrap construction in \eqref{eq:bootstrap-vector} and
+\eqref{eq:bootstrap-statistic} is conditionally Gaussian given the data.  Thus
+its validity reduces to comparing the conditional Gaussian quadratic form with
+the oracle Gaussian reference.  The next theorem gives a non-asymptotic bound
+for this comparison.  Its proof uses a Gaussian comparison inequality for
+squared Euclidean norms and a nuclear-norm consistency bound for \(\widehat R\).
+
+Let \(C_R>0\) and \(C_{\mathrm{mb}}>0\) be constants depending only on the
+constants in Assumptions~\ref{ass:coordinate_high_moment} and
+\ref{ass:coordinate_nondegeneracy}.  For \(\eta_2\in(0,1)\), define
+\begin{equation}
+\label{eq:bootstrap-error}
+\rho_{\mathrm{mb}}(\eta_2)
+=
+C_{\mathrm{mb}}\kappa(R)
+\sqrt{\frac{d^3}{n_0\eta_2}},
+\qquad
+n_0=n_1\wedge n_2 .
+\end{equation}
+
+\begin{theorem}[Multiplier bootstrap approximation]
+\label{thm:bootstrap_explicit}
+Suppose Assumptions~\ref{ass:coordinate_high_moment},
+\ref{ass:coordinate_nondegeneracy}, and
+\ref{ass:gaussian_reference_geometry} hold.  If
+\[
+C_R\sqrt{\frac{d^3}{n_0\eta_2}}
+\le
+\frac12\Lambda_2,
+\]
+then, with probability at least \(1-\eta_2\),
+\[
+\sup_{r\ge0}
+\left|
+\mathbb P_\xi
+\left(
+\widehat T_n^{\mathrm{mb}}\le r\mid\mathcal X
+\right)
+-
+\mathbb P(T_Z\le r)
+\right|
+\le
+\rho_{\mathrm{mb}}(\eta_2).
+\]
+\end{theorem}
+
+Combining Corollary~\ref{cor:feasible_gaussian} and
+Theorem~\ref{thm:bootstrap_explicit} gives the validity of the bootstrap
+critical value \eqref{eq:bootstrap-critical-value} and the rejection rule
+\eqref{eq:bootstrap-test}.
+
+\begin{corollary}[Size validity]
+\label{cor:size_validity}
+Suppose \(H_0:\Sigma_1=\Sigma_2\) holds.  Suppose
+Assumptions~\ref{ass:coordinate_high_moment},
+\ref{ass:coordinate_nondegeneracy}, and
+\ref{ass:gaussian_reference_geometry} hold.  Assume further that the
+conditions of Corollary~\ref{cor:feasible_gaussian} and
+Theorem~\ref{thm:bootstrap_explicit} are satisfied along the sequence, and
+that the error bounds in \eqref{eq:feasible-gaussian-error} and
+\eqref{eq:bootstrap-error}, together with the corresponding bootstrap failure
+probability $\rho_{\mathrm{mb}}(\eta_2)$, converge to zero.  Then the multiplier-bootstrap test
+has asymptotically correct size:
+\[
+\mathbb P_{H_0}
+\left(
+\widehat T_n>\widehat c_{1-\alpha}^{\mathrm{mb}}
+\right)
+\to \alpha.
+\]
+\end{corollary}
+
+\subsection{Power}
+\label{subsec:power}
+
+Although the theoretical analysis is carried out after suppressing the
+superscript \((A)\), we restore it in this subsection to emphasize how the
+choice of transformation affects the alternative signal.  Under
+\(H_1:\Sigma_1\neq\Sigma_2\), define
+\begin{equation}
+\label{eq:transformed-signal}
+\begin{aligned}
+\Delta_\Sigma^{(A)}
+&=
+\operatorname{vech}\{A(\Sigma_1-\Sigma_2)A^\top\},\\
+\theta_n^{(A)}
+&=
+\widetilde D^{-1/2}\Delta_\Sigma^{(A)}
+\in\mathbb R^d .
+\end{aligned}
+\end{equation}
+Here \(\theta_n^{(A)}\) in \eqref{eq:transformed-signal} is the standardized
+transformed covariance difference.
+
+The following condition describes a primitive class of alternatives.  Suppose
+there exist an index set \(\mathcal I_n\subset\{1,\ldots,d\}\), with
+\(|\mathcal I_n|=m_n\), and a sequence \(a_n>0\) such that
+\[
+\min_{k\in\mathcal I_n}
+\left|
+\theta_{n,k}^{(A)}
+\right|
+\ge a_n.
+\]
+Thus at least \(m_n\) transformed covariance coordinates have standardized
+separation no smaller than \(a_n\).  The relevant signal accumulation is then
+\begin{equation}
+\label{eq:power-signal}
+g_n
+=
+n_{\mathrm{eff}}\frac{m_n}{d}a_n^2.
+\end{equation}
+
+\begin{theorem}[Power consistency]
+\label{thm:power_consistency}
+Suppose \(H_1:\Sigma_1\neq\Sigma_2\) holds.  Suppose
+Assumptions~\ref{ass:coordinate_high_moment} and
+\ref{ass:coordinate_nondegeneracy} hold under the alternative.  Assume that
+\[
+\frac{d}{n_0}\to0,
+\qquad
+n_0=n_1\wedge n_2,
+\]
+and
+\[
+\sqrt{\frac{n_{\mathrm{eff}}}{d}}
+\left(
+\frac{p}{n_1}+\frac{p}{n_2}
+\right)
+=
+o(\sqrt{g_n}).
+\]
+If
+\[
+g_n
+=
+n_{\mathrm{eff}}\frac{m_n}{d}a_n^2
+\to\infty,
+\]
+then
+\[
+\mathbb P_{H_1}
+\left(
+\widehat T_n>\widehat c_{1-\alpha}^{\mathrm{mb}}
+\right)
+\to1.
+\]
+Equivalently, the corresponding right-tail multiplier-bootstrap \(p\)-value
+converges to zero in probability.
+\end{theorem}
+
+The theorem shows that the test is consistent when the transformed covariance
+difference is sufficiently aggregated across coordinates, as measured by
+\eqref{eq:power-signal}.  In particular, dense alternatives with
+\(m_n\asymp d\) require only \(n_{\mathrm{eff}}a_n^2\to\infty\), whereas very
+sparse alternatives require a larger per-coordinate separation because the
+\(\ell_2\)-statistic averages over all \(d=p(p+1)/2\) covariance coordinates.
+The role of \(A\) is therefore to increase the number or the magnitude of
+standardized transformed differences in \eqref{eq:transformed-signal} without
+creating excessive estimation error.
+
+\subsection{Unbalanced sample-size effect and simplified implementation}
+\label{subsec:unbalanced_effect}
+
+The simple quadratic structure of the proposed statistic gives a direct
+interpretation in highly unbalanced designs.  The preceding power result shows
+that the signal is scaled by the effective sample size \(n_{\mathrm{eff}}\) in
+\eqref{eq:dimension-effective-n}.
+When \(n_1\gg n_2\), \(n_{\mathrm{eff}}\) is asymptotically equivalent to
+\(n_2\), and the contribution of the larger sample to the stochastic fluctuation
+becomes negligible.  Consequently, the full two-sample statistic reduces to a
+one-sample covariance discrepancy statistic for the smaller sample, with the
+larger sample serving as a covariance reference.
+
+Under \(H_0\), recall that
+\[
+\widetilde W=\sqrt{n_{\mathrm{eff}}}(\bar H_1-\bar H_2).
+\]
+When \(n_1\) is much larger than \(n_2\), define the oracle one-sample reference
+vector
+\begin{equation}
+\label{eq:unbalanced-reference}
+W_{2|1}=-\sqrt{n_2}\,\bar H_2,
+\end{equation}
+and the associated oracle quadratic statistic
+\[
+T_{2|1}^{\mathrm{or}}
+=
+\frac1d
+\left\|
+D_2^{-1/2}W_{2|1}
+\right\|_2^2 .
+\]
+
+\begin{proposition}[Unbalanced-sample reduction]
+\label{prop:unbalanced_reduction}
+Suppose \(H_0:\Sigma_1=\Sigma_2\) holds and
+Assumptions~\ref{ass:coordinate_high_moment} and
+\ref{ass:coordinate_nondegeneracy} are satisfied.  If
+\[
+\varepsilon_n=\frac{n_2}{n_1}\to0,
+\]
+then
+\[
+\frac{n_{\mathrm{eff}}}{n_2}=1+O(\varepsilon_n),
+\qquad
+\max_{1\le k\le d}
+\left|
+\frac{\widetilde D_k}{D_{2,k}}-1
+\right|
+=
+O(\varepsilon_n),
+\]
+and
+\[
+\frac1{\sqrt d}
+\left\|
+\widetilde D^{-1/2}\widetilde W
+-
+D_2^{-1/2}W_{2|1}
+\right\|_2
+=
+O_{\mathbb P}(\varepsilon_n^{1/2}).
+\]
+Consequently,
+\[
+\widetilde T_n-T_{2|1}^{\mathrm{or}}
+=
+O_{\mathbb P}(\varepsilon_n^{1/2}).
+\]
+\end{proposition}
+
+Proposition~\ref{prop:unbalanced_reduction} shows that, when
+\(n_1/n_2\to\infty\), the larger sample provides an asymptotically fixed
+covariance reference, while the stochastic fluctuation and the critical region
+are governed by the smaller-sample reference vector
+\eqref{eq:unbalanced-reference}.  The rate
+\(O_{\mathbb P}\{(n_2/n_1)^{1/2}\}\) quantifies how quickly this one-sample
+reduction becomes accurate.  The symmetric conclusion holds when
+\(n_2/n_1\to\infty\), with the roles of the two samples interchanged.
+
+The preceding result also suggests a simplified implementation in highly
+unbalanced settings.  Suppose \(n_1\gg n_2\).  Let \(\widehat\Sigma_1\) be the
+covariance estimator from the larger sample and \(\widehat\Sigma_2\) the
+covariance estimator from the smaller sample.  Define
+\[
+\widehat W_{2|1}
+=
+\sqrt{n_2}\,
+\operatorname{vech}(\widehat\Sigma_1-\widehat\Sigma_2).
+\]
+For \(k=k(a,b)\), \(1\le a\le b\le p\), define the smaller-sample diagonal
+studentizer
+\[
+\widehat D_{2,kk}
+=
+\frac1{n_2}
+\sum_{j=1}^{n_2}
+\bigl(\widehat h_{j,k}^{(2)}\bigr)^2,
+\qquad
+1\le k\le d,
+\]
+and set
+\begin{equation}
+\label{eq:unbalanced-statistic}
+\widehat T_{2|1}
+=
+\frac1d
+\left\|
+\widehat D_2^{-1/2}\widehat W_{2|1}
+\right\|_2^2 .
+\end{equation}
+The statistic in \eqref{eq:unbalanced-statistic} treats the larger sample as a
+covariance reference and uses only the smaller sample to estimate the
+stochastic fluctuation.
+
+The ball geometry makes this reduction especially transparent.  For a critical
+value \(c\), the simplified acceptance region can be written as
+\begin{equation}
+\label{eq:confidence-ball-interpretation}
+\left\{
+\widehat T_{2|1}\le c
+\right\}
+=
+\left\{
+\left\|
+\widehat D_2^{-1/2}
+\operatorname{vech}(\widehat\Sigma_1-\widehat\Sigma_2)
+\right\|_2
+\le
+\sqrt{\frac{dc}{n_2}}
+\right\}.
+\end{equation}
+Thus, in the studentized covariance-coordinate metric, the test accepts exactly
+when the larger-sample covariance estimator \(\widehat\Sigma_1\) lies inside
+the one-sample confidence ball in \eqref{eq:confidence-ball-interpretation},
+centered at the smaller-sample estimator \(\widehat\Sigma_2\), with radius
+determined by the one-sample bootstrap critical value.
+
+\begin{corollary}[Feasible simplified statistic]
+\label{cor:feasible_unbalanced}
+Suppose \(H_0:\Sigma_1=\Sigma_2\) holds and
+Assumptions~\ref{ass:coordinate_high_moment} and
+\ref{ass:coordinate_nondegeneracy} are satisfied.  If
+\[
+\varepsilon_n=\frac{n_2}{n_1}\to0,
+\qquad
+\frac d{n_2}\to0,
+\]
+then
+\[
+\widehat T_{2|1}
+-
+T_{2|1}^{\mathrm{or}}
+=
+O_{\mathbb P}
+\left(
+\varepsilon_n^{1/2}
++
+\sqrt{\frac d{n_2}}
+\right).
+\]
+Moreover, if the full sample-to-oracle transfer satisfies
+\[
+\widehat T_n-\widetilde T_n=o_{\mathbb P}(1),
+\]
+then
+\[
+\widehat T_n-\widehat T_{2|1}=o_{\mathbb P}(1).
+\]
+More explicitly,
+\[
+|\widehat T_n-\widehat T_{2|1}|
+\le
+|\widehat T_n-\widetilde T_n|
++
+O_{\mathbb P}
+\left(
+\varepsilon_n^{1/2}
++
+\sqrt{\frac d{n_2}}
+\right).
+\]
+\end{corollary}
+
+The simplified statistic can be calibrated by a one-sample multiplier bootstrap.
+Generate independent \(N(0,1)\) multipliers \(e_1',\ldots,e_{n_2}'\) and define
+\[
+\widehat W_{2|1}^{\mathrm{mb}}
+=
+\frac1{\sqrt{n_2}}
+\sum_{j=1}^{n_2}
+e_j'\widehat h_j^{(2)},
+\]
+with
+\[
+\widehat T_{2|1}^{\mathrm{mb}}
+=
+\frac1d
+\left\|
+\widehat D_2^{-1/2}\widehat W_{2|1}^{\mathrm{mb}}
+\right\|_2^2 .
+\]
+The simplified bootstrap critical value is the conditional
+\((1-\alpha)\)-quantile of \(\widehat T_{2|1}^{\mathrm{mb}}\).  This simplified
+procedure should be viewed as an approximation to the full two-sample procedure
+in highly unbalanced regimes.  The full statistic remains the default
+implementation, while \(\widehat T_{2|1}\) provides a computationally and
+conceptually transparent approximation when \(n_2/n_1\) is small.
+
+
+\section{Simulation Studies}\label{sec:simulation}
+The simulation studies are designed to evaluate the finite-sample behavior of
+the proposed procedure in regimes where the covariance-coordinate dimension
+\(d=p(p+1)/2\) is much larger than the sample sizes.  The numerical study is
+organized around two questions.  Simulation 1 studies the proposed procedure
+itself: we compare the identity implementation \(A=I_p\) with target
+transformations \(A=G(\rho_{\rm tar})\) for
+\(\rho_{\rm tar}\in\{0.3,0.5,0.7\}\).  This part asks whether the target
+transformation improves finite-sample behavior and whether the procedure is
+sensitive to the exact target correlation.  Simulation 2 then fixes the
+representative target \(G(0.5)\) and compares it with existing covariance tests,
+both under the same null designs and under power alternatives.  This separation
+is important: the first simulation justifies the transformation and the choice
+of a default target, while the second simulation evaluates the default method
+against external benchmarks.
+
+The proposed statistic can be implemented in the original coordinate system,
+denoted by \(A=I_p\), or after a transformation \(A=G\).  In applications, a
+transformation can be used to express the covariance difference in a geometry
+where dense covariance-coordinate signals are more visible.  We implement this
+idea by mapping the empirical pooled covariance to a dense equicorrelation
+target.  Specifically, let
+\[
+\widehat\Sigma_g
+=
+\frac1{n_g}\sum_{i=1}^{n_g}
+(X_{gi}-\bar X_g)(X_{gi}-\bar X_g)^\top,
+\qquad g=1,2,
+\]
+and
+\[
+\widehat\Sigma_{\rm pool}
+=
+\frac{n_1\widehat\Sigma_1+n_2\widehat\Sigma_2}{n_1+n_2}.
+\]
+For a target correlation \(\rho_{\rm tar}\in\{0.3,0.5,0.7\}\), define the
+dense equicorrelation target
+\begin{equation}
+\label{eq:simulation-target}
+\Sigma_{\rm tar}(\rho_{\rm tar})
+=
+(1-\rho_{\rm tar})I_p+\rho_{\rm tar}{\bf 1}_p{\bf 1}_p^\top.
+\end{equation}
+The numerical transformation used in the simulations is
+\begin{equation}
+\label{eq:simulation-G}
+G(\rho_{\rm tar})
+=
+\Sigma_{\rm tar}(\rho_{\rm tar})^{1/2}
+\left(\widehat\Sigma_{\rm pool}+\lambda I_p\right)^{-1/2},
+\qquad
+\lambda
+=
+10^{-6}\frac{\operatorname{tr}(\widehat\Sigma_{\rm pool})}{p}.
+\end{equation}
+The ridge term in \eqref{eq:simulation-G} is used only to compute the inverse
+square root stably.  The theoretical results are stated for a deterministic
+transformation \(A\); \(G(\rho_{\rm tar})\) in \eqref{eq:simulation-G} is the
+empirical implementation used to study how target geometry affects finite-sample
+calibration and power.
+
+The benchmark methods in Simulation 2 are a maximum-coordinate multiplier
+bootstrap test, the normal-reference method of \citet{wang_two-sample_2024},
+and the two-sample covariance test of \citet{li_two_2012}.  All simulations use
+independent samples with sample covariance matrices computed with denominator
+\(n\), as in the proposed statistic, and the nominal level is
+\(\alpha=0.05\).  The number of Monte Carlo repetitions \(R\) and
+multiplier-bootstrap draws \(B\) is stated in each simulation block.  In the
+variance-heterogeneous power experiment, we also report a raw \(\ell_2\)
+bootstrap statistic, defined by removing the diagonal studentizer
+\(\widehat D^{-1/2}\) from \eqref{eq:proposed-statistic} while keeping the same
+quadratic aggregation and bootstrap calibration.  This additional diagnostic
+separates the effect of coordinate studentization from the effect of target
+transformation.
+
+We use the following covariance notation throughout the simulation section.
+For \(\rho\in[0,1)\), let
+\[
+\Sigma_{\rm Eq}(\rho)=(1-\rho)I_p+\rho{\bf 1}_p{\bf 1}_p^\top
+\]
+denote the equicorrelation covariance matrix, and let
+\[
+\{\Sigma_{\rm Toe}(\rho)\}_{ab}=\rho^{|a-b|},\qquad 1\le a,b\le p,
+\]
+denote the Toeplitz covariance matrix.  In the tables, Eq and Toe abbreviate
+\(\Sigma_{\rm Eq}(\rho_0)\) and \(\Sigma_{\rm Toe}(\rho_0)\), respectively.
+
+\subsection{Simulation 1: target transformation and target sensitivity}
+\label{sec:simulation_target}
+
+We first examine calibration under the null hypothesis \(\Sigma_1=\Sigma_2\)
+for the proposed family of tests.  The dimensions are \(p\in\{100,200\}\), and
+the sample sizes are
+\((n_1,n_2)\in\{(80,100),(120,150)\}\), with an additional small-sample check
+at \(n_1=n_2=60\).  For each dimension and sample-size pair, the common
+covariance is either \(\Sigma_{\rm Eq}(\rho_0)\) or
+\(\Sigma_{\rm Toe}(\rho_0)\), with
+\(\rho_0\in\{0.1,0.5,0.9\}\).  The innovations are Gaussian, standardized
+centered \(\chi^2_1\), and standardized Laplace.  All formal size simulations
+use \(R=1000\) Monte Carlo repetitions and \(B=500\) multiplier draws for
+bootstrap methods.  Tables~\ref{tab:size_main_p100} and
+\ref{tab:size_main_p200} report the empirical rejection probabilities for the
+three target-transformed tests \(G(0.3)\), \(G(0.5)\), and \(G(0.7)\), together
+with the identity implementation \(I_p\).  To keep the tables compact, each
+slash-separated triplet is ordered as
+\(\rho_0=0.1,0.5,0.9\); Gau, Chi, and Lap denote Gaussian, standardized
+centered \(\chi^2_1\), and standardized Laplace innovations, while Eq and Toe
+denote the two covariance families defined above.
+
+\input{tables/size_main_p100.tex}
+
+Although the ambient dimensions \(p=100\) and \(p=200\) appear moderate, the
+testing problem is high-dimensional because the statistic aggregates over
+the covariance-coordinate dimension \(d=p(p+1)/2\).  Thus \(d=5050\) when
+\(p=100\) and \(d=20100\) when \(p=200\), both far exceeding the sample sizes
+used in the simulation, including the small-sample setting \(n_1=n_2=60\)
+that satisfies the prespecified calibration check and is therefore included in
+the main table.  This regime is precisely where direct estimation of
+the full covariance matrix of covariance entries is unstable, and where the
+proposed diagonal studentization and multiplier-bootstrap calibration are
+intended to be useful.
+
+\input{tables/size_main_p200.tex}
+
+The main conclusion from the size study is that the target transformation
+stabilizes the proposed test.  Across the 108 main null settings, the mean
+empirical sizes of \(G(0.3)\), \(G(0.5)\), and \(G(0.7)\) are 0.052, 0.055,
+and 0.055, respectively, with all setting-level rejection rates lying between
+0.039 and 0.075.  Thus the transformed tests remain close to the nominal level
+over changes in \(p\), sample size, covariance family, dependence strength, and
+innovation distribution.  The three target choices also produce very similar
+calibration patterns, indicating that the transfer to a dense target geometry
+is not especially sensitive to the precise value of
+\(\rho_{\rm tar}\in\{0.3,0.5,0.7\}\).  In contrast, the identity implementation
+has mean empirical size 0.023 and is often conservative, especially in weakly
+dependent Toeplitz designs.  This comparison shows that the gain from
+\(G(\rho_{\rm tar})\) is not a fragile tuning effect; it comes from
+re-expressing the covariance difference in a geometry that is better aligned
+with dense \(\ell_2\) aggregation.
+
+We next examine power within the proposed family under dense equicorrelation
+alternatives.  The power studies use \(p=200\), \(n_1=120\), \(n_2=150\),
+Gaussian samples, nominal level \(0.05\), \(R=1000\) Monte Carlo repetitions,
+and \(B=500\) multiplier draws for bootstrap methods.  The first experiment
+sets \(\Sigma_1=\Sigma_{\rm Eq}(0)\) and
+\(\Sigma_2=\Sigma_{\rm Eq}(\rho_1)\), where \(\rho_1\) increases from zero.
+The second sets \(\Sigma_1=\Sigma_{\rm Eq}(0.5)\) and
+\(\Sigma_2=\Sigma_{\rm Eq}(\rho_1)\), with
+\(\rho_1\in\{0.1,\ldots,0.9\}\).  In both experiments, \(G(0.3)\),
+\(G(0.5)\), and \(G(0.7)\) have nearly overlapping power curves.  The maximum
+setting-level difference among the three target-transformed rejection rates is
+0.011 in the \(\rho_0=0\) experiment and 0.021 in the \(\rho_0=0.5\)
+experiment.  Relative to the identity implementation, the transformation is
+especially beneficial near the identity baseline: when \(\rho_0=0\), \(I_p\)
+has essentially no rejection before \(\rho_1=0.03\), whereas \(G(0.5)\) already
+has rejection rates 0.387 and 0.922 at \(\rho_1=0.002\) and
+\(\rho_1=0.005\), respectively.  We therefore use \(G(0.5)\) as the default
+target in the remaining comparisons: it has stable size, strong power, and is
+representative of the target-transformed family rather than a specially tuned
+choice.
+
+\subsection{Simulation 2: default target versus benchmark tests}
+\label{sec:simulation_benchmark}
+
+We now fix the proposed method at \(G(0.5)\) and compare it with the existing
+tests.  Under the same null grid used in Simulation 1, the max-bootstrap and
+Wang-NR tests are often conservative, with mean empirical sizes 0.042 and
+0.025, respectively, while Li--Chen is liberal in several correlated
+non-Gaussian settings, with mean empirical size 0.105 and maximum empirical
+size 0.269.  These size results provide the calibration context for the power
+comparisons below: rejection rates away from the null are most meaningful when
+the corresponding method is also well calibrated near the null.
+
+The first benchmark power comparison uses the two equicorrelation designs
+described above.  The results are reported graphically because the scientific
+question is the shape of the power curves as the alternative strengthens,
+rather than isolated rejection rates at a single point.
+
+\begin{figure}[!htbp]
+\centering
+\begin{subfigure}{0.49\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/study_power_target_eq0_final_power.png}
+\caption{\(\rho_0=0\)}
+\label{fig:power_eq0}
+\end{subfigure}\hfill
+\begin{subfigure}{0.49\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/study_power_target_eq05_final_power.png}
+\caption{\(\rho_0=0.5\)}
+\label{fig:power_eq05}
+\end{subfigure}
+\caption{Empirical rejection rates for dense equicorrelation alternatives.
+Panel (a) compares \(\Sigma_{\rm Eq}(0)\) with
+\(\Sigma_{\rm Eq}(\rho_1)\).  Panel (b) compares
+\(\Sigma_{\rm Eq}(0.5)\) with \(\Sigma_{\rm Eq}(\rho_1)\).  The proposed method
+uses the default target \(G(0.5)\) and is compared with max-bootstrap, Wang-NR,
+and Li--Chen.  Results are based on \(R=1000\) Monte Carlo repetitions and
+\(B=500\) multiplier draws for bootstrap methods.}
+\label{fig:eqcor_power}
+\end{figure}
+
+Figure~\ref{fig:eqcor_power} shows that \(G(0.5)\) is highly sensitive to dense
+covariance alternatives while preserving the calibration pattern observed under
+the null.  When \(\rho_0=0\), even very small positive equicorrelations produce
+a covariance-coordinate signal spread over many entries: \(G(0.5)\) has power
+0.387 at \(\rho_1=0.002\), 0.922 at \(\rho_1=0.005\), and reaches 1.000 by
+\(\rho_1=0.010\).  Over the same range, max-bootstrap remains near the nominal
+level, and Li--Chen increases more slowly.  When \(\rho_0=0.5\), the
+\(G(0.5)\) curve is lowest at the null point \(\rho_1=0.5\), with rejection
+rate 0.053, and increases as \(\rho_1\) moves away from the correlated
+baseline.  The benchmark methods also gain power for large departures, but the
+default target-transformed test is especially competitive for weak and moderate
+dense alternatives while maintaining the size behavior established in
+Simulation 1.
+
+The second benchmark power comparison is designed to isolate the statistical
+role of studentization.  Both groups have independent coordinates under the
+null.  The first 80 coordinates form a low-variance block with marginal
+variance one, and the remaining 120 coordinates are high-variance nuisance
+coordinates with marginal variance 25.  Under the alternative, only the low-variance block
+changes: its within-block correlation is increased from zero to
+\(\rho_{\rm block}\), while all other correlations and all marginal variances
+remain unchanged.  Thus \(\rho_{\rm block}=0\) is the null case.  This
+construction creates a dense covariance signal in coordinates whose raw
+Frobenius contribution can be masked by high-variance nuisance coordinates.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.86\textwidth]{figures/study_power_studentized_targets_final_power.png}
+\caption{Empirical rejection rates for the variance-heterogeneous low-variance
+block alternative.  The first 80 coordinates carry the dense block-correlation
+signal and have marginal variance one; the remaining 120 coordinates have
+marginal variance 25 and act as high-variance nuisance coordinates.  Results
+are based on \(R=1000\) Monte Carlo repetitions and \(B=500\) multiplier draws
+for bootstrap methods.}
+\label{fig:studentized_target_power}
+\end{figure}
+
+Figure~\ref{fig:studentized_target_power} demonstrates that studentization is
+not merely a technical normalization.  The raw \(\ell_2\) statistic, which
+uses the unstudentized quadratic norm of the covariance-coordinate difference,
+has essentially no power in this design because the high-variance nuisance
+coordinates dominate the raw scale.  By contrast, \(G(0.5)\) is close to
+nominal size at \(\rho_{\rm block}=0\) and becomes powerful for weak
+within-block correlations: its rejection rate is 0.589 at
+\(\rho_{\rm block}=0.05\), 0.804 at \(\rho_{\rm block}=0.10\), and 0.903 at
+\(\rho_{\rm block}=0.15\).  The max-bootstrap test becomes powerful only at
+larger block correlations, while Wang-NR and Li--Chen have little power in this
+particular variance-heterogeneous design.  This comparison shows that the
+default target-transformed test is not only calibrated in the main size study
+but also effective against dense covariance signals that can be hidden by
+heterogeneous marginal scales.
+
+\section{Real Data Application}\label{sec:realdata}
+
+\subsection{TCGA-BRCA covariance analysis}
+
+We apply the proposed covariance-testing framework to TCGA-BRCA RNA-seq data, comparing Basal-like and Luminal~A breast-cancer subtypes.  This comparison is biologically well motivated because TCGA molecular profiling shows that these breast-cancer subtypes have distinct molecular and transcriptional profiles \citep{tcga_brca_molecular_portraits_2012}.  In contrast to conventional analyses that focus primarily on marginal expression differences, our objective is to examine whether a biologically coherent transcriptional program exhibits subtype-specific covariance organization.
+
+Expression and clinical annotation files were obtained from the UCSC Xena TCGA-BRCA cohort \citep{goldman_visualizing_2020}, using the \texttt{HiSeqV2.gz} expression matrix and \texttt{BRCA\_clinicalMatrix} clinical annotation file.  We retained primary tumor samples with PAM50 RNA-seq subtype labels Basal-like or Luminal~A.  The resulting groups contain \(n_1=141\) Basal-like tumors and \(n_2=421\) Luminal~A tumors.  Expression values are analyzed on the Xena log-transformed RNA-seq scale.  Genes are matched by symbol to the MSigDB Hallmark file \texttt{h.all.v2025.1.Hs.symbols.gmt} \citep{liberzon_molecular_2015}; duplicate gene symbols are averaged, and genes with negligible variance are removed.
+
+The application focuses on a Hallmark cell-cycle core panel formed by the union of the complete Hallmark E2F targets and G2M checkpoint gene sets.  These two Hallmark components represent closely related transcriptional programs governing cell-cycle entry, DNA replication, and mitotic progression, and are therefore directly relevant to the proliferative phenotype that distinguishes Basal-like tumors from Luminal~A tumors.  After matching to the expression matrix and applying the same low-variance filtering described above, the panel contains \(p=304\) genes.  Since \(p\ge \min(n_1,n_2)\), this application remains in the high-dimensional regime targeted by the proposed methodology.
+
+We compare the proposed bootstrap statistic with \(A=I_p\), the target-transformed implementation with \(A=G\), max-bootstrap, Wang-NR, and Li--Chen.  Bootstrap methods use \(B=2000\) multiplier draws.  The table reports program-level \(p\)-values for this focused biological application; these values are interpreted as evidence for covariance reorganization within the defined cell-cycle program rather than as a genome-wide discovery claim.
+
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{TCGA-BRCA Basal-like versus Luminal~A covariance comparison for the Hallmark cell-cycle core panel.  The table reports the observed test statistic, program-level \(p\)-value, and rejection decision.  For bootstrap methods, \(<0.0005\) means that no bootstrap draw exceeded the observed statistic among \(B=2000\) draws.}
+\label{tab:tcga_realdata_programs}
+\begin{tabular}{@{}lrlc@{}}
+\toprule
+method & statistic & \(p\)-value & reject \\
+\midrule
+\(A=I_p\) & 4.239 & \(<0.0005\) & yes \\
+\(A=G\) & 7.232 & \(<0.0005\) & yes \\
+Max & 11.980 & \(<0.0005\) & yes \\
+Wang-NR & 1777.476 & \(5.1\times 10^{-13}\) & yes \\
+Li--Chen & 27.004 & \(6.6\times 10^{-161}\) & yes \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:tcga_realdata_programs} shows strong evidence of covariance reorganization in the Hallmark cell-cycle core panel.  Both proposed implementations reject the null hypothesis: the untransformed statistic with \(A=I_p\) and the target-transformed implementation with \(A=G\) each yield bootstrap \(p<0.0005\).  The same conclusion is supported by the benchmark procedures, with max-bootstrap giving \(p<0.0005\), Wang-NR giving \(p=5.1\times 10^{-13}\), and Li--Chen giving \(p=6.6\times 10^{-161}\).  Thus, the empirical finding is not an artifact of a particular calibration scheme.  The agreement between \(A=I_p\) and \(A=G\) is also consistent with the dense program-level covariance signal emphasized in the simulation studies.
+
+The selected panel has a direct biological interpretation.  It contains 187 matched E2F-target genes and 183 matched G2M-checkpoint genes, with 304 unique genes after accounting for overlap between the two Hallmark components.  These components capture coordinated transcriptional activity associated with DNA replication, cell-cycle progression, and mitotic control, all of which are central to the proliferative biology of Basal-like breast tumors relative to Luminal~A tumors.  As a descriptive check on the source of the signal, the mean absolute difference between the two subtype-specific sample correlations is 0.145 within the E2F-target component, 0.137 within the G2M-checkpoint component, and 0.141 across the two components.  The covariance-level rejection therefore has a natural program-level interpretation: the two subtypes differ not only in the expression levels of proliferation-related genes, but also in the pattern of gene-gene coordination within this cell-cycle program.
+
+\subsection{Real-data-calibrated simulation}
+
+As an additional calibration check tied directly to this application, we conducted a real-data-calibrated Gaussian simulation.  The sample sizes and dimension were fixed at the observed values \(n_1=141\), \(n_2=421\), and \(p=304\).  For the size experiment, both samples were generated from a common covariance matrix equal to the pooled empirical covariance from the selected panel.  For the power experiment, the two samples were generated from the subtype-specific empirical covariance matrices estimated from the Basal-like and Luminal~A groups, respectively.  This design preserves the scale and correlation geometry of the application while making the null and alternative data-generating mechanisms explicit.
+
+\begin{table}[!htbp]
+\centering
+\caption{Real-data-calibrated Gaussian simulation for the TCGA-BRCA cell-cycle core panel.  Size uses the pooled empirical covariance as the common covariance matrix; power uses the two subtype-specific empirical covariance matrices.  Results are based on \(R=1000\) Monte Carlo repetitions and \(B=2000\) bootstrap draws for bootstrap methods.}
+\label{tab:tcga_realdata_calibrated_sim}
+\begin{tabular}{lrr}
+\toprule
+method & size & power \\
+\midrule
+\(A=I_p\) & 0.071 & 1.000 \\
+\(A=G\) & 0.065 & 1.000 \\
+Max-bootstrap & 0.134 & 1.000 \\
+Wang-NR & 0.062 & 1.000 \\
+Li--Chen & 0.112 & 1.000 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:tcga_realdata_calibrated_sim} supports the interpretation of the application.  Under the pooled-covariance null, the two proposed bootstrap tests have empirical rejection rates 0.071 for \(A=I_p\) and 0.065 for \(A=G\), close to the nominal level.  Wang-NR is similar, whereas max-bootstrap and Li--Chen are more liberal in this high-dimensional empirical-covariance design.  Under the subtype-specific covariance alternative, all methods reject in every repetition, indicating that the covariance contrast estimated from the real data is strong under Gaussian resampling.
+\section{Conclusion and Discussion}\label{sec:discussion}
+
+This paper develops a studentized \(\ell_2\) approach to two-sample covariance
+testing.  The method compares covariance matrices through standardized
+upper-triangular covariance-coordinate differences and aggregates them by a
+squared Euclidean norm.  This construction gives a transparent scale-normalized
+global statistic, avoids estimating the full covariance matrix of covariance
+entries, and leads naturally to centered-ball Gaussian approximation.  We prove
+oracle Gaussian approximation, feasible transfer from oracle to sample-centered
+studentized statistics, multiplier-bootstrap validity, and power consistency
+under accumulated standardized covariance signal.  The same quadratic structure
+also yields a direct simplification in highly unbalanced designs, where the
+larger sample acts as a covariance reference and the smaller sample governs the
+stochastic fluctuation.
+
+The simulations support the intended use of the procedure.  The proposed
+bootstrap tests have stable empirical size across the null settings considered,
+and the target-transformed implementation \(A=G\) is particularly effective for
+dense equicorrelation alternatives when compared among methods with acceptable
+size behavior.  The untransformed statistic \(A=I_p\) remains a useful baseline,
+while max-type procedures are less sensitive to diffuse covariance changes and
+some quadratic-form benchmarks can exhibit size distortion in correlated
+designs.  In the TCGA-BRCA application, both proposed implementations detect a
+clear covariance reorganization in the Hallmark cell-cycle core panel between
+Basal-like and Luminal~A tumors, and the real-data-calibrated simulation
+supports the interpretation that the observed covariance contrast is strong
+rather than a calibration artifact.
+
+The theory is deliberately explicit, but the resulting high-dimensional
+sufficient conditions are conservative.  In particular, the proof uses
+uniform covariance-coordinate controls and Gaussian comparison bounds that are
+not expected to be sharp for all covariance geometries.  The simulation results
+suggest that the bootstrap statistic can perform well in regimes beyond those
+directly captured by the current growth conditions.  A natural next step is to
+replace worst-case dimension dependence with sharper effective-rank,
+spectral-decay, or geometry-adaptive quantities, which may better reflect the
+behavior observed in finite samples.
+
+Another important direction is the choice of the transformation \(A\).  The
+power analysis shows that \(A\) affects the standardized signal by changing how
+the covariance difference is represented before aggregation.  This raises a
+broader question: whether one can characterize, estimate, or approximate
+transformations that are globally more powerful for classes of alternatives
+while retaining reliable bootstrap calibration.  The dense equicorrelation
+target used here is one practical default, but it is unlikely to be optimal in
+all scientific settings.  Developing principled rules for selecting \(A\), and
+understanding the tradeoff between signal enhancement and estimation stability,
+would make the framework more adaptive and potentially more powerful.
+
+\section{Disclosure statement}\label{disclosure-statement}
+
+A disclosure statement should be completed before submission.
+
+\section{Data Availability Statement}\label{data-availability-statement}
+
+The simulation and real-data analysis code are available at
+\url{https://github.com/shuhaozhen1/covtestsim}.  The TCGA-BRCA expression and
+clinical annotations used in the application are publicly available from UCSC
+Xena, and the Hallmark gene-set definitions are publicly available from MSigDB.
+The real-data pipeline in the code repository downloads these public resources
+and reproduces the processed analysis files.
+
+\phantomsection\label{supplementary-material}
+\bigskip
+
+\begin{center}
+{\large\bf SUPPLEMENTARY MATERIAL}
+\end{center}
+
+\begin{description}
+\item[Technical supplement:]
+Auxiliary lemmas and proofs are included below in the appendix of this
+combined manuscript.
+\item[Code repository:]
+The simulation and real-data analysis code are organized as a standalone code
+repository, with source code, command-line runners, tests, and a README for
+reproducing the empirical results, at
+\url{https://github.com/shuhaozhen1/covtestsim}.
+\end{description}
+
+\clearpage
+\appendix
+\spacingset{1.8}
+
+\begin{center}
+{\LARGE\bf Supplementary Material}\\[0.5em]
+{\large Simple Studentized \texorpdfstring{$\ell_2$}{l2} Statistics and Gaussian Bootstrap for Two-Sample Covariance Testing}\\[0.5em]
+Haozhen Shu and Tianming Zhu
+\end{center}
+
+\bigskip
+
+This appendix contains the auxiliary lemmas and proofs for the main manuscript.
+Equation, theorem, proposition, corollary, and assumption numbers refer to the
+main manuscript unless otherwise stated.
+
+\section{Auxiliary Lemmas and Proofs}
+
+\subsection{Auxiliary lemmas}
+\label{subsec:auxiliary_lemmas}
+
+The proofs in this supplement rely on four external results. We collect them
+here for ease of reference. The constants appearing in these lemmas are
+universal (i.e., independent of \(n_1,n_2,d\)) unless stated otherwise.
+
+\begin{lemma}[Gaussian approximation on Euclidean balls; \citealp{fang_large-dimensional_2021}, Theorem~3.2]
+\label{lem:fang_koike_balls}
+Let \(\zeta_1,\ldots,\zeta_N\) be independent centered random vectors in
+\(\mathbb R^d\) with finite fourth moments, and set
+\(W_\zeta=\sum_{\ell=1}^N\zeta_\ell\) and
+\(\Sigma_W=\operatorname{Var}(W_\zeta)\). Let \(Z\sim N(0,\Sigma)\) and assume
+\(\Lambda_2(\Sigma)>0\). Then
+\[
+\sup_{r\ge 0}
+\bigl|
+\mathbb P(\|W_\zeta\|_2\le r)
+-\mathbb P(\|Z\|_2\le r)
+\bigr|
+\le
+K\bigl\{
+\kappa(\Sigma)^{3/4}\delta_1(W_\zeta)^{1/4}
++\kappa(\Sigma)^{2/3}\delta_2(W_\zeta)^{1/3}
+\]
+\[
+\qquad\qquad
++\kappa(\Sigma)^{2/3}\delta_0(\Sigma_W,\Sigma)^{1/3}
++\kappa(\Sigma)^{1/2}\delta_0'(\Sigma_W,\Sigma)^{1/2}
+\bigr\},
+\]
+where \(K_0>0\) is a universal absolute constant and
+\[
+\delta_0(\Sigma_W,\Sigma)
+=
+\sqrt{
+(\operatorname{tr}(\Sigma_W)+\operatorname{tr}(\Sigma))
+(\|\Sigma_W\|_{\mathrm{op}}+\|\Sigma\|_{\mathrm{op}})
+}\,
+\|\Sigma-\Sigma_W\|_{\mathrm{HS}},
+\]
+\[
+\delta_0'(\Sigma_W,\Sigma)
+=
+\sum_{j=1}^d|\Sigma_{jj}-\Sigma_{W,jj}|,
+\]
+\[
+\delta_1(W_\zeta)
+=
+\|\Sigma_W\|_{\mathrm{HS}}\sum_{\ell=1}^N\mathbb E\|\zeta_\ell\|_2^4
++
+\|\Sigma_W\|_{\mathrm{op}}^{3/2}\sum_{\ell=1}^N\mathbb E\|\zeta_\ell\|_2^3,
+\]
+\[
+\delta_2(W_\zeta)
+=
+\|\Sigma_W\|_{\mathrm{op}}^{1/2}\sum_{\ell=1}^N\mathbb E\|\zeta_\ell\|_2^3
++
+\sum_{\ell=1}^N\mathbb E\|\zeta_\ell\|_2^4.
+\]
+\end{lemma}
+
+\begin{lemma}[Anti-concentration for the squared norm of a Gaussian vector;
+\citealp{fang_large-dimensional_2021}, Lemma~5.10, originating from
+\citealp{gotze_large_2019}, Theorem~2.7]
+\label{lem:gaussian_anticoncentration}
+Let \(Z\sim N(0,\Sigma)\) with \(\Lambda_2(\Sigma)>0\). Then for every
+\(\mu\in\mathbb R^d\) and every \(\varepsilon>0\),
+\[
+\sup_{a\ge 0}
+\mathbb P\bigl(a\le \|Z+\mu\|_2^2\le a+\varepsilon\bigr)
+\le
+K\kappa(\Sigma)\varepsilon,
+\]
+where \(K_0>0\) is a universal absolute constant.
+\end{lemma}
+
+\begin{lemma}[Gaussian comparison for squared Euclidean norms]
+\label{lem:gaussian_comparison_quadratic}
+Let \(R_1,R_2\) be \(d\times d\) symmetric positive semidefinite matrices,
+and let \(Z_m\sim N(0,R_m)\) for \(m=1,2\).  For each \(m\), let
+\[
+\lambda_1(R_m)\ge\cdots\ge\lambda_d(R_m)\ge0
+\]
+be the eigenvalues of \(R_m\), and define
+\[
+\Lambda_s(R_m)
+=
+\left(\sum_{\ell=s}^d\lambda_\ell(R_m)^2\right)^{1/2},
+\qquad s=1,2.
+\]
+Assume
+\[
+\Lambda_2(R_1)>0,
+\qquad
+\Lambda_2(R_2)>0,
+\]
+and set
+\[
+\kappa_*(R_m)
+=
+\{\Lambda_1(R_m)\Lambda_2(R_m)\}^{-1/2}.
+\]
+Then there exists a universal constant \(K>0\) such that
+\[
+\sup_{r\ge0}
+\left|
+\mathbb P(\|Z_1\|_2^2\le r)
+-
+\mathbb P(\|Z_2\|_2^2\le r)
+\right|
+\le
+K\{\kappa_*(R_1)+\kappa_*(R_2)\}
+\|R_1-R_2\|_{S_1},
+\]
+where \(\|\cdot\|_{S_1}\) denotes the Schatten-\(1\), or nuclear, norm.
+\end{lemma}
+
+\begin{proof}
+We apply Theorem~2.1 and Corollary~2.3 of
+\citet{gotze_large_2019}.  Their Gaussian comparison result gives, for two
+centered Gaussian elements with covariance operators \(R_1\) and \(R_2\),
+\[
+\sup_{x\ge0}
+\left|
+\mathbb P(\|Z_1\|_2\le x)
+-
+\mathbb P(\|Z_2\|_2\le x)
+\right|
+\le
+K
+\{\kappa_G(R_1)+\kappa_G(R_2)\}
+\|R_1-R_2\|_{S_1},
+\]
+where \(\kappa_G(\cdot)\) denotes the geometry factor used in
+\citet{gotze_large_2019}.  Corollary~2.3 of that paper is precisely the
+nuclear-norm version of the comparison bound.
+
+Their \(\kappa_G(R)\) is equivalent, up to universal constants, to
+\[
+\{\Lambda_1(R)\Lambda_2(R)\}^{-1/2}.
+\]
+Therefore, after absorbing this equivalence into the universal constant \(K\),
+we obtain
+\[
+\sup_{x\ge0}
+\left|
+\mathbb P(\|Z_1\|_2\le x)
+-
+\mathbb P(\|Z_2\|_2\le x)
+\right|
+\le
+K
+\{\kappa_*(R_1)+\kappa_*(R_2)\}
+\|R_1-R_2\|_{S_1}.
+\]
+
+Finally, the map \(r\mapsto\sqrt r\) is a bijection from \([0,\infty)\) to
+\([0,\infty)\).  Hence
+\[
+\sup_{r\ge0}
+\left|
+\mathbb P(\|Z_1\|_2^2\le r)
+-
+\mathbb P(\|Z_2\|_2^2\le r)
+\right|
+=
+\sup_{x\ge0}
+\left|
+\mathbb P(\|Z_1\|_2\le x)
+-
+\mathbb P(\|Z_2\|_2\le x)
+\right|.
+\]
+This proves the claim.
+\end{proof}
+
+\begin{lemma}[Hoffman--Wielandt inequality]
+\label{lem:hoffman_wielandt}
+Let \(A,B\) be \(d\times d\) real symmetric matrices with eigenvalues
+\(\lambda_1(A)\ge\cdots\ge\lambda_d(A)\) and
+\(\lambda_1(B)\ge\cdots\ge\lambda_d(B)\). Then
+\[
+\sum_{\ell=1}^d
+(\lambda_\ell(A)-\lambda_\ell(B))^2
+\le
+\|A-B\|_{\mathrm F}^2.
+\]
+\end{lemma}
+
+\begin{lemma}[Euclidean moment consequences of coordinate moments]
+\label{lem:coordinate_moments_imply_euclidean}
+Suppose Assumption~\ref{ass:coordinate_high_moment} holds.  Then there exists a
+constant \(C<\infty\), depending only on \(K_8\), such that
+\[
+\operatorname{tr}\{\operatorname{Cov}(U_i)\}
++
+\operatorname{tr}\{\operatorname{Cov}(V_j)\}
+\le Cp,
+\]
+\[
+\mathbb E\|U_i\|_2^4+\mathbb E\|V_j\|_2^4\le Cp^2,
+\qquad
+\mathbb E\|U_i\|_2^8+\mathbb E\|V_j\|_2^8\le Cp^4 .
+\]
+Moreover, for independent centered observations satisfying the same coordinate
+moment bound,
+\[
+\mathbb E\|\bar U\|_2^4\le C\left(\frac p{n_1}\right)^2,
+\qquad
+\mathbb E\|\bar U\|_2^8\le C\left(\frac p{n_1}\right)^4,
+\]
+and the analogous bounds hold for \(\bar V\).  Finally,
+\[
+\mathbb E
+\left(
+\frac1{n_1}\sum_{i=1}^{n_1}\|U_i-\bar U\|_2^2
+\right)^4
+\le Cp^4,
+\]
+with the same conclusion for the second sample.
+\end{lemma}
+
+\begin{proof}
+We prove the statements for \(U_i\); the argument for \(V_j\) is identical.
+By Lyapunov's inequality,
+\(\mathbb E U_{ia}^2\le K_8^{1/4}\) and
+\(\mathbb E U_{ia}^4\le K_8^{1/2}\) uniformly in \(a\).  Hence
+\[
+\operatorname{tr}\{\operatorname{Cov}(U_i)\}
+\le
+\sum_{a=1}^p \mathbb E U_{ia}^2
+\le Cp.
+\]
+For the fourth moment, with \(z_a=U_{ia}^2\),
+\[
+\|U_i\|_2^4
+=
+\left(\sum_{a=1}^p z_a\right)^2
+\le
+p\sum_{a=1}^p z_a^2
+=
+p\sum_{a=1}^p U_{ia}^4,
+\]
+so \(\mathbb E\|U_i\|_2^4\le Cp^2\).  Similarly,
+\[
+\|U_i\|_2^8
+=
+\left(\sum_{a=1}^p z_a\right)^4
+\le
+p^3\sum_{a=1}^p z_a^4
+=
+p^3\sum_{a=1}^p U_{ia}^8,
+\]
+and therefore \(\mathbb E\|U_i\|_2^8\le Cp^4\).
+
+For the sample mean, the standard scalar Rosenthal inequality gives
+\[
+\mathbb E|\bar U_a|^4\le Cn_1^{-2},
+\qquad
+\mathbb E|\bar U_a|^8\le Cn_1^{-4}
+\]
+uniformly in \(a\).  Applying the preceding sum inequalities to
+\(\bar U=(\bar U_1,\ldots,\bar U_p)^\top\) yields
+\[
+\mathbb E\|\bar U\|_2^4\le C\left(\frac p{n_1}\right)^2,
+\qquad
+\mathbb E\|\bar U\|_2^8\le C\left(\frac p{n_1}\right)^4.
+\]
+Finally,
+\[
+\frac1{n_1}\sum_{i=1}^{n_1}\|U_i-\bar U\|_2^2
+\le
+\frac2{n_1}\sum_{i=1}^{n_1}\|U_i\|_2^2+2\|\bar U\|_2^2.
+\]
+Using \((x+y)^4\le 8(x^4+y^4)\), Jensen's inequality, and the eighth-moment
+bound just proved,
+\[
+\mathbb E
+\left(
+\frac1{n_1}\sum_{i=1}^{n_1}\|U_i-\bar U\|_2^2
+\right)^4
+\le
+C\mathbb E\|U_i\|_2^8
++
+C\mathbb E\|\bar U\|_2^8
+\le Cp^4 .
+\]
+This proves the lemma.
+\end{proof}
+
+\subsection{Proofs}
+\label{subsec:proofs}
+
+\begin{proof}[Proof of Theorem~\ref{thm:oracle_gaussian}]
+Throughout the proof, we work in the transformed model and suppress the
+superscript \((A)\). Under \(H_0:\Sigma_1=\Sigma_2\), the transformed covariance
+matrices are equal.
+
+For \(1\le a\le b\le p\), let \(k=k(a,b)\) denote the corresponding coordinate
+of the half-vectorization. Define
+\[
+H_i^{(1)}
+=
+\operatorname{vech}
+\{(X_i-\mu_1)(X_i-\mu_1)^\top-\Sigma_1\},
+\]
+and
+\[
+H_j^{(2)}
+=
+\operatorname{vech}
+\{(Y_j-\mu_2)(Y_j-\mu_2)^\top-\Sigma_2\}.
+\]
+Equivalently, in the notation of the primitive assumptions,
+\[
+H_{i,k}^{(1)}
+=
+U_{ia}U_{ib}-\mathbb E(U_{ia}U_{ib}),
+\qquad
+H_{j,k}^{(2)}
+=
+V_{ja}V_{jb}-\mathbb E(V_{ja}V_{jb}).
+\]
+
+We first record the standardized moment bounds for these covariance-coordinate
+summands. By Assumption~\ref{ass:coordinate_high_moment}, for every
+\(1\le a\le b\le p\),
+\[
+\mathbb E |U_{ia}U_{ib}|^4
+\le
+\{\mathbb E|U_{ia}|^8\mathbb E|U_{ib}|^8\}^{1/2}
+\le K_8,
+\]
+and similarly for \(V_j\). Hence,
+\[
+\mathbb E
+\left|
+U_{ia}U_{ib}-\mathbb E(U_{ia}U_{ib})
+\right|^4
+\le
+16K_8.
+\]
+By Lyapunov's inequality,
+\[
+\mathbb E
+\left|
+U_{ia}U_{ib}-\mathbb E(U_{ia}U_{ib})
+\right|^3
+\le
+(16K_8)^{3/4}.
+\]
+The same bounds hold for the second sample. Together with
+Assumption~\ref{ass:coordinate_nondegeneracy}, this implies that, for
+\(q=3,4\),
+\[
+\max_{m=1,2}
+\max_{1\le k\le d}
+\frac{
+\mathbb E|H_{1,k}^{(m)}|^q
+}{
+\operatorname{Var}(H_{1,k}^{(m)})^{q/2}
+}
+\le M_q,
+\]
+where \(M_q<\infty\) depends only on \(K_8\) and \(c_H\).
+
+Next, under \(H_0\),
+\[
+\widetilde W
+=
+\sqrt{n_{\mathrm{eff}}}
+\left\{
+\frac1{n_1}\sum_{i=1}^{n_1}H_i^{(1)}
+-
+\frac1{n_2}\sum_{j=1}^{n_2}H_j^{(2)}
+\right\}.
+\]
+For each coordinate \(k\),
+\[
+\widetilde D_{kk}
+=
+\operatorname{Var}(\widetilde W_k)
+=
+n_{\mathrm{eff}}
+\left\{
+\frac{\operatorname{Var}(H_{1,k}^{(1)})}{n_1}
++
+\frac{\operatorname{Var}(H_{1,k}^{(2)})}{n_2}
+\right\}.
+\]
+By Assumption~\ref{ass:coordinate_nondegeneracy},
+\[
+\operatorname{Var}(H_{1,k}^{(1)})\ge c_H,
+\qquad
+\operatorname{Var}(H_{1,k}^{(2)})\ge c_H.
+\]
+Therefore,
+\[
+\widetilde D_{kk}
+\ge
+n_{\mathrm{eff}}c_H
+\left(
+\frac1{n_1}+\frac1{n_2}
+\right)
+=
+c_H,
+\]
+because
+\[
+n_{\mathrm{eff}}
+=
+\frac{n_1n_2}{n_1+n_2}.
+\]
+Thus \(\widetilde D^{-1/2}\) is well defined.
+
+Define independent centered random vectors
+\[
+\xi_i
+=
+\frac{\sqrt{n_{\mathrm{eff}}}}{n_1}
+\widetilde D^{-1/2}H_i^{(1)},
+\qquad
+1\le i\le n_1,
+\]
+and
+\[
+\xi_{n_1+j}
+=
+-
+\frac{\sqrt{n_{\mathrm{eff}}}}{n_2}
+\widetilde D^{-1/2}H_j^{(2)},
+\qquad
+1\le j\le n_2.
+\]
+Let
+\[
+S_n
+=
+\sum_{\ell=1}^{n_1+n_2}\xi_\ell.
+\]
+Then
+\begin{equation}
+\label{eq:supp-oracle-standardized-sum}
+S_n
+=
+\widetilde D^{-1/2}\widetilde W.
+\end{equation}
+Therefore,
+\begin{equation}
+\label{eq:supp-oracle-statistic}
+\widetilde T_n
+=
+\frac1d\|S_n\|_2^2.
+\end{equation}
+Moreover, by independence of the \(\xi_\ell\)'s,
+\[
+\operatorname{Cov}(S_n)
+=
+\sum_{\ell=1}^{n_1+n_2}\operatorname{Cov}(\xi_\ell)
+=
+\sum_{i=1}^{n_1}\frac{n_{\mathrm{eff}}}{n_1^2}
+\widetilde D^{-1/2}\Gamma_1\widetilde D^{-1/2}
++
+\sum_{j=1}^{n_2}\frac{n_{\mathrm{eff}}}{n_2^2}
+\widetilde D^{-1/2}\Gamma_2\widetilde D^{-1/2},
+\]
+where \(\Gamma_1=\operatorname{Cov}(H_i^{(1)})\) and
+\(\Gamma_2=\operatorname{Cov}(H_j^{(2)})\). Simplifying,
+\[
+\operatorname{Cov}(S_n)
+=
+\widetilde D^{-1/2}
+\left\{
+n_{\mathrm{eff}}
+\left(
+\frac{\Gamma_1}{n_1}
++
+\frac{\Gamma_2}{n_2}
+\right)
+\right\}
+\widetilde D^{-1/2}
+=
+\widetilde D^{-1/2}
+\operatorname{Cov}(\widetilde W)
+\widetilde D^{-1/2}
+=
+R.
+\]
+Let
+\[
+Z\sim N(0,R).
+\]
+
+We next bound the third and fourth Euclidean moments of the summands
+\(\xi_\ell\). For \(1\le i\le n_1\),
+\[
+\xi_{i,k}
+=
+\frac{\sqrt{n_{\mathrm{eff}}}}{n_1}
+\frac{H_{i,k}^{(1)}}{\sqrt{\widetilde D_{kk}}}.
+\]
+Since
+\[
+\widetilde D_{kk}
+\ge
+\frac{n_{\mathrm{eff}}}{n_1}
+\operatorname{Var}(H_{1,k}^{(1)}),
+\]
+we have, for \(q=3,4\),
+\[
+\mathbb E|\xi_{i,k}|^q
+=
+\left(\frac{\sqrt{n_{\mathrm{eff}}}}{n_1}\right)^q
+\frac{\mathbb E|H_{i,k}^{(1)}|^q}{\widetilde D_{kk}^{q/2}}
+\le
+n_1^{-q/2}
+\frac{\mathbb E|H_{i,k}^{(1)}|^q}
+{\operatorname{Var}(H_{1,k}^{(1)})^{q/2}}
+\le
+M_q n_1^{-q/2}.
+\]
+Similarly, for \(1\le j\le n_2\),
+\[
+\mathbb E|\xi_{n_1+j,k}|^q
+\le
+M_q n_2^{-q/2},
+\qquad q=3,4.
+\]
+
+For any \(x\in\mathbb R^d\),
+\[
+\|x\|_2^3
+=
+\left(\sum_{k=1}^d x_k^2\right)^{3/2}
+\le
+d^{1/2}\sum_{k=1}^d |x_k|^3,
+\]
+and
+\[
+\|x\|_2^4
+=
+\left(\sum_{k=1}^d x_k^2\right)^2
+\le
+d\sum_{k=1}^d |x_k|^4.
+\]
+Therefore,
+\[
+\sum_{\ell=1}^{n_1+n_2}
+\mathbb E\|\xi_\ell\|_2^3
+\le
+d^{1/2}
+\sum_{\ell=1}^{n_1+n_2}
+\sum_{k=1}^d
+\mathbb E|\xi_{\ell,k}|^3.
+\]
+Using the coordinatewise bounds,
+\begin{equation}
+\label{eq:supp-oracle-third-moment}
+\sum_{\ell=1}^{n_1+n_2}
+\mathbb E\|\xi_\ell\|_2^3
+\le
+K_0 d^{3/2}
+\left(
+n_1^{-1/2}+n_2^{-1/2}
+\right).
+\end{equation}
+Similarly,
+\begin{equation}
+\label{eq:supp-oracle-fourth-moment}
+\sum_{\ell=1}^{n_1+n_2}
+\mathbb E\|\xi_\ell\|_2^4
+\le
+d
+\sum_{\ell=1}^{n_1+n_2}
+\sum_{k=1}^d
+\mathbb E|\xi_{\ell,k}|^4
+\le
+K_0 d^2
+\left(
+n_1^{-1}+n_2^{-1}
+\right).
+\end{equation}
+
+We now apply Lemma~\ref{lem:fang_koike_balls} (the
+\citealp{fang_large-dimensional_2021} fourth-moment Gaussian
+approximation on Euclidean balls) to the standardized sum
+\(S_n=\sum_{\ell=1}^{n_1+n_2}\xi_\ell\), which satisfies
+\eqref{eq:supp-oracle-standardized-sum} and \(\operatorname{Cov}(S_n)=R\),
+with reference covariance \(\Sigma=R\) (so the centered Gaussian reference
+\(Z\sim N(0,R)\) has the same covariance matrix as \(S_n\)). In the notation of
+Lemma~\ref{lem:fang_koike_balls}, this corresponds to taking
+\(\Sigma_W=\operatorname{Var}(W_\zeta)=\Sigma=R\). Consequently, the two
+covariance-comparison terms vanish identically:
+\[
+\delta_0(\Sigma_W,\Sigma)
+=
+\sqrt{2\operatorname{tr}(R)\cdot 2\|R\|_{\mathrm{op}}}\,\|R-R\|_{\mathrm{HS}}
+=
+0,
+\qquad
+\delta_0'(\Sigma_W,\Sigma)
+=
+\sum_{j=1}^d|R_{jj}-R_{jj}|
+=0.
+\]
+Lemma~\ref{lem:fang_koike_balls} therefore reduces, under the present setting,
+to
+\[
+\sup_{B\in\mathcal B}
+\left|
+\mathbb P(S_n\in B)-\mathbb P(Z\in B)
+\right|
+\le
+K
+\left\{
+\kappa(R)^{3/4}\Delta_1^{1/4}
++
+\kappa(R)^{2/3}\Delta_2^{1/3}
+\right\},
+\]
+where \(\mathcal B\) denotes the class of Euclidean balls in \(\mathbb R^d\),
+and
+\[
+\Delta_1
+\le
+\|R\|_{\mathrm{HS}}
+\sum_{\ell=1}^{n_1+n_2}\mathbb E\|\xi_\ell\|_2^4
++
+\|R\|_{\mathrm{op}}^{3/2}
+\sum_{\ell=1}^{n_1+n_2}\mathbb E\|\xi_\ell\|_2^3,
+\]
+\[
+\Delta_2
+\le
+\|R\|_{\mathrm{op}}^{1/2}
+\sum_{\ell=1}^{n_1+n_2}\mathbb E\|\xi_\ell\|_2^3
++
+\sum_{\ell=1}^{n_1+n_2}\mathbb E\|\xi_\ell\|_2^4.
+\]
+Substituting \eqref{eq:supp-oracle-third-moment} and
+\eqref{eq:supp-oracle-fourth-moment} yields
+\[
+\Delta_1
+\le
+K_0
+\left[
+\|R\|_{\mathrm{HS}}
+d^2
+\left(n_1^{-1}+n_2^{-1}\right)
++
+\|R\|_{\mathrm{op}}^{3/2}
+d^{3/2}
+\left(n_1^{-1/2}+n_2^{-1/2}\right)
+\right],
+\]
+and
+\[
+\Delta_2
+\le
+K_0
+\left[
+\|R\|_{\mathrm{op}}^{1/2}
+d^{3/2}
+\left(n_1^{-1/2}+n_2^{-1/2}\right)
++
+d^2
+\left(n_1^{-1}+n_2^{-1}\right)
+\right].
+\]
+Absorbing constants into \(K\), define
+\[
+\delta_1
+=
+\|R\|_{\mathrm{HS}}
+d^2
+\left(n_1^{-1}+n_2^{-1}\right)
++
+\|R\|_{\mathrm{op}}^{3/2}
+d^{3/2}
+\left(n_1^{-1/2}+n_2^{-1/2}\right),
+\]
+and
+\[
+\delta_2
+=
+\|R\|_{\mathrm{op}}^{1/2}
+d^{3/2}
+\left(n_1^{-1/2}+n_2^{-1/2}\right)
++
+d^2
+\left(n_1^{-1}+n_2^{-1}\right).
+\]
+Thus
+\begin{equation}
+\label{eq:supp-oracle-ball-approx}
+\sup_{B\in\mathcal B}
+\left|
+\mathbb P(S_n\in B)-\mathbb P(Z\in B)
+\right|
+\le
+K
+\left\{
+\kappa(R)^{3/4}\delta_1^{1/4}
++
+\kappa(R)^{2/3}\delta_2^{1/3}
+\right\}.
+\end{equation}
+
+Finally, by \eqref{eq:supp-oracle-statistic}, for any \(r\ge0\),
+\[
+\{\widetilde T_n\le r\}
+=
+\left\{
+\frac1d\|S_n\|_2^2\le r
+\right\}
+=
+\left\{
+\|S_n\|_2\le \sqrt{dr}
+\right\},
+\]
+which is a Euclidean ball centered at the origin. Similarly,
+\[
+\{T_Z\le r\}
+=
+\left\{
+\|Z\|_2\le \sqrt{dr}
+\right\}.
+\]
+Therefore,
+\[
+\left|
+\mathbb P(\widetilde T_n\le r)
+-
+\mathbb P(T_Z\le r)
+\right|
+\le
+\sup_{B\in\mathcal B}
+\left|
+\mathbb P(S_n\in B)-\mathbb P(Z\in B)
+\right|.
+\]
+Taking the supremum over \(r\ge0\) and using
+\eqref{eq:supp-oracle-ball-approx} gives
+\[
+\sup_{r\ge0}
+\left|
+\mathbb P(\widetilde T_n\le r)
+-
+\mathbb P(T_Z\le r)
+\right|
+\le
+K
+\left\{
+\kappa(R)^{3/4}\delta_1^{1/4}
++
+\kappa(R)^{2/3}\delta_2^{1/3}
+\right\}.
+\]
+This proves the theorem.
+\end{proof}
+
+
+The oracle approximation concerns the ideal statistic
+\(\widetilde T_n\), which is defined using the true means and the oracle
+diagonal variance matrix \(\widetilde D\). The statistic used in practice,
+however, replaces the population means by sample means and replaces
+\(\widetilde D\) by the feasible diagonal estimator \(\widehat D\). We first
+show that the diagonal studentizer is uniformly consistent. This result is then
+combined with a sample-centering bound to transfer the oracle approximation to
+the feasible statistic.
+
+\begin{proposition}[Uniform consistency of the diagonal studentizer]
+\label{prop:studentizer_consistency}
+Suppose Assumptions~\ref{ass:coordinate_high_moment} and
+\ref{ass:coordinate_nondegeneracy} hold. Let
+\[
+  \widehat D_{kk}
+  =
+  n_{\mathrm{eff}}
+  \left(
+    \frac1{n_1^2}\sum_{i=1}^{n_1}
+    \bigl(\widehat h_{i,k}^{(1)}\bigr)^2
+    +
+    \frac1{n_2^2}\sum_{j=1}^{n_2}
+    \bigl(\widehat h_{j,k}^{(2)}\bigr)^2
+  \right),
+  \qquad 1\le k\le d.
+\]
+Then there exists a constant \(K_0>0\), depending only on the constants in
+Assumptions~\ref{ass:coordinate_high_moment} and
+\ref{ass:coordinate_nondegeneracy}, such that
+\begin{equation}
+\label{eq:supp-studentizer-mse}
+\max_{1\le k\le d}
+\mathbb E
+\left[
+\left(
+\frac{\widehat D_{kk}}{\widetilde D_{kk}}-1
+\right)^2
+\right]
+\le
+\frac{K_0}{n_0},
+\qquad
+n_0=n_1\wedge n_2.
+\end{equation}
+Consequently, for every \(\eta\in(0,1)\),
+\begin{equation}
+\label{eq:supp-studentizer-hp}
+\mathbb P
+\left(
+\max_{1\le k\le d}
+\left|
+\frac{\widehat D_{kk}}{\widetilde D_{kk}}-1
+\right|
+>
+K_0\sqrt{\frac{d}{n_0\eta}}
+\right)
+\le \eta .
+\end{equation}
+\end{proposition}
+
+\begin{proof}[Proof of Proposition \ref{prop:studentizer_consistency}]
+We prove the result for a fixed coordinate \(k=k(a,b)\), \(1\le a\le b\le p\).
+The bound is uniform in \(k\), and the final high-probability statement follows
+from a union bound.
+
+We first consider the first sample. Let
+\[
+G_i=U_{ia}U_{ib},
+\qquad
+\mu_G=\mathbb E G_i,
+\qquad
+H_i=G_i-\mu_G,
+\qquad
+\sigma_{1,k}^2=\operatorname{Var}(G_i)=\mathbb E H_i^2.
+\]
+Let
+\[
+\bar G=\frac1{n_1}\sum_{i=1}^{n_1}G_i,
+\qquad
+\bar H=\frac1{n_1}\sum_{i=1}^{n_1}H_i.
+\]
+Define the oracle sample variance of the covariance-coordinate variable by
+\[
+\check\sigma_{1,k}^2
+=
+\frac1{n_1}\sum_{i=1}^{n_1}(G_i-\bar G)^2
+=
+\frac1{n_1}\sum_{i=1}^{n_1}(H_i-\bar H)^2.
+\]
+Since
+\[
+\check\sigma_{1,k}^2
+=
+\frac1{n_1}\sum_{i=1}^{n_1}H_i^2-\bar H^2,
+\]
+we have
+\[
+\check\sigma_{1,k}^2-\sigma_{1,k}^2
+=
+\frac1{n_1}\sum_{i=1}^{n_1}(H_i^2-\sigma_{1,k}^2)-\bar H^2.
+\]
+Therefore,
+\[
+\mathbb E
+\left(
+\check\sigma_{1,k}^2-\sigma_{1,k}^2
+\right)^2
+\le
+2\mathbb E
+\left[
+\frac1{n_1}\sum_{i=1}^{n_1}(H_i^2-\sigma_{1,k}^2)
+\right]^2
++
+2\mathbb E\bar H^4.
+\]
+By independence,
+\[
+\mathbb E
+\left[
+\frac1{n_1}\sum_{i=1}^{n_1}(H_i^2-\sigma_{1,k}^2)
+\right]^2
+=
+\frac1{n_1}\operatorname{Var}(H_i^2)
+\le
+\frac1{n_1}\mathbb E H_i^4.
+\]
+Assumption~\ref{ass:coordinate_high_moment} implies
+\[
+\mathbb E H_i^4\le K_0,
+\]
+uniformly over \(k\). Moreover,
+\[
+\mathbb E\bar H^4
+\le
+K_0 n_1^{-2}\mathbb E H_i^4
+\le
+\frac{K_0}{n_1^2}.
+\]
+Hence
+\[
+\mathbb E
+\left(
+\check\sigma_{1,k}^2-\sigma_{1,k}^2
+\right)^2
+\le
+\frac{K_0}{n_1}.
+\]
+
+We now compare the feasible residuals with the oracle residuals. Recall that
+\[
+\widehat h_{i,k}^{(1)}
+=
+(U_{ia}-\bar U_a)(U_{ib}-\bar U_b)-\widehat\Sigma_{1,ab},
+\]
+where
+\[
+\widehat\Sigma_{1,ab}
+=
+\frac1{n_1}\sum_{\ell=1}^{n_1}
+(U_{\ell a}-\bar U_a)(U_{\ell b}-\bar U_b).
+\]
+Expanding the centered product gives
+\[
+(U_{ia}-\bar U_a)(U_{ib}-\bar U_b)
+=
+U_{ia}U_{ib}
+-\bar U_aU_{ib}
+-\bar U_bU_{ia}
++\bar U_a\bar U_b.
+\]
+Also,
+\[
+\widehat\Sigma_{1,ab}
+=
+\bar G-\bar U_a\bar U_b.
+\]
+Therefore,
+\[
+\widehat h_{i,k}^{(1)}
+=
+G_i-\bar G
+-
+\bar U_a(U_{ib}-\bar U_b)
+-
+\bar U_b(U_{ia}-\bar U_a).
+\]
+Write
+\[
+\widehat h_{i,k}^{(1)}
+=
+(G_i-\bar G)+R_i,
+\]
+where
+\[
+R_i
+=
+-\bar U_a(U_{ib}-\bar U_b)
+-
+\bar U_b(U_{ia}-\bar U_a).
+\]
+
+Define
+\[
+\widehat\sigma_{1,k}^2
+=
+\frac1{n_1}\sum_{i=1}^{n_1}
+\bigl(\widehat h_{i,k}^{(1)}\bigr)^2.
+\]
+Then
+\[
+\widehat\sigma_{1,k}^2-\check\sigma_{1,k}^2
+=
+\frac1{n_1}\sum_{i=1}^{n_1}
+\{2(G_i-\bar G)R_i+R_i^2\}.
+\]
+By Cauchy's inequality,
+\[
+\left|
+\widehat\sigma_{1,k}^2-\check\sigma_{1,k}^2
+\right|
+\le
+2
+\left[
+\frac1{n_1}\sum_{i=1}^{n_1}(G_i-\bar G)^2
+\right]^{1/2}
+\left[
+\frac1{n_1}\sum_{i=1}^{n_1}R_i^2
+\right]^{1/2}
++
+\frac1{n_1}\sum_{i=1}^{n_1}R_i^2.
+\]
+Under Assumption~\ref{ass:coordinate_high_moment}, the fourth moment of
+\(G_i=U_{ia}U_{ib}\) is uniformly bounded. Hence
+\[
+\mathbb E
+\left[
+\frac1{n_1}\sum_{i=1}^{n_1}(G_i-\bar G)^2
+\right]^2
+\le K_0.
+\]
+
+Next,
+\[
+R_i^2
+\le
+2\bar U_a^2(U_{ib}-\bar U_b)^2
++
+2\bar U_b^2(U_{ia}-\bar U_a)^2.
+\]
+Thus
+\[
+\frac1{n_1}\sum_{i=1}^{n_1}R_i^2
+\le
+2\bar U_a^2
+\frac1{n_1}\sum_{i=1}^{n_1}(U_{ib}-\bar U_b)^2
++
+2\bar U_b^2
+\frac1{n_1}\sum_{i=1}^{n_1}(U_{ia}-\bar U_a)^2.
+\]
+The coordinate eighth-moment bound implies
+\[
+\mathbb E\bar U_a^4\le \frac{K_0}{n_1^2},
+\]
+and
+\[
+\mathbb E
+\left[
+\frac1{n_1}\sum_{i=1}^{n_1}(U_{ib}-\bar U_b)^2
+\right]^2
+\le K_0,
+\]
+uniformly over \(a,b\). Hence
+\[
+\mathbb E
+\left(
+\frac1{n_1}\sum_{i=1}^{n_1}R_i^2
+\right)^2
+\le
+\frac{K_0}{n_1^2}.
+\]
+Combining the preceding displays yields
+\[
+\mathbb E
+\left(
+\widehat\sigma_{1,k}^2-\check\sigma_{1,k}^2
+\right)^2
+\le
+\frac{K_0}{n_1}.
+\]
+Therefore,
+\[
+\mathbb E
+\left(
+\widehat\sigma_{1,k}^2-\sigma_{1,k}^2
+\right)^2
+\le
+\frac{K_0}{n_1}.
+\]
+
+The same argument applied to the second sample gives
+\[
+\mathbb E
+\left(
+\widehat\sigma_{2,k}^2-\sigma_{2,k}^2
+\right)^2
+\le
+\frac{K_0}{n_2},
+\]
+where
+\[
+\sigma_{2,k}^2=\operatorname{Var}(V_{ja}V_{jb}),
+\qquad
+\widehat\sigma_{2,k}^2
+=
+\frac1{n_2}\sum_{j=1}^{n_2}
+\bigl(\widehat h_{j,k}^{(2)}\bigr)^2.
+\]
+
+Now observe that
+\[
+\widehat D_{kk}
+=
+n_{\mathrm{eff}}
+\left(
+\frac{\widehat\sigma_{1,k}^2}{n_1}
++
+\frac{\widehat\sigma_{2,k}^2}{n_2}
+\right),
+\]
+whereas
+\[
+\widetilde D_{kk}
+=
+n_{\mathrm{eff}}
+\left(
+\frac{\sigma_{1,k}^2}{n_1}
++
+\frac{\sigma_{2,k}^2}{n_2}
+\right).
+\]
+Therefore,
+\[
+\widehat D_{kk}-\widetilde D_{kk}
+=
+n_{\mathrm{eff}}
+\left[
+\frac{\widehat\sigma_{1,k}^2-\sigma_{1,k}^2}{n_1}
++
+\frac{\widehat\sigma_{2,k}^2-\sigma_{2,k}^2}{n_2}
+\right].
+\]
+Using \((x+y)^2\le 2x^2+2y^2\), we get
+\[
+\mathbb E(\widehat D_{kk}-\widetilde D_{kk})^2
+\le
+2n_{\mathrm{eff}}^2
+\left[
+\frac1{n_1^2}
+\mathbb E(\widehat\sigma_{1,k}^2-\sigma_{1,k}^2)^2
++
+\frac1{n_2^2}
+\mathbb E(\widehat\sigma_{2,k}^2-\sigma_{2,k}^2)^2
+\right].
+\]
+Hence
+\[
+\mathbb E(\widehat D_{kk}-\widetilde D_{kk})^2
+\le
+K_0 n_{\mathrm{eff}}^2
+\left(
+\frac1{n_1^3}
++
+\frac1{n_2^3}
+\right).
+\]
+By Assumption~\ref{ass:coordinate_nondegeneracy},
+\[
+\widetilde D_{kk}
+=
+n_{\mathrm{eff}}
+\left(
+\frac{\sigma_{1,k}^2}{n_1}
++
+\frac{\sigma_{2,k}^2}{n_2}
+\right)
+\ge
+n_{\mathrm{eff}}c_H
+\left(
+\frac1{n_1}+\frac1{n_2}
+\right)
+=
+c_H.
+\]
+Thus
+\[
+\mathbb E
+\left[
+\left(
+\frac{\widehat D_{kk}}{\widetilde D_{kk}}-1
+\right)^2
+\right]
+\le
+K_0 n_{\mathrm{eff}}^2
+\left(
+\frac1{n_1^3}
++
+\frac1{n_2^3}
+\right).
+\]
+Since
+\[
+n_{\mathrm{eff}}\le n_0=n_1\wedge n_2,
+\]
+we have
+\[
+n_{\mathrm{eff}}^2
+\left(
+\frac1{n_1^3}
++
+\frac1{n_2^3}
+\right)
+\le
+\frac{K_0}{n_0}.
+\]
+Therefore,
+\[
+\max_{1\le k\le d}
+\mathbb E
+\left[
+\left(
+\frac{\widehat D_{kk}}{\widetilde D_{kk}}-1
+\right)^2
+\right]
+\le
+\frac{K_0}{n_0}.
+\]
+
+This proves \eqref{eq:supp-studentizer-mse}.  Finally, for any \(t>0\),
+Markov's inequality and the union bound give
+\[
+\mathbb P
+\left(
+\max_{1\le k\le d}
+\left|
+\frac{\widehat D_{kk}}{\widetilde D_{kk}}-1
+\right|
+>t
+\right)
+\le
+\sum_{k=1}^d
+\frac{
+\mathbb E
+\left[
+\left(
+\widehat D_{kk}/\widetilde D_{kk}-1
+\right)^2
+\right]
+}{t^2}
+\le
+\frac{Cd}{n_0t^2}.
+\]
+Taking
+\[
+t=K_0\sqrt{\frac{d}{n_0\eta}}
+\]
+with \(K_0\) sufficiently large yields
+\[
+\mathbb P
+\left(
+\max_{1\le k\le d}
+\left|
+\frac{\widehat D_{kk}}{\widetilde D_{kk}}-1
+\right|
+>
+K_0\sqrt{\frac{d}{n_0\eta}}
+\right)
+\le \eta.
+\]
+which proves \eqref{eq:supp-studentizer-hp}.  The proposition follows.
+\end{proof}
+
+Next we state the proof of Proposition \ref{prop:sample_oracle_transfer}.
+\begin{proof}[Proof of Proposition~\ref{prop:sample_oracle_transfer}]
+Throughout the proof, we work in the transformed model and suppress the
+superscript \((A)\). Recall that
+\[
+U_i=X_i-\mu_1,
+\qquad
+V_j=Y_j-\mu_2.
+\]
+Let
+\[
+\widehat T_n
+=
+\frac1d
+\left\|
+\widehat D^{-1/2}\widehat W
+\right\|_2^2,
+\qquad
+\widetilde T_n
+=
+\frac1d
+\left\|
+\widetilde D^{-1/2}\widetilde W
+\right\|_2^2.
+\]
+We decompose the difference between the feasible statistic and the oracle
+statistic into the sample-centering error and the diagonal-studentization error.
+
+Define
+\[
+a
+=
+d^{-1/2}\widetilde D^{-1/2}\widetilde W.
+\]
+Then
+\[
+\|a\|_2^2
+=
+\widetilde T_n.
+\]
+Also define
+\[
+b
+=
+d^{-1/2}
+\widetilde D^{-1/2}
+(\widehat W-\widetilde W).
+\]
+Thus
+\[
+d^{-1/2}\widetilde D^{-1/2}\widehat W
+=
+a+b.
+\]
+
+We first control \(\|a\|_2\). Let
+\[
+S_n=\widetilde D^{-1/2}\widetilde W.
+\]
+Then
+\[
+\widetilde T_n=\frac1d\|S_n\|_2^2.
+\]
+As in the proof of Theorem~\ref{thm:oracle_gaussian}, under
+Assumptions~\ref{ass:coordinate_high_moment} and
+\ref{ass:coordinate_nondegeneracy}, the standardized covariance-coordinate
+summands have uniformly bounded fourth moments. Consequently,
+\[
+\max_{1\le k\le d}\mathbb E S_{n,k}^4\le K_0.
+\]
+Therefore, by Cauchy--Schwarz,
+\[
+\mathbb E\widetilde T_n^2
+=
+\mathbb E
+\left(
+\frac1d\sum_{k=1}^d S_{n,k}^2
+\right)^2
+=
+\frac1{d^2}
+\sum_{k=1}^d\sum_{\ell=1}^d
+\mathbb E(S_{n,k}^2S_{n,\ell}^2)
+\]
+\[
+\le
+\frac1{d^2}
+\sum_{k=1}^d\sum_{\ell=1}^d
+\left(\mathbb E S_{n,k}^4\right)^{1/2}
+\left(\mathbb E S_{n,\ell}^4\right)^{1/2}
+\le K_0.
+\]
+Hence, by Markov's inequality,
+\[
+\mathbb P
+\left(
+\|a\|_2>B_T(\eta)
+\right)
+=
+\mathbb P
+\left(
+\sqrt{\widetilde T_n}>K_0\eta^{-1/4}
+\right)
+\]
+\[
+=
+\mathbb P
+\left(
+\widetilde T_n^2>K_0^4\eta^{-1}
+\right)
+\le
+\frac{K_0}{K_0^4\eta^{-1}}
+\le
+\frac{\eta}{3},
+\]
+after increasing the constant \(K_0\) if necessary. Thus, with probability at
+least \(1-\eta/3\),
+\[
+\|a\|_2\le B_T(\eta),
+\]
+where
+\[
+B_T(\eta)=K_0\eta^{-1/4}.
+\]
+
+We next control the sample-centering error \(b\). Let
+\[
+\bar U=\frac1{n_1}\sum_{i=1}^{n_1}U_i,
+\qquad
+\bar V=\frac1{n_2}\sum_{j=1}^{n_2}V_j.
+\]
+The oracle covariance matrices are
+\[
+\widetilde\Sigma_1
+=
+\frac1{n_1}\sum_{i=1}^{n_1}U_iU_i^\top,
+\qquad
+\widetilde\Sigma_2
+=
+\frac1{n_2}\sum_{j=1}^{n_2}V_jV_j^\top.
+\]
+The feasible covariance matrices are
+\[
+\widehat\Sigma_1
+=
+\frac1{n_1}\sum_{i=1}^{n_1}(U_i-\bar U)(U_i-\bar U)^\top,
+\]
+and
+\[
+\widehat\Sigma_2
+=
+\frac1{n_2}\sum_{j=1}^{n_2}(V_j-\bar V)(V_j-\bar V)^\top.
+\]
+Using the identity
+\[
+\frac1n\sum_{i=1}^n(Z_i-\bar Z)(Z_i-\bar Z)^\top
+=
+\frac1n\sum_{i=1}^n Z_iZ_i^\top-\bar Z\bar Z^\top,
+\]
+we obtain
+\[
+\widehat\Sigma_1-\widetilde\Sigma_1
+=
+-\bar U\bar U^\top,
+\qquad
+\widehat\Sigma_2-\widetilde\Sigma_2
+=
+-\bar V\bar V^\top.
+\]
+Therefore,
+\[
+\widehat W-\widetilde W
+=
+\sqrt{n_{\mathrm{eff}}}
+\operatorname{vech}
+\left\{
+-\bar U\bar U^\top+\bar V\bar V^\top
+\right\}.
+\]
+
+By Assumption~\ref{ass:coordinate_nondegeneracy}, the oracle diagonal
+studentizer is uniformly nondegenerate. Indeed, for \(k=k(a,b)\),
+\[
+\widetilde D_{kk}
+=
+n_{\mathrm{eff}}
+\left\{
+\frac{\operatorname{Var}(U_{ia}U_{ib})}{n_1}
++
+\frac{\operatorname{Var}(V_{ja}V_{jb})}{n_2}
+\right\}
+\ge
+n_{\mathrm{eff}}c_H
+\left(
+\frac1{n_1}+\frac1{n_2}
+\right)
+=
+c_H.
+\]
+Hence
+\[
+\|\widetilde D^{-1/2}\|_{\mathrm{op}}\le c_H^{-1/2}.
+\]
+Moreover, for every symmetric matrix \(A\),
+\[
+\|\operatorname{vech}(A)\|_2\le \|A\|_{\mathrm F}.
+\]
+Thus
+\[
+\left\|
+\widetilde D^{-1/2}(\widehat W-\widetilde W)
+\right\|_2
+\le
+K_0\sqrt{n_{\mathrm{eff}}}
+\left\|
+-\bar U\bar U^\top+\bar V\bar V^\top
+\right\|_{\mathrm F}.
+\]
+Using
+\[
+\|uu^\top\|_{\mathrm F}=\|u\|_2^2,
+\]
+we get
+\[
+\left\|
+\widetilde D^{-1/2}(\widehat W-\widetilde W)
+\right\|_2
+\le
+K_0\sqrt{n_{\mathrm{eff}}}
+\left(
+\|\bar U\|_2^2+\|\bar V\|_2^2
+\right).
+\]
+Therefore,
+\[
+\|b\|_2
+=
+d^{-1/2}
+\left\|
+\widetilde D^{-1/2}(\widehat W-\widetilde W)
+\right\|_2
+\le
+K_0
+\frac{\sqrt{n_{\mathrm{eff}}}}{\sqrt d}
+\left(
+\|\bar U\|_2^2+\|\bar V\|_2^2
+\right).
+\]
+
+We now bound the transformed sample means. By
+Lemma~\ref{lem:coordinate_moments_imply_euclidean},
+\[
+\mathbb E\|\bar U\|_2^4
+\le
+K_0\left(\frac p{n_1}\right)^2,
+\qquad
+\mathbb E\|\bar V\|_2^4
+\le
+K_0\left(\frac p{n_2}\right)^2.
+\]
+
+It follows that
+\[
+\mathbb E
+\left(
+\|\bar U\|_2^2+\|\bar V\|_2^2
+\right)^2
+\le
+2\mathbb E\|\bar U\|_2^4
++
+2\mathbb E\|\bar V\|_2^4
+\]
+\[
+\le
+K_0
+\left[
+\left(\frac p{n_1}\right)^2
++
+\left(\frac p{n_2}\right)^2
+\right]
+\le
+K_0
+\left(
+\frac p{n_1}
++
+\frac p{n_2}
+\right)^2.
+\]
+By Markov's inequality, with probability at least \(1-\eta/3\),
+\[
+\|\bar U\|_2^2+\|\bar V\|_2^2
+\le
+K_0\eta^{-1/2}
+\left(
+\frac p{n_1}
++
+\frac p{n_2}
+\right).
+\]
+Consequently, with probability at least \(1-\eta/3\),
+\[
+\|b\|_2
+\le
+K_0
+\frac{\sqrt{n_{\mathrm{eff}}}}{\sqrt d}
+\eta^{-1/2}
+\left(
+\frac p{n_1}
++
+\frac p{n_2}
+\right)
+=
+B_W(\eta).
+\]
+
+We next control the diagonal-studentization error. Define
+\[
+r_D
+=
+\max_{1\le k\le d}
+\left|
+\frac{\widehat D_{kk}}{\widetilde D_{kk}}-1
+\right|.
+\]
+By the studentizer concentration bound \eqref{eq:supp-studentizer-hp}, after
+increasing the constant \(K_0\) if necessary,
+\[
+\mathbb P
+\left(
+r_D>
+K_0\sqrt{\frac{d}{n_0\eta}}
+\right)
+\le
+\frac{\eta}{3}.
+\]
+Therefore, with probability at least \(1-\eta/3\),
+\[
+r_D\le B_D(\eta),
+\]
+where
+\[
+B_D(\eta)=K_0\left(\frac{d}{n_0\eta}\right)^{1/2}.
+\]
+
+Define the event
+\begin{equation}
+\label{eq:supp-transfer-event}
+\mathcal E_\eta
+=
+\left\{
+\|a\|_2\le B_T(\eta)
+\right\}
+\cap
+\left\{
+\|b\|_2\le B_W(\eta)
+\right\}
+\cap
+\left\{
+r_D\le B_D(\eta)
+\right\}.
+\end{equation}
+By the preceding bounds and the union bound,
+\begin{equation}
+\label{eq:supp-transfer-event-prob}
+\mathbb P(\mathcal E_\eta)\ge 1-\eta.
+\end{equation}
+
+We now prove the deterministic perturbation bound on the event
+\(\mathcal E_\eta\) in \eqref{eq:supp-transfer-event}.
+Define
+\[
+E
+=
+\widetilde D^{1/2}\widehat D^{-1}\widetilde D^{1/2}.
+\]
+Since \(E\) is diagonal,
+\[
+E_{kk}
+=
+\frac{\widetilde D_{kk}}{\widehat D_{kk}}.
+\]
+Moreover,
+\[
+\widehat T_n
+=
+\frac1d\widehat W^\top\widehat D^{-1}\widehat W
+=
+(a+b)^\top E(a+b),
+\]
+whereas
+\[
+\widetilde T_n=a^\top a.
+\]
+
+On \(\mathcal E_\eta\), if
+\[
+B_D(\eta)\le \frac12,
+\]
+then
+\[
+\frac12
+\le
+\frac{\widehat D_{kk}}{\widetilde D_{kk}}
+\le
+\frac32
+\]
+for every \(1\le k\le d\). Hence \(\widehat D\) is positive definite, and
+\[
+|E_{kk}-1|
+=
+\left|
+\frac{\widetilde D_{kk}}{\widehat D_{kk}}-1
+\right|
+=
+\frac{
+\left|
+\widehat D_{kk}/\widetilde D_{kk}-1
+\right|
+}{
+\widehat D_{kk}/\widetilde D_{kk}
+}
+\le
+2r_D.
+\]
+Thus
+\[
+\|E-I_d\|_{\mathrm{op}}\le 2r_D.
+\]
+
+We decompose
+\[
+\widehat T_n-\widetilde T_n
+=
+(a+b)^\top E(a+b)-a^\top a
+\]
+\[
+=
+(a+b)^\top(E-I_d)(a+b)
++
+\left(
+\|a+b\|_2^2-\|a\|_2^2
+\right).
+\]
+Therefore,
+\[
+|\widehat T_n-\widetilde T_n|
+\le
+\left|
+(a+b)^\top(E-I_d)(a+b)
+\right|
++
+\left|
+\|a+b\|_2^2-\|a\|_2^2
+\right|.
+\]
+The first term satisfies
+\[
+\left|
+(a+b)^\top(E-I_d)(a+b)
+\right|
+\le
+\|E-I_d\|_{\mathrm{op}}\|a+b\|_2^2
+\le
+2r_D(\|a\|_2+\|b\|_2)^2.
+\]
+For the second term,
+\[
+\|a+b\|_2^2-\|a\|_2^2
+=
+2a^\top b+\|b\|_2^2,
+\]
+so
+\[
+\left|
+\|a+b\|_2^2-\|a\|_2^2
+\right|
+\le
+2\|a\|_2\|b\|_2+\|b\|_2^2.
+\]
+Combining the two inequalities gives
+\begin{equation}
+\label{eq:supp-transfer-perturbation}
+|\widehat T_n-\widetilde T_n|
+\le
+2r_D(\|a\|_2+\|b\|_2)^2
++
+2\|a\|_2\|b\|_2
++
+\|b\|_2^2.
+\end{equation}
+On \(\mathcal E_\eta\),
+\[
+\|a\|_2\le B_T(\eta),
+\qquad
+\|b\|_2\le B_W(\eta),
+\qquad
+r_D\le B_D(\eta).
+\]
+Hence \eqref{eq:supp-transfer-perturbation} gives
+\[
+|\widehat T_n-\widetilde T_n|
+\le
+2B_D(\eta)\{B_T(\eta)+B_W(\eta)\}^2
++
+2B_T(\eta)B_W(\eta)
++
+B_W^2(\eta).
+\]
+By the definition of \(\Delta(\eta)\),
+\[
+|\widehat T_n-\widetilde T_n|
+\le
+\Delta(\eta)
+\]
+on \(\mathcal E_\eta\). Since \eqref{eq:supp-transfer-event-prob} holds, the
+first claim follows.
+
+It remains to verify the explicit rate in the final statement. Take
+\[
+\eta_n=n_0^{-1/8}.
+\]
+Then
+\[
+B_T(\eta_n)
+=
+K_0\eta_n^{-1/4}
+=
+K_0 n_0^{1/32},
+\]
+and
+\[
+B_D(\eta_n)
+=
+K_0
+\left(
+\frac{d}{n_0\eta_n}
+\right)^{1/2}
+=
+K_0
+\left(
+\frac{d}{n_0^{7/8}}
+\right)^{1/2}.
+\]
+Moreover, since
+\[
+n_{\mathrm{eff}}\le n_0,
+\qquad
+n_1,n_2\ge n_0,
+\]
+we have
+\[
+\frac p{n_1}+\frac p{n_2}
+\le
+\frac{2p}{n_0}.
+\]
+Because
+\[
+d=\frac{p(p+1)}2,
+\]
+we also have
+\[
+\frac p{\sqrt d}\le K_0.
+\]
+Therefore,
+\[
+B_W(\eta_n)
+=
+K_0
+\frac{\sqrt{n_{\mathrm{eff}}}}{\sqrt d}
+n_0^{1/16}
+\left(
+\frac p{n_1}
++
+\frac p{n_2}
+\right)
+\le
+K_0
+\frac{\sqrt{n_0}}{\sqrt d}
+n_0^{1/16}
+\frac p{n_0}
+\le
+K_0 n_0^{-7/16}.
+\]
+
+Substituting these bounds into
+\[
+\Delta(\eta_n)
+=
+2B_D(\eta_n)\{B_T(\eta_n)+B_W(\eta_n)\}^2
++
+2B_T(\eta_n)B_W(\eta_n)
++
+B_W^2(\eta_n),
+\]
+we obtain
+\[
+\Delta(\eta_n)
+\le
+K_0 B_D(\eta_n)B_T^2(\eta_n)
++
+K_0 B_D(\eta_n)B_T(\eta_n)B_W(\eta_n)
+\]
+\[
+\qquad
++
+K_0 B_D(\eta_n)B_W^2(\eta_n)
++
+K_0 B_T(\eta_n)B_W(\eta_n)
++
+K_0 B_W^2(\eta_n).
+\]
+The first leading term is
+\[
+B_D(\eta_n)B_T^2(\eta_n)
+=
+K_0
+\left(
+\frac{d}{n_0^{7/8}}
+\right)^{1/2}
+n_0^{1/16}
+=
+K_0
+\left(
+\frac{d}{n_0^{3/4}}
+\right)^{1/2}.
+\]
+The second leading term is
+\[
+B_T(\eta_n)B_W(\eta_n)
+\le
+K_0 n_0^{1/32}n_0^{-7/16}
+=
+K_0 n_0^{-13/32}.
+\]
+For the remaining terms, using
+\[
+B_D(\eta_n)\le \frac12
+\]
+and \(B_T(\eta_n)\ge 1\) for large \(n_0\), we have
+\[
+B_D(\eta_n)B_T(\eta_n)B_W(\eta_n)
+\le
+K_0 B_T(\eta_n)B_W(\eta_n)
+\le
+K_0 n_0^{-13/32},
+\]
+and
+\[
+B_D(\eta_n)B_W^2(\eta_n)
+\le
+K_0 B_W^2(\eta_n)
+\le
+K_0 n_0^{-7/8}.
+\]
+Also,
+\[
+B_W^2(\eta_n)\le K_0 n_0^{-7/8}.
+\]
+Since
+\[
+n_0^{-7/8}\le n_0^{-13/32}
+\]
+for \(n_0\ge1\), all remaining terms are dominated by
+\[
+K_0
+\left[
+\left(
+\frac{d}{n_0^{3/4}}
+\right)^{1/2}
++
+n_0^{-13/32}
+\right].
+\]
+Therefore,
+\[
+\Delta(\eta_n)
+\le
+K_0
+\left[
+\left(
+\frac{d}{n_0^{3/4}}
+\right)^{1/2}
++
+n_0^{-13/32}
+\right].
+\]
+Since the first part of the proposition gives
+\[
+\mathbb P
+\left(
+|\widehat T_n-\widetilde T_n|
+\le
+\Delta(\eta_n)
+\right)
+\ge
+1-\eta_n
+=
+1-n_0^{-1/8},
+\]
+we conclude that, with probability at least \(1-n_0^{-1/8}\),
+\[
+|\widehat T_n-\widetilde T_n|
+\le
+K_0
+\left[
+\left(
+\frac{d}{n_0^{3/4}}
+\right)^{1/2}
++
+n_0^{-13/32}
+\right].
+\]
+This completes the proof.
+\end{proof}
+
+\begin{proof}[Proof of Corollary~\ref{cor:feasible_gaussian}]
+Let
+\[
+F_{\widehat T}(r)
+=
+\mathbb P(\widehat T_n\le r),
+\qquad
+F_{\widetilde T}(r)
+=
+\mathbb P(\widetilde T_n\le r),
+\]
+and
+\[
+G(r)
+=
+\mathbb P(T_Z\le r).
+\]
+By Theorem~\ref{thm:oracle_gaussian},
+\[
+\sup_{r\ge0}
+\left|
+F_{\widetilde T}(r)-G(r)
+\right|
+\le
+\varepsilon_{\mathrm{or}},
+\]
+where
+\[
+\varepsilon_{\mathrm{or}}
+=
+K
+\left\{
+\kappa(R)^{3/4}\delta_1^{1/4}
++
+\kappa(R)^{2/3}\delta_2^{1/3}
+\right\}.
+\]
+
+Next, by Proposition~\ref{prop:sample_oracle_transfer}, if
+\[
+B_D(\eta)\le \frac12,
+\]
+then the event
+\[
+\mathcal E_\eta
+=
+\left\{
+|\widehat T_n-\widetilde T_n|\le \Delta(\eta)
+\right\}
+\]
+satisfies
+\[
+\mathbb P(\mathcal E_\eta)\ge 1-\eta.
+\]
+
+We first derive an upper bound for
+\[
+F_{\widehat T}(r)-G(r).
+\]
+For any fixed \(r\ge0\),
+\[
+\mathbb P(\widehat T_n\le r)
+=
+\mathbb P(\widehat T_n\le r,\mathcal E_\eta)
++
+\mathbb P(\widehat T_n\le r,\mathcal E_\eta^c).
+\]
+Since
+\[
+\mathbb P(\mathcal E_\eta^c)\le \eta,
+\]
+we have
+\[
+\mathbb P(\widehat T_n\le r)
+\le
+\mathbb P(\widehat T_n\le r,\mathcal E_\eta)
++
+\eta.
+\]
+On the event \(\mathcal E_\eta\),
+\[
+|\widehat T_n-\widetilde T_n|\le \Delta(\eta).
+\]
+Therefore,
+\[
+\widehat T_n\le r
+\quad\Longrightarrow\quad
+\widetilde T_n\le r+\Delta(\eta).
+\]
+Hence
+\[
+\mathbb P(\widehat T_n\le r)
+\le
+\mathbb P(\widetilde T_n\le r+\Delta(\eta))
++
+\eta.
+\]
+Using the oracle Gaussian approximation,
+\[
+\mathbb P(\widetilde T_n\le r+\Delta(\eta))
+\le
+\mathbb P(T_Z\le r+\Delta(\eta))
++
+\varepsilon_{\mathrm{or}}.
+\]
+Thus
+\[
+\mathbb P(\widehat T_n\le r)
+\le
+\mathbb P(T_Z\le r+\Delta(\eta))
++
+\varepsilon_{\mathrm{or}}
++
+\eta.
+\]
+By the definition of the anti-concentration modulus
+\[
+\omega_Z(a)
+=
+\sup_{s\ge0}\mathbb P(s<T_Z\le s+a),
+\]
+we have
+\[
+\mathbb P(T_Z\le r+\Delta(\eta))
+\le
+\mathbb P(T_Z\le r)
++
+\omega_Z\{\Delta(\eta)\}.
+\]
+Therefore,
+\[
+\mathbb P(\widehat T_n\le r)-\mathbb P(T_Z\le r)
+\le
+\varepsilon_{\mathrm{or}}
++
+\eta
++
+\omega_Z\{\Delta(\eta)\}.
+\]
+
+We next derive the reverse inequality. On \(\mathcal E_\eta\),
+\[
+\widetilde T_n\le r-\Delta(\eta)
+\quad\Longrightarrow\quad
+\widehat T_n\le r.
+\]
+If \(r-\Delta(\eta)<0\), the event
+\[
+\{\widetilde T_n\le r-\Delta(\eta)\}
+\]
+is interpreted as the empty event. Hence, for every \(r\ge0\),
+\[
+\mathbb P(\widehat T_n\le r)
+\ge
+\mathbb P(\widetilde T_n\le r-\Delta(\eta),\mathcal E_\eta).
+\]
+Therefore,
+\[
+\mathbb P(\widehat T_n\le r)
+\ge
+\mathbb P(\widetilde T_n\le r-\Delta(\eta))
+-
+\mathbb P(\mathcal E_\eta^c).
+\]
+Since
+\[
+\mathbb P(\mathcal E_\eta^c)\le \eta,
+\]
+we get
+\[
+\mathbb P(\widehat T_n\le r)
+\ge
+\mathbb P(\widetilde T_n\le r-\Delta(\eta))
+-
+\eta.
+\]
+Using the oracle Gaussian approximation again,
+\[
+\mathbb P(\widetilde T_n\le r-\Delta(\eta))
+\ge
+\mathbb P(T_Z\le r-\Delta(\eta))
+-
+\varepsilon_{\mathrm{or}}.
+\]
+Thus
+\[
+\mathbb P(\widehat T_n\le r)
+\ge
+\mathbb P(T_Z\le r-\Delta(\eta))
+-
+\varepsilon_{\mathrm{or}}
+-
+\eta.
+\]
+It follows that
+\[
+\mathbb P(T_Z\le r)-\mathbb P(\widehat T_n\le r)
+\le
+\mathbb P(T_Z\le r)
+-
+\mathbb P(T_Z\le r-\Delta(\eta))
++
+\varepsilon_{\mathrm{or}}
++
+\eta.
+\]
+By the definition of \(\omega_Z\),
+\[
+\mathbb P(T_Z\le r)
+-
+\mathbb P(T_Z\le r-\Delta(\eta))
+\le
+\omega_Z\{\Delta(\eta)\}.
+\]
+Therefore,
+\[
+\mathbb P(T_Z\le r)-\mathbb P(\widehat T_n\le r)
+\le
+\varepsilon_{\mathrm{or}}
++
+\eta
++
+\omega_Z\{\Delta(\eta)\}.
+\]
+
+Combining the two one-sided bounds, we obtain, for every \(r\ge0\),
+\[
+\left|
+\mathbb P(\widehat T_n\le r)
+-
+\mathbb P(T_Z\le r)
+\right|
+\le
+\varepsilon_{\mathrm{or}}
++
+\eta
++
+\omega_Z\{\Delta(\eta)\}.
+\]
+Taking the supremum over \(r\ge0\) gives
+\[
+\sup_{r\ge0}
+\left|
+\mathbb P(\widehat T_n\le r)
+-
+\mathbb P(T_Z\le r)
+\right|
+\le
+\varepsilon_{\mathrm{or}}
++
+\eta
++
+\omega_Z\{\Delta(\eta)\}.
+\]
+
+It remains to use the Gaussian quadratic-form anti-concentration bound. Under
+Assumption~\ref{ass:gaussian_reference_geometry},
+\[
+T_Z
+=
+\frac1d\|Z\|_2^2,
+\qquad
+Z\sim N(0,R).
+\]
+Applying Lemma~\ref{lem:gaussian_anticoncentration} (the
+Götze--Naumov--Spokoiny--Ulyanov anti-concentration bound, as recorded in
+\citealp{fang_large-dimensional_2021}, Lemma~5.10) with \(\Sigma=R\) and
+\(\mu=0\), we obtain, for any \(\varepsilon>0\),
+\[
+\sup_{a\ge 0}\mathbb P(a\le \|Z\|_2^2\le a+\varepsilon)\le K\kappa(R)\varepsilon.
+\]
+Translating to the rescaled statistic \(T_Z=d^{-1}\|Z\|_2^2\) via the change of
+variable \(a=rd\), \(\varepsilon=ad\), gives
+\[
+\omega_Z(a)
+=
+\sup_{r\ge0}\mathbb P(r<T_Z\le r+a)
+=
+\sup_{a'\ge0}\mathbb P(a'<\|Z\|_2^2\le a'+ad)
+\le
+K\kappa(R)\cdot ad
+=
+K\kappa(R)d a.
+\]
+Taking \(a=\Delta(\eta)\), we obtain
+\[
+\omega_Z\{\Delta(\eta)\}
+\le
+K\kappa(R)d\Delta(\eta).
+\]
+Hence
+\[
+\sup_{r\ge0}
+\left|
+\mathbb P(\widehat T_n\le r)
+-
+\mathbb P(T_Z\le r)
+\right|
+\le
+\varepsilon_{\mathrm{or}}
++
+\eta
++
+K\kappa(R)d\Delta(\eta).
+\]
+This completes the proof.
+\end{proof}
+
+
+The multiplier bootstrap statistic is conditionally Gaussian given the data,
+with conditional covariance matrix \(\widehat R\). To compare the bootstrap law
+with the oracle Gaussian reference \(T_Z=d^{-1}\|Z\|_2^2\), \(Z\sim N(0,R)\),
+we need to control the discrepancy between \(\widehat R\) and \(R\). The next
+proposition provides a conservative nuclear-norm bound for this discrepancy.
+The proof is technical and is given in the appendix.
+
+\begin{proposition}[Bootstrap covariance consistency]
+\label{prop:bootstrap_covariance_consistency}
+Suppose Assumptions~\ref{ass:coordinate_high_moment} and
+\ref{ass:coordinate_nondegeneracy} hold. Let
+\[
+\Gamma=\operatorname{Cov}(\widetilde W),
+\qquad
+R=\widetilde D^{-1/2}\Gamma\widetilde D^{-1/2}.
+\]
+Let
+\[
+\widehat\Gamma
+=
+n_{\mathrm{eff}}
+\left\{
+\frac1{n_1^2}\sum_{i=1}^{n_1}
+\widehat h_i^{(1)}(\widehat h_i^{(1)})^\top
++
+\frac1{n_2^2}\sum_{j=1}^{n_2}
+\widehat h_j^{(2)}(\widehat h_j^{(2)})^\top
+\right\},
+\]
+and
+\[
+\widehat R
+=
+\widehat D^{-1/2}\widehat\Gamma\widehat D^{-1/2}.
+\]
+Then there exists a constant \(K_R>0\), depending only on the constants in
+the assumptions, such that for every \(\eta\in(0,1)\),
+\[
+\mathbb P
+\left(
+\|\widehat R-R\|_{S_1}
+>
+K_R\sqrt{\frac{d^3}{n_0\eta}}
+\right)
+\le \eta,
+\qquad
+n_0=n_1\wedge n_2.
+\]
+Equivalently,
+\[
+\|\widehat R-R\|_{S_1}
+=
+O_{\mathbb P}
+\left(
+\sqrt{\frac{d^3}{n_0}}
+\right).
+\]
+\end{proposition}
+
+\begin{proof}
+Throughout the proof, we work in the transformed model and suppress the
+superscript \((A)\). Let
+\[
+U_i=X_i-\mu_1,
+\qquad
+V_j=Y_j-\mu_2.
+\]
+Define the oracle covariance-coordinate vectors
+\[
+H_i^{(1)}
+=
+\operatorname{vech}
+\{U_iU_i^\top-\mathbb E(U_iU_i^\top)\},
+\]
+and
+\[
+H_j^{(2)}
+=
+\operatorname{vech}
+\{V_jV_j^\top-\mathbb E(V_jV_j^\top)\}.
+\]
+Let
+\[
+\Gamma_1=\operatorname{Cov}(H_i^{(1)}),
+\qquad
+\Gamma_2=\operatorname{Cov}(H_j^{(2)}).
+\]
+Then
+\[
+\Gamma
+=
+\operatorname{Cov}(\widetilde W)
+=
+n_{\mathrm{eff}}
+\left(
+\frac{\Gamma_1}{n_1}
++
+\frac{\Gamma_2}{n_2}
+\right).
+\]
+
+We first control the covariance estimator before diagonal standardization.
+For the first sample, define
+\[
+\bar H^{(1)}
+=
+\frac1{n_1}\sum_{i=1}^{n_1}H_i^{(1)}
+\]
+and
+\[
+\check\Gamma_1
+=
+\frac1{n_1}
+\sum_{i=1}^{n_1}
+(H_i^{(1)}-\bar H^{(1)})(H_i^{(1)}-\bar H^{(1)})^\top.
+\]
+Also define
+\[
+\widehat\Gamma_1
+=
+\frac1{n_1}
+\sum_{i=1}^{n_1}
+\widehat h_i^{(1)}(\widehat h_i^{(1)})^\top.
+\]
+The second-sample analogues \(\check\Gamma_2\) and \(\widehat\Gamma_2\) are
+defined similarly.
+
+We claim that
+\[
+\mathbb E\|\widehat\Gamma_1-\Gamma_1\|_{\mathrm F}^2
+\le
+\frac{Cd^2}{n_1},
+\qquad
+\mathbb E\|\widehat\Gamma_2-\Gamma_2\|_{\mathrm F}^2
+\le
+\frac{Cd^2}{n_2}.
+\]
+We prove the first bound; the second is identical.
+
+Write
+\[
+\Gamma_{1,0}
+=
+\frac1{n_1}\sum_{i=1}^{n_1}
+H_i^{(1)}(H_i^{(1)})^\top.
+\]
+Then
+\[
+\check\Gamma_1
+=
+\Gamma_{1,0}
+-
+\bar H^{(1)}(\bar H^{(1)})^\top.
+\]
+Therefore,
+\[
+\|\check\Gamma_1-\Gamma_1\|_{\mathrm F}^2
+\le
+2\|\Gamma_{1,0}-\Gamma_1\|_{\mathrm F}^2
++
+2\|\bar H^{(1)}(\bar H^{(1)})^\top\|_{\mathrm F}^2.
+\]
+Since the \(H_i^{(1)}\)'s are i.i.d. centered,
+\[
+\mathbb E\|\Gamma_{1,0}-\Gamma_1\|_{\mathrm F}^2
+=
+\frac1{n_1}
+\mathbb E
+\left\|
+H_i^{(1)}(H_i^{(1)})^\top-\Gamma_1
+\right\|_{\mathrm F}^2.
+\]
+Moreover,
+\[
+\left\|
+H_i^{(1)}(H_i^{(1)})^\top
+\right\|_{\mathrm F}^2
+=
+\|H_i^{(1)}\|_2^4.
+\]
+By Assumption~\ref{ass:coordinate_high_moment}, for every coordinate \(k\),
+\[
+\mathbb E|H_{i,k}^{(1)}|^4\le K_0.
+\]
+Hence
+\[
+\mathbb E\|H_i^{(1)}\|_2^4
+=
+\mathbb E
+\left(
+\sum_{k=1}^d (H_{i,k}^{(1)})^2
+\right)^2
+\le
+d\sum_{k=1}^d
+\mathbb E|H_{i,k}^{(1)}|^4
+\le
+Cd^2.
+\]
+It follows that
+\[
+\mathbb E\|\Gamma_{1,0}-\Gamma_1\|_{\mathrm F}^2
+\le
+\frac{Cd^2}{n_1}.
+\]
+Also,
+\[
+\|\bar H^{(1)}(\bar H^{(1)})^\top\|_{\mathrm F}^2
+=
+\|\bar H^{(1)}\|_2^4.
+\]
+Using the same fourth-moment calculation for the sample mean of the
+\(d\)-dimensional vector \(H_i^{(1)}\), together with
+\(\mathbb E\|H_i^{(1)}\|_2^4\le Cd^2\), gives
+\[
+\mathbb E\|\bar H^{(1)}\|_2^4
+\le
+\frac{Cd^2}{n_1^2}.
+\]
+Thus
+\[
+\mathbb E\|\check\Gamma_1-\Gamma_1\|_{\mathrm F}^2
+\le
+\frac{Cd^2}{n_1}.
+\]
+
+We next compare the feasible residuals with the oracle centered residuals.
+Let
+\[
+g_i^{(1)}
+=
+H_i^{(1)}-\bar H^{(1)}.
+\]
+Then
+\[
+\check\Gamma_1
+=
+\frac1{n_1}\sum_{i=1}^{n_1}
+g_i^{(1)}(g_i^{(1)})^\top.
+\]
+By the sample-centering expansion,
+\[
+\widehat h_i^{(1)}
+=
+g_i^{(1)}+r_i^{(1)},
+\]
+where
+\[
+r_i^{(1)}
+=
+\operatorname{vech}
+\left\{
+-\bar U(U_i-\bar U)^\top
+-
+(U_i-\bar U)\bar U^\top
+\right\}.
+\]
+Indeed, this follows from expanding
+\[
+(U_i-\bar U)(U_i-\bar U)^\top-\widehat\Sigma_1
+\]
+and comparing it with
+\[
+U_iU_i^\top-\frac1{n_1}\sum_{\ell=1}^{n_1}U_\ell U_\ell^\top.
+\]
+
+Therefore,
+\[
+\widehat\Gamma_1-\check\Gamma_1
+=
+\frac1{n_1}\sum_{i=1}^{n_1}
+\left\{
+g_i^{(1)}(r_i^{(1)})^\top
++
+r_i^{(1)}(g_i^{(1)})^\top
++
+r_i^{(1)}(r_i^{(1)})^\top
+\right\}.
+\]
+Using
+\[
+\|xy^\top\|_{\mathrm F}=\|x\|_2\|y\|_2,
+\]
+we obtain
+\[
+\|\widehat\Gamma_1-\check\Gamma_1\|_{\mathrm F}
+\le
+2
+\left(
+\frac1{n_1}\sum_{i=1}^{n_1}\|g_i^{(1)}\|_2^2
+\right)^{1/2}
+\left(
+\frac1{n_1}\sum_{i=1}^{n_1}\|r_i^{(1)}\|_2^2
+\right)^{1/2}
++
+\frac1{n_1}\sum_{i=1}^{n_1}\|r_i^{(1)}\|_2^2.
+\]
+Set
+\[
+L_1=
+\frac1{n_1}\sum_{i=1}^{n_1}\|g_i^{(1)}\|_2^2,
+\qquad
+M_1=
+\frac1{n_1}\sum_{i=1}^{n_1}\|r_i^{(1)}\|_2^2.
+\]
+Then
+\[
+\|\widehat\Gamma_1-\check\Gamma_1\|_{\mathrm F}^2
+\le
+K_0(L_1M_1+M_1^2).
+\]
+
+We bound \(L_1\) and \(M_1\). Since
+\[
+\mathbb E\|H_i^{(1)}\|_2^4\le Cd^2,
+\]
+we have
+\[
+\mathbb E L_1^2\le Cd^2.
+\]
+For \(M_1\), note that
+\[
+\|r_i^{(1)}\|_2
+\le
+\left\|
+-\bar U(U_i-\bar U)^\top
+-
+(U_i-\bar U)\bar U^\top
+\right\|_{\mathrm F}
+\le
+2\|\bar U\|_2\|U_i-\bar U\|_2.
+\]
+Therefore,
+\[
+M_1
+\le
+4\|\bar U\|_2^2
+\left(
+\frac1{n_1}\sum_{i=1}^{n_1}\|U_i-\bar U\|_2^2
+\right).
+\]
+By Lemma~\ref{lem:coordinate_moments_imply_euclidean},
+\[
+\mathbb E\|\bar U\|_2^8
+\le
+K_0\left(\frac{p}{n_1}\right)^4,
+\]
+and
+\[
+\mathbb E
+\left(
+\frac1{n_1}\sum_{i=1}^{n_1}\|U_i-\bar U\|_2^2
+\right)^4
+\le
+Cp^4.
+\]
+Consequently, by Cauchy--Schwarz,
+\[
+\mathbb E M_1^2
+\le
+K_0
+\left(\mathbb E\|\bar U\|_2^8\right)^{1/2}
+\left[
+\mathbb E
+\left(
+\frac1{n_1}\sum_{i=1}^{n_1}\|U_i-\bar U\|_2^2
+\right)^4
+\right]^{1/2}
+\le
+K_0\frac{p^4}{n_1^2}.
+\]
+Since
+\[
+d=\frac{p(p+1)}2\asymp p^2,
+\]
+we have \(p^4\le Cd^2\), and hence
+\[
+\mathbb E M_1^2
+\le
+\frac{Cd^2}{n_1^2}.
+\]
+Therefore,
+\[
+\mathbb E(L_1M_1)
+\le
+(\mathbb E L_1^2)^{1/2}
+(\mathbb E M_1^2)^{1/2}
+\le
+Cd\cdot \frac d{n_1}
+=
+\frac{Cd^2}{n_1}.
+\]
+Together with \(\mathbb E M_1^2\le Cd^2/n_1^2\), this gives
+\[
+\mathbb E\|\widehat\Gamma_1-\check\Gamma_1\|_{\mathrm F}^2
+\le
+\frac{Cd^2}{n_1}.
+\]
+Combining this with the bound for
+\(\check\Gamma_1-\Gamma_1\), we conclude that
+\[
+\mathbb E\|\widehat\Gamma_1-\Gamma_1\|_{\mathrm F}^2
+\le
+\frac{Cd^2}{n_1}.
+\]
+Similarly,
+\[
+\mathbb E\|\widehat\Gamma_2-\Gamma_2\|_{\mathrm F}^2
+\le
+\frac{Cd^2}{n_2}.
+\]
+
+Now recall that
+\[
+\widehat\Gamma
+=
+n_{\mathrm{eff}}
+\left(
+\frac{\widehat\Gamma_1}{n_1}
++
+\frac{\widehat\Gamma_2}{n_2}
+\right),
+\]
+and
+\[
+\Gamma
+=
+n_{\mathrm{eff}}
+\left(
+\frac{\Gamma_1}{n_1}
++
+\frac{\Gamma_2}{n_2}
+\right).
+\]
+Thus
+\[
+\widehat\Gamma-\Gamma
+=
+n_{\mathrm{eff}}
+\left[
+\frac{\widehat\Gamma_1-\Gamma_1}{n_1}
++
+\frac{\widehat\Gamma_2-\Gamma_2}{n_2}
+\right].
+\]
+Using \((x+y)^2\le 2x^2+2y^2\),
+\[
+\|\widehat\Gamma-\Gamma\|_{\mathrm F}^2
+\le
+2n_{\mathrm{eff}}^2
+\left[
+\frac{\|\widehat\Gamma_1-\Gamma_1\|_{\mathrm F}^2}{n_1^2}
++
+\frac{\|\widehat\Gamma_2-\Gamma_2\|_{\mathrm F}^2}{n_2^2}
+\right].
+\]
+Taking expectations gives
+\[
+\mathbb E\|\widehat\Gamma-\Gamma\|_{\mathrm F}^2
+\le
+K_0 n_{\mathrm{eff}}^2 d^2
+\left(
+\frac1{n_1^3}
++
+\frac1{n_2^3}
+\right).
+\]
+Since \(n_{\mathrm{eff}}\le n_0=n_1\wedge n_2\),
+\[
+n_{\mathrm{eff}}^2
+\left(
+\frac1{n_1^3}
++
+\frac1{n_2^3}
+\right)
+\le
+\frac{K_0}{n_0}.
+\]
+Hence
+\[
+\mathbb E\|\widehat\Gamma-\Gamma\|_{\mathrm F}^2
+\le
+\frac{Cd^2}{n_0}.
+\]
+By Markov's inequality,
+\begin{equation}
+\label{eq:supp-bootstrap-gamma-hp}
+\mathbb P
+\left(
+\|\widehat\Gamma-\Gamma\|_{\mathrm F}
+>
+K_0\frac{d}{\sqrt{n_0\eta}}
+\right)
+\le
+\frac{\eta}{2}
+\end{equation}
+after increasing \(K_0\) if necessary.
+
+We now pass from \(\widehat\Gamma-\Gamma\) to
+\(\widehat R-R\). Let
+\[
+r_D
+=
+\max_{1\le k\le d}
+\left|
+\frac{\widehat D_{kk}}{\widetilde D_{kk}}-1
+\right|.
+\]
+By the studentizer concentration bound \eqref{eq:supp-studentizer-hp},
+\begin{equation}
+\label{eq:supp-bootstrap-rd-hp}
+\mathbb P
+\left(
+r_D>
+K_0\sqrt{\frac{d}{n_0\eta}}
+\right)
+\le
+\frac{\eta}{2}.
+\end{equation}
+On the event \(r_D\le 1/2\), the matrix \(\widehat D\) is positive definite and
+\[
+\|\widehat D^{-1/2}\|_{\mathrm{op}}\le K_0,
+\qquad
+\|\widetilde D^{-1/2}\|_{\mathrm{op}}\le K_0.
+\]
+Moreover,
+\[
+\left\|
+\widehat D^{-1/2}\widetilde D^{1/2}-I_d
+\right\|_{\mathrm{op}}
+\le
+Cr_D.
+\]
+Define
+\[
+B=\widehat D^{-1/2}\widetilde D^{1/2}.
+\]
+Then
+\[
+\widehat D^{-1/2}\Gamma\widehat D^{-1/2}
+=
+B
+\left(
+\widetilde D^{-1/2}\Gamma\widetilde D^{-1/2}
+\right)
+B
+=
+BRB.
+\]
+Therefore,
+\begin{equation}
+\label{eq:supp-bootstrap-R-decomposition}
+\widehat R-R
+=
+\widehat D^{-1/2}(\widehat\Gamma-\Gamma)\widehat D^{-1/2}
++
+(BRB-R).
+\end{equation}
+
+For the first term in \eqref{eq:supp-bootstrap-R-decomposition},
+\[
+\left\|
+\widehat D^{-1/2}(\widehat\Gamma-\Gamma)\widehat D^{-1/2}
+\right\|_{S_1}
+\le
+\|\widehat D^{-1/2}\|_{\mathrm{op}}^2
+\|\widehat\Gamma-\Gamma\|_{S_1}.
+\]
+Since
+\[
+\|M\|_{S_1}\le \sqrt d\,\|M\|_{\mathrm F},
+\]
+we have
+\[
+\left\|
+\widehat D^{-1/2}(\widehat\Gamma-\Gamma)\widehat D^{-1/2}
+\right\|_{S_1}
+\le
+K_0\sqrt d\,\|\widehat\Gamma-\Gamma\|_{\mathrm F}.
+\]
+
+For the second term in \eqref{eq:supp-bootstrap-R-decomposition},
+\[
+BRB-R
+=
+(B-I_d)RB+R(B-I_d).
+\]
+Hence
+\[
+\|BRB-R\|_{S_1}
+\le
+\|B-I_d\|_{\mathrm{op}}\|R\|_{S_1}\|B\|_{\mathrm{op}}
++
+\|R\|_{S_1}\|B-I_d\|_{\mathrm{op}}.
+\]
+Because \(\Gamma=\operatorname{Cov}(\widetilde W)\) is positive semidefinite
+and \(\widetilde D^{-1/2}\) is symmetric, the matrix
+\(R=\widetilde D^{-1/2}\Gamma\widetilde D^{-1/2}\) is positive semidefinite.
+Moreover, by definition of \(\widetilde D\), the diagonal entries of \(R\) are
+all equal to one. Therefore,
+\[
+\|R\|_{S_1}=\operatorname{tr}(R)=d.
+\]
+Also,
+\[
+\|B-I_d\|_{\mathrm{op}}\le K_0r_D,
+\qquad
+\|B\|_{\mathrm{op}}\le K_0.
+\]
+Therefore,
+\[
+\|BRB-R\|_{S_1}
+\le
+Cd r_D.
+\]
+Combining the two bounds,
+\begin{equation}
+\label{eq:supp-bootstrap-R-combined}
+\|\widehat R-R\|_{S_1}
+\le
+K_0\sqrt d\,\|\widehat\Gamma-\Gamma\|_{\mathrm F}
++
+Cd r_D.
+\end{equation}
+
+On the event where
+\[
+\|\widehat\Gamma-\Gamma\|_{\mathrm F}
+\le
+K_0\frac d{\sqrt{n_0\eta}}
+\]
+and
+\[
+r_D\le K_0\sqrt{\frac d{n_0\eta}},
+\]
+we therefore have, by \eqref{eq:supp-bootstrap-R-combined},
+\[
+\|\widehat R-R\|_{S_1}
+\le
+K_0\sqrt d\cdot \frac d{\sqrt{n_0\eta}}
++
+Cd\sqrt{\frac d{n_0\eta}}
+\le
+K_0\sqrt{\frac{d^3}{n_0\eta}}.
+\]
+The probability of this event is at least \(1-\eta\). Hence
+\[
+\mathbb P
+\left(
+\|\widehat R-R\|_{S_1}
+>
+K_R\sqrt{\frac{d^3}{n_0\eta}}
+\right)
+\le
+\eta
+\]
+for a sufficiently large constant \(K_R>0\). This proves the proposition.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:bootstrap_explicit}]
+We first identify the conditional distribution of the multiplier statistic.
+Recall that
+\[
+\widehat W^{\mathrm{mb}}
+=
+\sqrt{n_{\mathrm{eff}}}
+\left\{
+\frac1{n_1}\sum_{i=1}^{n_1}e_i\widehat h_i^{(1)}
+-
+\frac1{n_2}\sum_{j=1}^{n_2}e_j'\widehat h_j^{(2)}
+\right\},
+\]
+where, conditionally on the data, the multiplier variables
+\[
+e_1,\ldots,e_{n_1},e_1',\ldots,e_{n_2}'
+\]
+are independent standard normal random variables. Therefore,
+conditionally on the data,
+\[
+\widehat W^{\mathrm{mb}}\mid\mathcal X
+\sim
+N(0,\widehat\Gamma),
+\]
+where
+\[
+\widehat\Gamma
+=
+n_{\mathrm{eff}}
+\left\{
+\frac1{n_1^2}\sum_{i=1}^{n_1}
+\widehat h_i^{(1)}(\widehat h_i^{(1)})^\top
++
+\frac1{n_2^2}\sum_{j=1}^{n_2}
+\widehat h_j^{(2)}(\widehat h_j^{(2)})^\top
+\right\}.
+\]
+Consequently,
+\[
+\widehat Z
+:=
+\widehat D^{-1/2}\widehat W^{\mathrm{mb}}
+\mid\mathcal X
+\sim
+N(0,\widehat R),
+\]
+where
+\[
+\widehat R
+=
+\widehat D^{-1/2}\widehat\Gamma\widehat D^{-1/2}.
+\]
+Thus, conditionally on the data,
+\[
+\widehat T_n^{\mathrm{mb}}
+=
+\frac1d
+\left\|
+\widehat D^{-1/2}\widehat W^{\mathrm{mb}}
+\right\|_2^2
+=
+\frac1d\|\widehat Z\|_2^2.
+\]
+
+The oracle Gaussian reference is
+\[
+T_Z
+=
+\frac1d\|Z\|_2^2,
+\qquad
+Z\sim N(0,R),
+\]
+where
+\[
+R=
+\widetilde D^{-1/2}
+\operatorname{Cov}(\widetilde W)
+\widetilde D^{-1/2}.
+\]
+Hence the bootstrap approximation problem reduces to comparing two Gaussian
+quadratic forms:
+\[
+\frac1d\|\widehat Z\|_2^2,
+\qquad
+\frac1d\|Z\|_2^2,
+\]
+with covariance matrices \(\widehat R\) and \(R\), respectively.
+
+By Proposition~\ref{prop:bootstrap_covariance_consistency}, there exists a
+constant \(K_R>0\) such that, for every \(\eta_2\in(0,1)\),
+\[
+\mathbb P
+\left(
+\|\widehat R-R\|_{S_1}
+>
+K_R\sqrt{\frac{d^3}{n_0\eta_2}}
+\right)
+\le
+\eta_2.
+\]
+Define the event
+\[
+\mathcal B_{\eta_2}
+=
+\left\{
+\|\widehat R-R\|_{S_1}
+\le
+K_R\sqrt{\frac{d^3}{n_0\eta_2}}
+\right\}.
+\]
+Then
+\[
+\mathbb P(\mathcal B_{\eta_2})\ge 1-\eta_2.
+\]
+
+We now show that on \(\mathcal B_{\eta_2}\), the Gaussian reference geometry of
+\(\widehat R\) is controlled by that of \(R\). Since
+\[
+\|\widehat R-R\|_{\mathrm{op}}
+\le
+\|\widehat R-R\|_{S_1}
+\]
+and
+\[
+\|\widehat R-R\|_{\mathrm F}
+\le
+\|\widehat R-R\|_{S_1},
+\]
+on \(\mathcal B_{\eta_2}\) we have
+\[
+\|\widehat R-R\|_{\mathrm F}
+\le
+K_R\sqrt{\frac{d^3}{n_0\eta_2}}.
+\]
+Let
+\[
+\widehat\lambda_1\ge\cdots\ge\widehat\lambda_d\ge0
+\]
+be the eigenvalues of \(\widehat R\), and define
+\[
+\widehat\Lambda_s
+=
+\left(
+\sum_{\ell=s}^d\widehat\lambda_\ell^2
+\right)^{1/2},
+\qquad s=1,2.
+\]
+By Lemma~\ref{lem:hoffman_wielandt} (the Hoffman--Wielandt inequality applied to
+\(\widehat R\) and \(R\)),
+\[
+\left[
+\sum_{\ell=1}^d
+(\widehat\lambda_\ell-\lambda_\ell)^2
+\right]^{1/2}
+\le
+\|\widehat R-R\|_{\mathrm F}.
+\]
+Therefore, on \(\mathcal B_{\eta_2}\),
+\[
+|\widehat\Lambda_s-\Lambda_s|
+\le
+\|\widehat R-R\|_{\mathrm F}
+\le
+K_R\sqrt{\frac{d^3}{n_0\eta_2}},
+\qquad s=1,2.
+\]
+By the assumed geometry stability condition,
+\[
+K_R\sqrt{\frac{d^3}{n_0\eta_2}}
+\le
+\frac12\Lambda_2(R).
+\]
+Since \(\Lambda_1(R)\ge\Lambda_2(R)\), the same bound also implies
+\[
+K_R\sqrt{\frac{d^3}{n_0\eta_2}}
+\le
+\frac12\Lambda_1(R).
+\]
+Hence, on \(\mathcal B_{\eta_2}\),
+\[
+\widehat\Lambda_1
+\ge
+\Lambda_1(R)
+-
+K_R\sqrt{\frac{d^3}{n_0\eta_2}}
+\ge
+\frac12\Lambda_1(R),
+\]
+and
+\[
+\widehat\Lambda_2
+\ge
+\Lambda_2(R)
+-
+K_R\sqrt{\frac{d^3}{n_0\eta_2}}
+\ge
+\frac12\Lambda_2(R).
+\]
+In particular,
+\[
+\widehat\Lambda_2>0
+\]
+on \(\mathcal B_{\eta_2}\). Moreover,
+\[
+\kappa(\widehat R)
+=
+(\widehat\Lambda_1\widehat\Lambda_2)^{-1/2}
+\le
+2(\Lambda_1(R)\Lambda_2(R))^{-1/2}
+=
+2\kappa(R).
+\]
+
+We now apply Lemma~\ref{lem:gaussian_comparison_quadratic} (the Gaussian
+comparison inequality for squared norms). Conditional on the data and on the
+event \(\mathcal B_{\eta_2}\), both covariance matrices \(\widehat R\) and
+\(R\) satisfy the required nondegeneracy condition (\(\Lambda_2(\cdot)>0\) by
+the preceding step). Lemma~\ref{lem:gaussian_comparison_quadratic} therefore
+gives, after the rescaling \(\widehat T_n^{\mathrm{mb}}=d^{-1}\|\widehat Z\|_2^2\)
+and \(T_Z=d^{-1}\|Z\|_2^2\),
+\[
+\sup_{r\ge0}
+\left|
+\mathbb P_\xi
+\left(
+\widehat T_n^{\mathrm{mb}}\le r\mid\mathcal X
+\right)
+-
+\mathbb P(T_Z\le r)
+\right|
+\le
+K
+\{\kappa(\widehat R)+\kappa(R)\}
+\|\widehat R-R\|_{S_1}.
+\]
+Using
+\[
+\kappa(\widehat R)\le 2\kappa(R)
+\]
+and
+\[
+\|\widehat R-R\|_{S_1}
+\le
+K_R\sqrt{\frac{d^3}{n_0\eta_2}}
+\]
+on \(\mathcal B_{\eta_2}\), we obtain
+\[
+\sup_{r\ge0}
+\left|
+\mathbb P_\xi
+\left(
+\widehat T_n^{\mathrm{mb}}\le r\mid\mathcal X
+\right)
+-
+\mathbb P(T_Z\le r)
+\right|
+\le
+K\kappa(R)
+\sqrt{\frac{d^3}{n_0\eta_2}}.
+\]
+By the definition
+\[
+\rho_{\mathrm{mb}}(\eta_2)
+=
+K\kappa(R)
+\sqrt{\frac{d^3}{n_0\eta_2}},
+\]
+this becomes
+\[
+\sup_{r\ge0}
+\left|
+\mathbb P_\xi
+\left(
+\widehat T_n^{\mathrm{mb}}\le r\mid\mathcal X
+\right)
+-
+\mathbb P(T_Z\le r)
+\right|
+\le
+\rho_{\mathrm{mb}}(\eta_2)
+\]
+on \(\mathcal B_{\eta_2}\).
+
+Since
+\[
+\mathbb P(\mathcal B_{\eta_2})\ge 1-\eta_2,
+\]
+the asserted high-probability bootstrap approximation follows.
+\end{proof}
+
+\begin{proof}[Proof of Corollary~\ref{cor:size_validity}]
+Let
+\[
+F_n(r)
+=
+\mathbb P_{H_0}(\widehat T_n\le r)
+\]
+be the unconditional distribution function of the feasible statistic under
+\(H_0\), and let
+\[
+G(r)
+=
+\mathbb P(T_Z\le r)
+\]
+be the distribution function of the oracle Gaussian reference
+\[
+T_Z=\frac1d\|Z\|_2^2,
+\qquad
+Z\sim N(0,R).
+\]
+Also define the conditional bootstrap distribution function
+\[
+\widehat F_{\mathrm{mb}}(r)
+=
+\mathbb P_\xi
+\left(
+\widehat T_n^{\mathrm{mb}}\le r\mid\mathcal X
+\right).
+\]
+
+By Corollary~\ref{cor:feasible_gaussian} and the assumptions of
+Corollary~\ref{cor:size_validity}, there exists a deterministic error
+\(\varepsilon_n\to0\), given by the bound in
+\eqref{eq:feasible-gaussian-error}, such that
+\begin{equation}
+\label{eq:supp-size-feasible-kolmogorov}
+\sup_{r\ge0}
+|F_n(r)-G(r)|
+\le
+\varepsilon_n.
+\end{equation}
+
+Next, by Theorem~\ref{thm:bootstrap_explicit} and the assumptions of
+Corollary~\ref{cor:size_validity}, there exists a deterministic error
+\(\rho_n\to0\), given by the bound in \eqref{eq:bootstrap-error}, such that
+with probability tending to one,
+\begin{equation}
+\label{eq:supp-size-bootstrap-kolmogorov}
+\sup_{r\ge0}
+\left|
+\widehat F_{\mathrm{mb}}(r)-G(r)
+\right|
+\le
+\rho_n.
+\end{equation}
+Let
+\begin{equation}
+\label{eq:supp-size-bootstrap-event}
+\mathcal B_n
+=
+\left\{
+\sup_{r\ge0}
+\left|
+\widehat F_{\mathrm{mb}}(r)-G(r)
+\right|
+\le \rho_n
+\right\}.
+\end{equation}
+Then
+\[
+\mathbb P(\mathcal B_n)\to1.
+\]
+Let \(\tau_n=\mathbb P(\mathcal B_n^c)\).  Then \(\tau_n\to0\).
+
+We first verify that the oracle Gaussian reference has well-behaved quantiles.
+Since
+\[
+T_Z=\frac1d\|Z\|_2^2,
+\qquad
+Z\sim N(0,R),
+\]
+we may diagonalize \(R\) and write
+\[
+T_Z
+\overset{d}{=}
+\frac1d
+\sum_{\ell=1}^d
+\lambda_\ell \xi_\ell^2,
+\]
+where
+\(\xi_1,\ldots,\xi_d\) are independent standard normal random variables and
+\(\lambda_1,\ldots,\lambda_d\) are the eigenvalues of \(R\). By
+Assumption~\ref{ass:gaussian_reference_geometry},
+\[
+\Lambda_2
+=
+\left(
+\sum_{\ell=2}^d\lambda_\ell^2
+\right)^{1/2}
+>0.
+\]
+Thus the Gaussian quadratic form is nondegenerate. In particular, \(G\) is
+continuous on \([0,\infty)\). Moreover, for every \(u\in(0,1)\), if
+\[
+q_u=\inf\{r\ge0:G(r)\ge u\},
+\]
+then
+\[
+G(q_u)=u.
+\]
+
+Let
+\[
+\widehat q_u
+=
+\inf\{r\ge0:\widehat F_{\mathrm{mb}}(r)\ge u\}
+\]
+be the conditional bootstrap \(u\)-quantile. By definition,
+\[
+\widehat c_{1-\alpha}^{\mathrm{mb}}
+=
+\widehat q_{1-\alpha}.
+\]
+On the event \(\mathcal B_n\) in \eqref{eq:supp-size-bootstrap-event}, the
+Kolmogorov bound \eqref{eq:supp-size-bootstrap-kolmogorov} implies the
+quantile sandwich
+\begin{equation}
+\label{eq:supp-size-quantile-sandwich}
+q_{1-\alpha-\rho_n}
+\le
+\widehat c_{1-\alpha}^{\mathrm{mb}}
+\le
+q_{1-\alpha+\rho_n},
+\end{equation}
+for all sufficiently large \(n\), since \(\rho_n\to0\).
+
+Indeed, if
+\[
+r<q_{1-\alpha-\rho_n},
+\]
+then
+\[
+G(r)<1-\alpha-\rho_n.
+\]
+Hence, on \(\mathcal B_n\),
+\[
+\widehat F_{\mathrm{mb}}(r)
+\le
+G(r)+\rho_n
+<
+1-\alpha.
+\]
+Therefore \(r\) cannot reach the bootstrap \((1-\alpha)\)-quantile, giving
+\[
+q_{1-\alpha-\rho_n}
+\le
+\widehat c_{1-\alpha}^{\mathrm{mb}}.
+\]
+Similarly, since
+\[
+G(q_{1-\alpha+\rho_n})
+=
+1-\alpha+\rho_n,
+\]
+we have, on \(\mathcal B_n\),
+\[
+\widehat F_{\mathrm{mb}}(q_{1-\alpha+\rho_n})
+\ge
+G(q_{1-\alpha+\rho_n})-\rho_n
+=
+1-\alpha.
+\]
+Therefore
+\[
+\widehat c_{1-\alpha}^{\mathrm{mb}}
+\le
+q_{1-\alpha+\rho_n}.
+\]
+
+We now bound the rejection probability from above.  By the left inequality in
+\eqref{eq:supp-size-quantile-sandwich}, on \(\mathcal B_n\),
+\[
+\left\{
+\widehat T_n>\widehat c_{1-\alpha}^{\mathrm{mb}}
+\right\}
+\subset
+\left\{
+\widehat T_n>q_{1-\alpha-\rho_n}
+\right\}
+\]
+Hence
+\[
+\mathbb P_{H_0}
+\left(
+\widehat T_n>\widehat c_{1-\alpha}^{\mathrm{mb}}
+\right)
+\le
+\mathbb P_{H_0}
+\left(
+\widehat T_n>q_{1-\alpha-\rho_n}
+\right)
++
+\mathbb P(\mathcal B_n^c).
+\]
+Since \(\mathbb P(\mathcal B_n^c)=\tau_n\),
+\[
+\mathbb P_{H_0}
+\left(
+\widehat T_n>\widehat c_{1-\alpha}^{\mathrm{mb}}
+\right)
+\le
+1-F_n(q_{1-\alpha-\rho_n})
++
+\tau_n.
+\]
+Using \eqref{eq:supp-size-feasible-kolmogorov}, we obtain
+\[
+1-F_n(q_{1-\alpha-\rho_n})
+\le
+1-G(q_{1-\alpha-\rho_n})
++
+\varepsilon_n.
+\]
+Since
+\[
+G(q_{1-\alpha-\rho_n})
+=
+1-\alpha-\rho_n,
+\]
+we get
+\[
+1-G(q_{1-\alpha-\rho_n})
+=
+\alpha+\rho_n.
+\]
+Therefore,
+\begin{equation}
+\label{eq:supp-size-upper-bound}
+\mathbb P_{H_0}
+\left(
+\widehat T_n>\widehat c_{1-\alpha}^{\mathrm{mb}}
+\right)
+\le
+\alpha+\rho_n+\varepsilon_n+\tau_n.
+\end{equation}
+Because
+\[
+\rho_n\to0,
+\qquad
+\varepsilon_n\to0,
+\qquad
+\tau_n\to0,
+\]
+we have
+\[
+\limsup_{n\to\infty}
+\mathbb P_{H_0}
+\left(
+\widehat T_n>\widehat c_{1-\alpha}^{\mathrm{mb}}
+\right)
+\le
+\alpha.
+\]
+
+We next derive the lower bound.  By the right inequality in
+\eqref{eq:supp-size-quantile-sandwich}, on \(\mathcal B_n\),
+\[
+\left\{
+\widehat T_n>q_{1-\alpha+\rho_n}
+\right\}
+\subset
+\left\{
+\widehat T_n>\widehat c_{1-\alpha}^{\mathrm{mb}}
+\right\}
+\]
+Therefore,
+\[
+\mathbb P_{H_0}
+\left(
+\widehat T_n>\widehat c_{1-\alpha}^{\mathrm{mb}}
+\right)
+\ge
+\mathbb P_{H_0}
+\left(
+\widehat T_n>q_{1-\alpha+\rho_n}
+\right)
+-
+\mathbb P(\mathcal B_n^c).
+\]
+Since \(\mathbb P(\mathcal B_n^c)=\tau_n\),
+\[
+\mathbb P_{H_0}
+\left(
+\widehat T_n>\widehat c_{1-\alpha}^{\mathrm{mb}}
+\right)
+\ge
+1-F_n(q_{1-\alpha+\rho_n})
+-
+\tau_n.
+\]
+Again using \eqref{eq:supp-size-feasible-kolmogorov}, we get
+\[
+1-F_n(q_{1-\alpha+\rho_n})
+\ge
+1-G(q_{1-\alpha+\rho_n})
+-
+\varepsilon_n.
+\]
+Since
+\[
+G(q_{1-\alpha+\rho_n})
+=
+1-\alpha+\rho_n,
+\]
+we have
+\[
+1-G(q_{1-\alpha+\rho_n})
+=
+\alpha-\rho_n.
+\]
+Thus
+\begin{equation}
+\label{eq:supp-size-lower-bound}
+\mathbb P_{H_0}
+\left(
+\widehat T_n>\widehat c_{1-\alpha}^{\mathrm{mb}}
+\right)
+\ge
+\alpha-\rho_n-\varepsilon_n-\tau_n.
+\end{equation}
+Letting \(n\to\infty\), and using
+\[
+\rho_n\to0,
+\qquad
+\varepsilon_n\to0,
+\qquad
+\tau_n\to0,
+\]
+gives
+\[
+\liminf_{n\to\infty}
+\mathbb P_{H_0}
+\left(
+\widehat T_n>\widehat c_{1-\alpha}^{\mathrm{mb}}
+\right)
+\ge
+\alpha.
+\]
+
+Combining the upper and lower bounds, we conclude that
+\[
+\mathbb P_{H_0}
+\left(
+\widehat T_n>\widehat c_{1-\alpha}^{\mathrm{mb}}
+\right)
+\to
+\alpha.
+\]
+This proves the corollary.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:power_consistency}]
+Throughout the proof, we work in the transformed model and suppress the
+superscript \((A)\).  Under \(H_1\), write
+\[
+\Delta_\Sigma
+=
+\operatorname{vech}\{A(\Sigma_1-\Sigma_2)A^\top\},
+\qquad
+\theta_n
+=
+\widetilde D^{-1/2}\Delta_\Sigma .
+\]
+The oracle covariance-difference vector can be decomposed as
+\[
+\widetilde W
+=
+\sqrt{n_{\mathrm{eff}}}\Delta_\Sigma
++
+\widetilde W_0,
+\]
+where
+\[
+\widetilde W_0
+=
+\sqrt{n_{\mathrm{eff}}}
+\left\{
+\operatorname{vech}(\widetilde\Sigma_1-\Sigma_1)
+-
+\operatorname{vech}(\widetilde\Sigma_2-\Sigma_2)
+\right\}
+\]
+is centered.  Define
+\[
+S_n=\widetilde D^{-1/2}\widetilde W_0.
+\]
+Then
+\[
+\widetilde D^{-1/2}\widetilde W
+=
+\sqrt{n_{\mathrm{eff}}}\theta_n+S_n.
+\]
+
+By construction, the diagonal entries of
+\(\operatorname{Cov}(S_n)\) are equal to one.  Hence
+\[
+\mathbb E_{H_1}
+\left(
+\frac1d\|S_n\|_2^2
+\right)
+=
+\frac1d
+\operatorname{tr}\{\operatorname{Cov}(S_n)\}
+=
+1.
+\]
+Therefore,
+\[
+\frac1{\sqrt d}\|S_n\|_2=O_{\mathbb P}(1).
+\]
+
+By the primitive alternative condition, there exists
+\(\mathcal I_n\subset\{1,\ldots,d\}\), with
+\(|\mathcal I_n|=m_n\), such that
+\[
+\min_{k\in\mathcal I_n}|\theta_{n,k}|\ge a_n.
+\]
+Consequently,
+\[
+\frac1d
+\left\|
+\sqrt{n_{\mathrm{eff}}}\theta_n
+\right\|_2^2
+=
+\frac{n_{\mathrm{eff}}}{d}\|\theta_n\|_2^2
+\ge
+n_{\mathrm{eff}}\frac{m_n}{d}a_n^2
+=
+g_n.
+\]
+Since \(g_n\to\infty\), we have
+\[
+\frac1{\sqrt d}
+\left\|
+\sqrt{n_{\mathrm{eff}}}\theta_n
+\right\|_2
+\ge
+\sqrt{g_n}
+\to\infty.
+\]
+Combining this deterministic lower bound with
+\(d^{-1/2}\|S_n\|_2=O_{\mathbb P}(1)\), the triangle inequality gives
+\[
+\frac1{\sqrt d}
+\left\|
+\widetilde D^{-1/2}\widetilde W
+\right\|_2
+=
+\frac1{\sqrt d}
+\left\|
+\sqrt{n_{\mathrm{eff}}}\theta_n+S_n
+\right\|_2
+\ge
+\sqrt{g_n}-O_{\mathbb P}(1).
+\]
+Thus
+\[
+\widetilde T_n
+=
+\frac1d
+\left\|
+\widetilde D^{-1/2}\widetilde W
+\right\|_2^2
+\to\infty
+\]
+in probability under \(H_1\).
+
+It remains to transfer this divergence from the oracle statistic to the feasible
+statistic.  Let
+\[
+E_n
+=
+\widetilde D^{-1/2}(\widehat W-\widetilde W).
+\]
+The same sample-centering argument used in the proof of
+Proposition~\ref{prop:sample_oracle_transfer} gives, under
+Assumption~\ref{ass:coordinate_high_moment},
+\[
+\frac1{\sqrt d}\|E_n\|_2
+=
+O_{\mathbb P}
+\left[
+\sqrt{\frac{n_{\mathrm{eff}}}{d}}
+\left(
+\frac{p}{n_1}+\frac{p}{n_2}
+\right)
+\right].
+\]
+By the assumed growth condition,
+\[
+\sqrt{\frac{n_{\mathrm{eff}}}{d}}
+\left(
+\frac{p}{n_1}+\frac{p}{n_2}
+\right)
+=
+o(\sqrt{g_n}),
+\]
+we obtain
+\[
+\frac1{\sqrt d}\|E_n\|_2=o_{\mathbb P}(\sqrt{g_n}).
+\]
+
+Next, by the coordinatewise studentizer consistency established in the
+sample-to-oracle analysis,
+\[
+\max_{1\le k\le d}
+\left|
+\frac{\widehat D_k}{\widetilde D_k}-1
+\right|
+=
+O_{\mathbb P}
+\left(
+\sqrt{\frac{d}{n_0}}
+\right)
+=
+o_{\mathbb P}(1),
+\]
+where the last equality follows from \(d/n_0\to0\).  Hence, with probability
+tending to one,
+\[
+\max_{1\le k\le d}
+\left|
+\frac{\widehat D_k}{\widetilde D_k}-1
+\right|
+\le \frac12.
+\]
+On this event,
+\[
+\frac{\widetilde D_k}{\widehat D_k}\ge \frac23
+\qquad
+\text{for all } k=1,\ldots,d.
+\]
+Therefore,
+\[
+\widehat T_n
+=
+\frac1d
+\widehat W^\top \widehat D^{-1}\widehat W
+=
+\frac1d
+\sum_{k=1}^d
+\frac{\widetilde D_k}{\widehat D_k}
+\left[
+\widetilde D^{-1/2}\widehat W
+\right]_k^2
+\ge
+\frac23
+\frac1d
+\left\|
+\widetilde D^{-1/2}\widehat W
+\right\|_2^2.
+\]
+Since
+\[
+\widetilde D^{-1/2}\widehat W
+=
+\widetilde D^{-1/2}\widetilde W+E_n
+=
+\sqrt{n_{\mathrm{eff}}}\theta_n+S_n+E_n,
+\]
+another application of the triangle inequality yields
+\[
+\frac1{\sqrt d}
+\left\|
+\widetilde D^{-1/2}\widehat W
+\right\|_2
+\ge
+\sqrt{g_n}
+-
+\frac1{\sqrt d}\|S_n\|_2
+-
+\frac1{\sqrt d}\|E_n\|_2.
+\]
+The second term is \(O_{\mathbb P}(1)\), while the third term is
+\(o_{\mathbb P}(\sqrt{g_n})\).  Since \(g_n\to\infty\),
+\[
+\frac1{\sqrt d}
+\left\|
+\widetilde D^{-1/2}\widehat W
+\right\|_2
+\to\infty
+\]
+in probability.  Consequently,
+\[
+\widehat T_n\to\infty
+\]
+in probability under \(H_1\).
+
+It remains only to show that the bootstrap critical value does not diverge.
+Conditionally on the data, the multiplier-bootstrap statistic has the form
+\[
+\widehat T_n^{\mathrm{mb}}
+=
+\frac1d
+\left\|
+\widehat D^{-1/2}\widehat W^{\mathrm{mb}}
+\right\|_2^2.
+\]
+Let
+\[
+\widehat Z
+=
+\widehat D^{-1/2}\widehat W^{\mathrm{mb}}.
+\]
+Then, conditionally on the data,
+\[
+\widehat Z\mid\mathcal X\sim N(0,\widehat R),
+\]
+where \(\widehat R\) has diagonal entries equal to one by construction of
+\(\widehat D\).  Hence
+\[
+\operatorname{tr}(\widehat R)=d
+\]
+and
+\[
+\mathbb E_\xi
+\left(
+\widehat T_n^{\mathrm{mb}}\mid\mathcal X
+\right)
+=
+\frac1d\operatorname{tr}(\widehat R)
+=
+1.
+\]
+By conditional Markov's inequality, for any \(M>0\),
+\[
+\mathbb P_\xi
+\left(
+\widehat T_n^{\mathrm{mb}}>M
+\mid\mathcal X
+\right)
+\le
+\frac1M.
+\]
+Choose \(M>\alpha^{-1}\).  Then
+\[
+\mathbb P_\xi
+\left(
+\widehat T_n^{\mathrm{mb}}\le M
+\mid\mathcal X
+\right)
+\ge
+1-\frac1M
+>
+1-\alpha.
+\]
+Therefore, by the definition of the conditional \((1-\alpha)\)-quantile,
+\[
+\widehat c_{1-\alpha}^{\mathrm{mb}}\le M
+\]
+with probability tending to one.  Thus
+\[
+\widehat c_{1-\alpha}^{\mathrm{mb}}=O_{\mathbb P}(1).
+\]
+
+We have shown that
+\[
+\widehat T_n\to\infty
+\quad\text{in probability},
+\qquad
+\widehat c_{1-\alpha}^{\mathrm{mb}}=O_{\mathbb P}(1).
+\]
+It follows that
+\[
+\mathbb P_{H_1}
+\left(
+\widehat T_n>\widehat c_{1-\alpha}^{\mathrm{mb}}
+\right)
+\to1.
+\]
+
+Finally, the right-tail multiplier-bootstrap \(p\)-value is
+\[
+p_n^{\mathrm{mb}}
+=
+\mathbb P_\xi
+\left(
+\widehat T_n^{\mathrm{mb}}\ge \widehat T_n
+\mid\mathcal X
+\right).
+\]
+By conditional Markov's inequality,
+\[
+p_n^{\mathrm{mb}}
+\le
+\frac{
+\mathbb E_\xi(\widehat T_n^{\mathrm{mb}}\mid\mathcal X)
+}{
+\widehat T_n
+}
+=
+\frac1{\widehat T_n}.
+\]
+Since \(\widehat T_n\to\infty\) in probability, we conclude that
+\[
+p_n^{\mathrm{mb}}\to0
+\]
+in probability.  This completes the proof.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:unbalanced_reduction}]
+We work under \(H_0\) and suppress the superscript \((A)\).  Recall that
+\[
+\widetilde W
+=
+\sqrt{n_{\mathrm{eff}}}(\bar H_1-\bar H_2),
+\qquad
+W_{2|1}
+=
+-\sqrt{n_2}\bar H_2.
+\]
+Since the two samples are independent,
+\[
+\operatorname{Cov}(\widetilde W)
+=
+\frac{n_{\mathrm{eff}}}{n_1}\Gamma_1
++
+\frac{n_{\mathrm{eff}}}{n_2}\Gamma_2.
+\]
+Therefore,
+\[
+\widetilde D
+=
+\alpha_nD_1+\beta_nD_2,
+\]
+where
+\[
+\alpha_n
+=
+\frac{n_{\mathrm{eff}}}{n_1}
+=
+\frac{n_2}{n_1+n_2},
+\qquad
+\beta_n
+=
+\frac{n_{\mathrm{eff}}}{n_2}
+=
+\frac{n_1}{n_1+n_2}.
+\]
+Writing
+\[
+\varepsilon_n=\frac{n_2}{n_1},
+\]
+we have
+\[
+\alpha_n=\frac{\varepsilon_n}{1+\varepsilon_n}=O(\varepsilon_n),
+\qquad
+\beta_n=\frac1{1+\varepsilon_n}=1+O(\varepsilon_n).
+\]
+Hence
+\[
+\frac{n_{\mathrm{eff}}}{n_2}=\beta_n=1+O(\varepsilon_n).
+\]
+
+By Assumption~\ref{ass:coordinate_nondegeneracy},
+\[
+D_{g,k}\ge c_H
+\qquad
+\text{for all }g=1,2,\quad k=1,\ldots,d.
+\]
+By Assumption~\ref{ass:coordinate_high_moment}, there exists a constant
+\(C<\infty\) such that
+\[
+D_{g,k}\le C
+\qquad
+\text{for all }g=1,2,\quad k=1,\ldots,d.
+\]
+Indeed, for a covariance coordinate \(k=(a,b)\),
+\[
+D_{g,k}
+=
+\operatorname{Var}(Q_{ga}Q_{gb})
+\le
+\mathbb E(Q_{ga}^2Q_{gb}^2)
+\le
+\left(\mathbb E|Q_{ga}|^4\right)^{1/2}
+\left(\mathbb E|Q_{gb}|^4\right)^{1/2}
+\le C,
+\]
+where \(Q_g\) denotes a generic transformed centered observation from group
+\(g\), that is, \(Q_1=U_i\) and \(Q_2=V_j\).
+
+Consequently,
+\[
+\max_{1\le k\le d}
+\left|
+\frac{\widetilde D_k}{D_{2,k}}-1
+\right|
+=
+\max_{1\le k\le d}
+\left|
+\alpha_n
+\left(
+\frac{D_{1,k}}{D_{2,k}}-1
+\right)
+\right|
+\le
+C\alpha_n
+=
+O(\varepsilon_n).
+\]
+It follows that
+\[
+\left\|
+\widetilde D^{-1/2}D_2^{1/2}
+\right\|_{\mathrm{op}}
+=
+O(1),
+\qquad
+\left\|
+\widetilde D^{-1/2}D_2^{1/2}-I_d
+\right\|_{\mathrm{op}}
+=
+O(\varepsilon_n).
+\]
+
+Next,
+\[
+\widetilde W-W_{2|1}
+=
+\sqrt{n_{\mathrm{eff}}}\bar H_1
++
+(\sqrt{n_2}-\sqrt{n_{\mathrm{eff}}})\bar H_2.
+\]
+Since \(\bar H_1\) and \(\bar H_2\) are independent and centered,
+\[
+\begin{aligned}
+\mathbb E
+\left\|
+D_2^{-1/2}(\widetilde W-W_{2|1})
+\right\|_2^2
+&=
+\frac{n_{\mathrm{eff}}}{n_1}
+\operatorname{tr}
+\left(
+D_2^{-1/2}\Gamma_1D_2^{-1/2}
+\right) \\
+&\quad+
+\frac{(\sqrt{n_2}-\sqrt{n_{\mathrm{eff}}})^2}{n_2}
+\operatorname{tr}
+\left(
+D_2^{-1/2}\Gamma_2D_2^{-1/2}
+\right).
+\end{aligned}
+\]
+Using the uniform bounds on \(D_{2,k}\) and \(\Gamma_{1,kk}\),
+\[
+\operatorname{tr}
+\left(
+D_2^{-1/2}\Gamma_1D_2^{-1/2}
+\right)
+=
+\sum_{k=1}^d
+\frac{\Gamma_{1,kk}}{D_{2,k}}
+\le Cd.
+\]
+Moreover,
+\[
+\operatorname{tr}
+\left(
+D_2^{-1/2}\Gamma_2D_2^{-1/2}
+\right)
+=
+\sum_{k=1}^d
+\frac{\Gamma_{2,kk}}{D_{2,k}}
+=
+d.
+\]
+Therefore,
+\[
+\frac1d
+\mathbb E
+\left\|
+D_2^{-1/2}(\widetilde W-W_{2|1})
+\right\|_2^2
+\le
+C\alpha_n+(1-\sqrt{\beta_n})^2.
+\]
+Since
+\[
+\alpha_n=O(\varepsilon_n),
+\qquad
+1-\sqrt{\beta_n}=O(\varepsilon_n),
+\]
+we obtain
+\[
+\frac1d
+\mathbb E
+\left\|
+D_2^{-1/2}(\widetilde W-W_{2|1})
+\right\|_2^2
+\le
+C\varepsilon_n.
+\]
+By Markov's inequality,
+\[
+\frac1{\sqrt d}
+\left\|
+D_2^{-1/2}(\widetilde W-W_{2|1})
+\right\|_2
+=
+O_{\mathbb P}(\varepsilon_n^{1/2}).
+\]
+
+Now decompose
+\[
+\widetilde D^{-1/2}\widetilde W
+-
+D_2^{-1/2}W_{2|1}
+=
+\widetilde D^{-1/2}(\widetilde W-W_{2|1})
++
+(\widetilde D^{-1/2}-D_2^{-1/2})W_{2|1}.
+\]
+For the first term,
+\[
+\begin{aligned}
+\frac1{\sqrt d}
+\left\|
+\widetilde D^{-1/2}(\widetilde W-W_{2|1})
+\right\|_2
+&\le
+\left\|
+\widetilde D^{-1/2}D_2^{1/2}
+\right\|_{\mathrm{op}}
+\frac1{\sqrt d}
+\left\|
+D_2^{-1/2}(\widetilde W-W_{2|1})
+\right\|_2 \\
+&=
+O_{\mathbb P}(\varepsilon_n^{1/2}).
+\end{aligned}
+\]
+For the second term,
+\[
+(\widetilde D^{-1/2}-D_2^{-1/2})W_{2|1}
+=
+(\widetilde D^{-1/2}D_2^{1/2}-I_d)D_2^{-1/2}W_{2|1}.
+\]
+Furthermore,
+\[
+\mathbb E
+\left[
+\frac1d
+\left\|
+D_2^{-1/2}W_{2|1}
+\right\|_2^2
+\right]
+=
+\frac1d
+\operatorname{tr}
+\left(
+D_2^{-1/2}\Gamma_2D_2^{-1/2}
+\right)
+=
+1.
+\]
+Thus
+\[
+\frac1{\sqrt d}
+\left\|
+D_2^{-1/2}W_{2|1}
+\right\|_2
+=
+O_{\mathbb P}(1),
+\]
+and the second term is \(O_{\mathbb P}(\varepsilon_n)\) after normalization by
+\(d^{-1/2}\).  Combining the two terms gives
+\[
+\frac1{\sqrt d}
+\left\|
+\widetilde D^{-1/2}\widetilde W
+-
+D_2^{-1/2}W_{2|1}
+\right\|_2
+=
+O_{\mathbb P}(\varepsilon_n^{1/2}).
+\]
+
+Finally, let
+\[
+A_n=\widetilde D^{-1/2}\widetilde W,
+\qquad
+B_n=D_2^{-1/2}W_{2|1}.
+\]
+We have shown that
+\[
+d^{-1/2}\|A_n-B_n\|_2
+=
+O_{\mathbb P}(\varepsilon_n^{1/2}).
+\]
+Also,
+\[
+d^{-1/2}\|B_n\|_2
+=
+O_{\mathbb P}(1),
+\]
+and hence
+\[
+d^{-1/2}\|A_n\|_2
+=
+O_{\mathbb P}(1).
+\]
+Using
+\[
+\left|
+\|A_n\|_2^2-\|B_n\|_2^2
+\right|
+\le
+\|A_n-B_n\|_2
+\left(
+\|A_n\|_2+\|B_n\|_2
+\right),
+\]
+we obtain
+\[
+\left|
+\widetilde T_n-T_{2|1}^{\mathrm{or}}
+\right|
+=
+O_{\mathbb P}(\varepsilon_n^{1/2}).
+\]
+This proves the proposition.
+\end{proof}
+
+\begin{proof}[Proof of Corollary~\ref{cor:feasible_unbalanced}]
+We prove that the feasible simplified statistic is close to its oracle version.
+Write
+\[
+\widehat W_{2|1}
+=
+\sqrt{n_2}\operatorname{vech}(\widehat\Sigma_1-\widehat\Sigma_2),
+\qquad
+W_{2|1}
+=
+-\sqrt{n_2}\bar H_2.
+\]
+Under \(H_0\), \(\Sigma_1=\Sigma_2\), and
+\[
+W_{2|1}
+=
+\sqrt{n_2}\operatorname{vech}(\Sigma_1-\widetilde\Sigma_2).
+\]
+Therefore,
+\[
+\widehat W_{2|1}-W_{2|1}
+=
+\sqrt{n_2}
+\operatorname{vech}
+\left[
+(\widehat\Sigma_1-\Sigma_1)
++
+(\widetilde\Sigma_2-\widehat\Sigma_2)
+\right].
+\]
+Using the sample-centering identity
+\[
+\widehat\Sigma_g-\widetilde\Sigma_g
+=
+-(\bar X_g-\mu_g)(\bar X_g-\mu_g)^\top,
+\qquad g=1,2,
+\]
+we obtain
+\[
+\widehat W_{2|1}-W_{2|1}
+=
+\sqrt{n_2}
+\operatorname{vech}
+\left[
+(\widetilde\Sigma_1-\Sigma_1)
+-
+(\bar X-\mu_1)(\bar X-\mu_1)^\top
++
+(\bar Y-\mu_2)(\bar Y-\mu_2)^\top
+\right].
+\]
+
+We first control this vector after \(D_2^{-1/2}\)-standardization.  The leading
+term is
+\[
+\sqrt{n_2}
+\operatorname{vech}(\widetilde\Sigma_1-\Sigma_1)
+=
+\sqrt{n_2}\bar H_1.
+\]
+As in the proof of Proposition~\ref{prop:unbalanced_reduction},
+\[
+\mathbb E
+\left[
+\frac1d
+\left\|
+D_2^{-1/2}\sqrt{n_2}\bar H_1
+\right\|_2^2
+\right]
+=
+\frac{n_2}{n_1}
+\frac1d
+\operatorname{tr}
+(D_2^{-1/2}\Gamma_1D_2^{-1/2})
+\le
+C\varepsilon_n.
+\]
+Hence
+\[
+\frac1{\sqrt d}
+\left\|
+D_2^{-1/2}\sqrt{n_2}\bar H_1
+\right\|_2
+=
+O_{\mathbb P}(\varepsilon_n^{1/2}).
+\]
+
+For the sample-centering terms, use
+\[
+\|\operatorname{vech}(aa^\top)\|_2
+\le
+\|aa^\top\|_{\mathrm F}
+=
+\|a\|_2^2 .
+\]
+By Lemma~\ref{lem:coordinate_moments_imply_euclidean},
+\[
+\|\bar X-\mu_1\|_2^2
+=
+O_{\mathbb P}\left(\frac p{n_1}\right),
+\qquad
+\|\bar Y-\mu_2\|_2^2
+=
+O_{\mathbb P}\left(\frac p{n_2}\right).
+\]
+Since \(D_{2,k}\ge c_H\) and \(d=p(p+1)/2\), we have
+\[
+\frac{\sqrt{n_2}}{\sqrt d}
+\left\|
+D_2^{-1/2}
+\operatorname{vech}
+\{(\bar X-\mu_1)(\bar X-\mu_1)^\top\}
+\right\|_2
+=
+O_{\mathbb P}
+\left(
+\frac{\sqrt{n_2}}{\sqrt d}\frac p{n_1}
+\right)
+=
+O_{\mathbb P}
+\left(
+\frac{\sqrt{n_2}}{n_1}
+\right),
+\]
+and
+\[
+\frac{\sqrt{n_2}}{\sqrt d}
+\left\|
+D_2^{-1/2}
+\operatorname{vech}
+\{(\bar Y-\mu_2)(\bar Y-\mu_2)^\top\}
+\right\|_2
+=
+O_{\mathbb P}
+\left(
+\frac{\sqrt{n_2}}{\sqrt d}\frac p{n_2}
+\right)
+=
+O_{\mathbb P}(n_2^{-1/2}).
+\]
+The first term is \(O_{\mathbb P}(\varepsilon_n^{1/2})\), and the second term
+is absorbed by \(O_{\mathbb P}\{(d/n_2)^{1/2}\}\).  Therefore,
+\[
+\frac1{\sqrt d}
+\left\|
+D_2^{-1/2}(\widehat W_{2|1}-W_{2|1})
+\right\|_2
+=
+O_{\mathbb P}
+\left(
+\varepsilon_n^{1/2}
++
+\sqrt{\frac d{n_2}}
+\right).
+\]
+
+Next, the one-sample version of the diagonal studentizer consistency gives
+\[
+\max_{1\le k\le d}
+\left|
+\frac{\widehat D_{2,kk}}{D_{2,k}}-1
+\right|
+=
+O_{\mathbb P}
+\left(
+\sqrt{\frac d{n_2}}
+\right).
+\]
+Since \(d/n_2\to0\), with probability tending to one,
+\[
+\left\|
+\widehat D_2^{-1/2}D_2^{1/2}-I_d
+\right\|_{\mathrm{op}}
+=
+O_{\mathbb P}
+\left(
+\sqrt{\frac d{n_2}}
+\right),
+\qquad
+\left\|
+\widehat D_2^{-1/2}D_2^{1/2}
+\right\|_{\mathrm{op}}
+=
+O_{\mathbb P}(1).
+\]
+
+Now decompose
+\[
+\widehat D_2^{-1/2}\widehat W_{2|1}
+-
+D_2^{-1/2}W_{2|1}
+=
+\widehat D_2^{-1/2}D_2^{1/2}
+D_2^{-1/2}(\widehat W_{2|1}-W_{2|1})
++
+(\widehat D_2^{-1/2}D_2^{1/2}-I_d)
+D_2^{-1/2}W_{2|1}.
+\]
+The first term is
+\[
+O_{\mathbb P}
+\left(
+\varepsilon_n^{1/2}
++
+\sqrt{\frac d{n_2}}
+\right)
+\]
+after normalization by \(d^{-1/2}\).  For the second term, recall from the proof
+of Proposition~\ref{prop:unbalanced_reduction} that
+\[
+\frac1{\sqrt d}
+\left\|
+D_2^{-1/2}W_{2|1}
+\right\|_2
+=
+O_{\mathbb P}(1).
+\]
+Hence the second term is
+\[
+O_{\mathbb P}
+\left(
+\sqrt{\frac d{n_2}}
+\right)
+\]
+after normalization by \(d^{-1/2}\).  Therefore,
+\[
+\frac1{\sqrt d}
+\left\|
+\widehat D_2^{-1/2}\widehat W_{2|1}
+-
+D_2^{-1/2}W_{2|1}
+\right\|_2
+=
+O_{\mathbb P}
+\left(
+\varepsilon_n^{1/2}
++
+\sqrt{\frac d{n_2}}
+\right).
+\]
+
+Let
+\[
+A_n=\widehat D_2^{-1/2}\widehat W_{2|1},
+\qquad
+B_n=D_2^{-1/2}W_{2|1}.
+\]
+The preceding display gives
+\[
+d^{-1/2}\|A_n-B_n\|_2
+=
+O_{\mathbb P}
+\left(
+\varepsilon_n^{1/2}
++
+\sqrt{\frac d{n_2}}
+\right).
+\]
+Moreover,
+\[
+d^{-1/2}\|B_n\|_2=O_{\mathbb P}(1),
+\]
+and the same is true for \(A_n\).  Therefore,
+\[
+\left|
+\widehat T_{2|1}-T_{2|1}^{\mathrm{or}}
+\right|
+\le
+\frac1{\sqrt d}\|A_n-B_n\|_2
+\left(
+\frac1{\sqrt d}\|A_n\|_2
++
+\frac1{\sqrt d}\|B_n\|_2
+\right),
+\]
+which yields
+\[
+\widehat T_{2|1}
+-
+T_{2|1}^{\mathrm{or}}
+=
+O_{\mathbb P}
+\left(
+\varepsilon_n^{1/2}
++
+\sqrt{\frac d{n_2}}
+\right).
+\]
+
+Finally, by the triangle inequality,
+\[
+|\widehat T_n-\widehat T_{2|1}|
+\le
+|\widehat T_n-\widetilde T_n|
++
+|\widetilde T_n-T_{2|1}^{\mathrm{or}}|
++
+|T_{2|1}^{\mathrm{or}}-\widehat T_{2|1}|.
+\]
+Using Proposition~\ref{prop:unbalanced_reduction} and the first part of this
+corollary gives
+\[
+|\widehat T_n-\widehat T_{2|1}|
+\le
+|\widehat T_n-\widetilde T_n|
++
+O_{\mathbb P}
+\left(
+\varepsilon_n^{1/2}
++
+\sqrt{\frac d{n_2}}
+\right).
+\]
+If \(\widehat T_n-\widetilde T_n=o_{\mathbb P}(1)\), \(\varepsilon_n\to0\),
+and \(d/n_2\to0\), then
+\[
+\widehat T_n-\widehat T_{2|1}=o_{\mathbb P}(1).
+\]
+This completes the proof.
+\end{proof}
+
+\section{Additional Simulation Diagnostic}
+\label{sec:supp_additional_simulation}
+
+For completeness, we report the simulation diagnostic for the simplified
+implementation in highly unbalanced designs.  This diagnostic is not used in
+the main simulation section, which focuses on empirical size across dimensions
+and power under dense alternatives.  The setting uses \(p=50\),
+\(n_1=5000\), \(n_2=100\), and a Toeplitz null covariance with \(\rho=0.8\).
+The purpose is to compare the full two-sample statistic with the simplified
+statistic that treats the larger sample as a stable reference covariance.
+
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{Unbalanced-sample diagnostic with \(p=50\) and \(R=1000\).  The full and simplified columns report empirical size.  The relative statistic difference is \(|T_{\rm full}-T_{\rm simp}|/\{(|T_{\rm full}|+|T_{\rm simp}|)/2\}\), averaged over Monte Carlo replications; agreement is the percentage of replications in which the two procedures make the same rejection decision.}
+\label{tab:supp_unbalanced_restart}
+\begin{tabular}{lrrrrrrr}
+\toprule
+covariance & \(n_1\) & \(n_2\) & \(n_1/n_2\) & full & simplified & mean rel. \(\Delta_T\) & agreement \\
+\midrule
+Toeplitz(0.8) & 5000 & 100 & 50 & 0.049 & 0.056 & 2.4\% & 99.1\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The simplified statistic is close to the full statistic in this highly
+unbalanced setting, and both rejection rates are near the nominal level.  This
+supports the asymptotic simplification as a useful diagnostic approximation
+when the information in the larger sample is comparatively stable.
+
+We also examined finite-sample size as the sample-size ratio moves toward the
+balanced case.  The design fixes \(n_2=60\), uses
+\((n_1,n_2)\in\{(300,60),(180,60),(120,60),(90,60),(60,60)\}\), and sets
+\(\rho_0=0.5\).  For each \(p\in\{100,200\}\), the simulation averages over
+equicorrelation and Toeplitz covariance families and over Gaussian,
+standardized centered \(\chi^2_1\), and standardized Laplace innovations.  The
+full setting-level output, including all benchmark methods, is retained in the
+formal simulation archive.  Table~\ref{tab:supp_unbalanced_ratio} reports the
+average empirical sizes for the proposed target-transformed tests and the
+identity implementation.
+
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{Average empirical size in the unbalanced-ratio diagnostic with
+\(\rho_0=0.5\), \(n_2=60\), \(R=1000\), and \(B=500\).  Each row averages over
+the two covariance families and the three innovation distributions.}
+\label{tab:supp_unbalanced_ratio}
+\input{tables/size_unbalanced_ratio_supp.tex}
+\end{table}
+
+The ratio-grid diagnostic is consistent with the balanced and mildly
+unbalanced size results when \(n_1/n_2\le 2\).  For stronger imbalance,
+especially \(n_1/n_2\in\{3,5\}\) with \(n_2=60\), the target-transformed
+procedures become liberal on average.  We therefore treat this experiment as a
+finite-sample warning for severe imbalance rather than as part of the main
+calibration evidence.
+
+\bibliographystyle{agsm}
+\bibliography{references}
+
+\end{document}
